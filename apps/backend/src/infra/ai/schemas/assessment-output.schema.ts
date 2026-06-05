@@ -1,0 +1,58 @@
+import { z } from "zod";
+
+export const QuestionSchema =
+     z.object({
+          question: z.string(),
+
+          difficulty: z.enum([
+               "easy",
+               "medium",
+               "hard",
+          ]),
+
+          marks: z.number(),
+
+          options:
+               z.array(z.string())
+                    .optional(),
+
+          answer:
+               z.string()
+                    .optional(),
+     });
+export const SectionSchema = z.object({
+     title: z.string(),
+
+     instruction: z.string(),
+
+     questions: z.array(
+          QuestionSchema
+     ),
+});
+
+export const AssessmentSchema =
+     z.object({
+          title: z.string(),
+
+          sections: z.array(
+               SectionSchema
+          ),
+     });
+
+export type Assessment =
+     z.infer<
+          typeof AssessmentSchema
+     >;
+
+export interface Question {
+     question: string;
+     difficulty: "easy" | "medium" | "hard";
+     marks: number;
+}
+
+export interface Section {
+     title: string;
+     instruction: string;
+     questions: Question[];
+}
+

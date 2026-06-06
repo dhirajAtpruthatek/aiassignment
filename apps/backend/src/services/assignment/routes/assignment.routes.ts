@@ -74,6 +74,11 @@ export default function createAssignmentRoutes({ assignmentController }: RouteDe
     "/",
     assignmentController.getAllAssignments
   );
+  
+  router.delete(
+    "/:id",
+    assignmentController.deleteAssignment
+  );
 
 
 

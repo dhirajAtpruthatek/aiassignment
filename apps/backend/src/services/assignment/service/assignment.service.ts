@@ -1,5 +1,6 @@
 import { AppError } from "../../../core/errors/AppError.js";
 import { generationQueue } from "../../../jobs/queues/generation.queue.js";
+import { AssessmentRepository } from "../../assessment/repository/assessment.repository.js";
 import { UploadRepository } from "../../upload/repository/upload.repository.js";
 import { UploadService } from "../../upload/service/upload.service.js";
 import { CreateAssignmentDTO } from "../dto/create-assignment.dto.js";
@@ -7,15 +8,19 @@ import { AssignmentRepository } from "../repository/assignment.repository.js";
 
 interface AssignmentServiceDeps {
   assignmentRepository: AssignmentRepository;
+  assesmentRepository: AssessmentRepository;
 }
 
 export class AssignmentService {
   private repo: AssignmentRepository;
+  private assesmentRepo: AssessmentRepository;
 
   constructor({
     assignmentRepository,
+    assesmentRepository
   }: AssignmentServiceDeps) {
     this.repo = assignmentRepository;
+    this.assesmentRepo = assesmentRepository;
   }
 
   async createAssignment(
@@ -160,8 +165,8 @@ export class AssignmentService {
     className: string;
     subject: string;
     timeAllowedMinutes: number;
-  }) { 
- 
+  }) {
+
     return this.repo.create({
       ...payload,
       generationStatus: "DRAFT",
@@ -251,7 +256,41 @@ export class AssignmentService {
       );
     }
 
-    const extracted = await new UploadService({ uploadRepository: new UploadRepository }).uploadPdf(file);
+    const uploadService =
+      new UploadService({
+        uploadRepository:
+          new UploadRepository(),
+      });
+
+    const extracted =
+      await uploadService.uploadPdf(
+        file
+      );
+
+
+
+    if (!extracted.extractedText || extracted.extractedText.text.length === 0) {
+      throw new AppError(
+        "No readable content found in PDF",
+        400
+      );
+    }
+
+    let sourceContent = "";
+
+    if (typeof extracted.extractedText.text === "string") {
+      sourceContent = extracted.extractedText.text;
+    } else if (
+      extracted.extractedText && Array.isArray(extracted.extractedText.pages)
+    ) {
+      sourceContent = extracted.extractedText.pages.map(page => page.text?.trim()).filter(Boolean).join("\n\n");
+    } else {
+      throw new AppError(
+        "Unable to extract PDF content",
+        400
+      );
+    }
+
 
     return this.repo.update(
       assignmentId,
@@ -267,12 +306,10 @@ export class AssignmentService {
             extracted.fileSize,
         },
 
-        sourceContent:
-          extracted.extractedText,
+        sourceContent,
       }
     );
   }
-
   async submitAssignment(
     id: string
   ) {
@@ -333,5 +370,16 @@ export class AssignmentService {
       message:
         "Assessment generation started",
     };
+  }
+
+  async deleteAssignMentnAssesment(
+    id: string
+  ) {
+    let result = await this.repo.delete(id);
+    let result2 = await this.assesmentRepo.deleteByAssignmentId(id);
+
+    return {
+      message: "Assignment deleted",
+    }
   }
 }

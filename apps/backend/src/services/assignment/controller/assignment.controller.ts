@@ -236,11 +236,26 @@ export class AssignmentController {
           .submitAssignment(
             req.params.id as string
           );
-          
+
       res.success({
         data,
         message:
           "Generation started",
+      });
+    }
+  );
+
+  deleteAssignment = asyncHandler(
+    async (req, res) => {
+      const data =
+        await this.service
+          .deleteAssignMentnAssesment(
+            req.params.id as string
+          );
+      res.success({
+        data,
+        message:
+          "Assignment deleted",
       });
     }
   );

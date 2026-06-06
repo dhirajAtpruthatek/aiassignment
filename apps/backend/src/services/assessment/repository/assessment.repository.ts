@@ -69,9 +69,9 @@ export class AssessmentRepository {
                         });
         }
 
-        async delete(id: string) {
-                return this.model.findByIdAndDelete(
-                        id
-                );
+        async deleteByAssignmentId(id: string) {
+                return this.model.deleteOne({
+                        assignmentId: id
+                })
         }
 }

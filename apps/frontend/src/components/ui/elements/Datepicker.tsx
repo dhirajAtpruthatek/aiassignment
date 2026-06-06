@@ -9,6 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { format } from "date-fns"
+import { Calendar1 } from "lucide-react"
 
 type Props = {
   value?: Date 
@@ -18,16 +19,17 @@ type Props = {
 export function Datepicker({ value, onChange }: Props) {
 
   return (
-    <Field className="w-full">
-      <FieldLabel>Date</FieldLabel>
-
+    <Field className="w-full"> 
       <Popover>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="justify-start font-normal w-full"
+            className=" flex  justify-between   items-center h-11   font-normal w-full rounded-3xl    bg-[#FFFFFF40] font-bricolage   border-2 text-[16px] px-4  border-[#A9A9A9]"
           >
-            {value ? format(value, "PPP") : "Pick a date"}
+
+            {value ? format(value, "PPP") : "DD-MM-YYYY"}
+            <Calendar1 className=" size-5 text-TWO" />
+
           </Button>
         </PopoverTrigger>
     

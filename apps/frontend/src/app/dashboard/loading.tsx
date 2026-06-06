@@ -1,9 +1,10 @@
-import React from 'react'
 
 type Props = {}
 
-export default function loading({}: Props) {
+export default function loading({ }: Props) {
   return (
-    <div>loading</div>
+    <div className=' flex justify-center items-center w-full  h-96'>
+      <div className="custom-loader"></div>
+    </div>
   )
 }

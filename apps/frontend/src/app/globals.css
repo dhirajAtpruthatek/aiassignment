@@ -156,11 +156,11 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50 font-bricolage text-ONE text-[16px] tracking-[-4p%] leading-[140%] font-normal;
+    @apply border-border outline-ring/50;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-bricolage text-ONE text-[16px] tracking-[-4p%] leading-[140%] font-normal;
   }
 
 }
@@ -212,4 +212,18 @@
       rgba(244, 244, 244, 0.9) 30%,
       rgba(244, 244, 244, 0) 100%);
   backdrop-filter: blur(1px)
+}
+.custom-loader {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: 
+    radial-gradient(farthest-side,#FF5623 94%,#0000) top/16px 16px no-repeat,
+    conic-gradient(#0000 30%,#FF5623);
+  -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 16px),#000 0);
+  animation:s3 0.5s infinite linear;
+}
+
+@keyframes s3{ 
+  100%{transform: rotate(1turn)}
 }

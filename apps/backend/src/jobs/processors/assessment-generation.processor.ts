@@ -34,130 +34,53 @@ export class AssessmentGenerationProcessor {
           job: Job
      ) {
 
-          await job.updateProgress({
-               percent: 10,
-               step:
-                    "Starting Generation",
-          });
-          const assignment =
-               await this.deps
-                    .assignmentRepository
-                    .findById(
-                         assignmentId
-                    );
+          await job.updateProgress({ percent: 10, step: "Starting Generation", });
+          const assignment = await this.deps.assignmentRepository.findById(assignmentId);
 
           if (!assignment) {
-               throw new Error(
-                    "Assignment not found"
-               );
+               throw new Error("Assignment not found");
           }
 
-          await this.deps
-               .assignmentRepository
-               .updateGenerationStatus(
-                    assignmentId,
-                    "PROCESSING"
-               );
+          await job.updateProgress({ percent: 20, step: "Generating Questions", });
+          await this.deps.assignmentRepository.updateGenerationStatus(assignmentId, "PROCESSING");
 
-          this.deps.socketService
-               .emitStatus(
-                    assignmentId,
-                    "PROCESSING"
-               );
+          this.deps.socketService.emitStatus(assignmentId, "PROCESSING");
 
           try {
-               await job.updateProgress({
-                    percent: 30,
-                    step:
-                         "Generating Assessment",
+               await job.updateProgress({ percent: 30, step: "Generating Assessment", });
+
+               const assessment = await generateAssessment({
+                    title: assignment.title,
+                    className: assignment.className ?? "",
+                    subject: assignment.subject ?? "",
+                    timeAllowedMinutes: assignment.timeAllowedMinutes ?? 0,
+                    additionalInstructions: assignment.additionalInstructions ?? "",
+                    sourceContent: assignment.sourceContent ?? "",
+                    questionRequirements: assignment.questionRequirements,
                });
 
-               const assessment =
-                    await generateAssessment({
-                         title:
-                              assignment.title,
+               await job.updateProgress({ percent: 80, step: "Saving Assessment", });
 
-                         className:
-                              assignment.className,
+               const totalMarks = assessment.sections.reduce((sectionTotal, section) =>
+                    sectionTotal +
+                    section.questions.reduce((questionTotal, q) => questionTotal + q.marks, 0),
+                    0
+               );
 
-                         subject:
-                              assignment.subject,
-
-                         timeAllowedMinutes:
-                              assignment.timeAllowedMinutes,
-
-                         additionalInstructions:
-                              assignment.additionalInstructions ??
-                              "",
-
-                         sourceContent:
-                              assignment.sourceContent ??
-                              "",
-
-                         questionRequirements:
-                              assignment.questionRequirements,
-                    });
-
-               await job.updateProgress({
-                    percent: 80,
-                    step:
-                         "Saving Assessment",
+               const savedAssessment = await this.deps.assessmentRepository.create({
+                    assignmentId,
+                    title: assessment.title,
+                    totalMarks,
+                    version: 1,
+                    sections: assessment.sections.map(
+                         sec => ({ ...sec, totalMarks: sec.questions.reduce((acc, q) => acc + q.marks, 0) }))
                });
 
-               const totalMarks =
-                    assessment.sections.reduce(
-                         (
-                              sectionTotal,
-                              section
-                         ) =>
-                              sectionTotal +
-                              section.questions.reduce(
-                                   (
-                                        questionTotal,
-                                        q
-                                   ) =>
-                                        questionTotal +
-                                        q.marks,
-                                   0
-                              ),
-                         0
-                    );
+               await this.deps.assignmentRepository.updateGenerationStatus(assignmentId, "COMPLETED");
 
-               const savedAssessment =
-                    await this.deps
-                         .assessmentRepository
-                         .create({
-                              assignmentId,
+               await job.updateProgress({ percent: 100, step: "Completed", });
 
-                              title:
-                                   assessment.title,
-
-                              totalMarks,
-
-                              version: 1,
-
-                              sections: assessment.sections.map(
-                                   sec => ({ ...sec, totalMarks: sec.questions.reduce((acc, q) => acc + q.marks, 0) }))
-                         });
-
-               await this.deps
-                    .assignmentRepository
-                    .updateGenerationStatus(
-                         assignmentId,
-                         "COMPLETED"
-                    );
-
-               await job.updateProgress({
-                    percent: 100,
-                    step:
-                         "Completed",
-               });
-
-               this.deps.socketService
-                    .emitCompleted(
-                         assignmentId,
-                         savedAssessment._id.toString()
-                    );
+               this.deps.socketService.emitCompleted(assignmentId, savedAssessment._id.toString());
 
                return savedAssessment;
           } catch (error) {

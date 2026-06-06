@@ -46,10 +46,12 @@ export class AssignmentRepository {
                 );
         }
         async delete(id: string) {
+                
                 return this.model.findByIdAndDelete(
                         id
                 );
         }
+
         async update(
                 id: string,
                 payload: any

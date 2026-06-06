@@ -19,7 +19,10 @@ export function createApp() {
   const app: Express = express();
 
   app.use(helmet());
-  app.use(cors());
+  app.use(cors({
+    origin: ["http://localhost:3000"],
+    credentials: true
+  }));
   app.use(express.json());
   app.use(compression());
   app.use(morgan("dev"));
@@ -29,7 +32,7 @@ export function createApp() {
   app.use(responseFormatter);
   app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-  
+
   // app.use("/health", healthRoutes);
   // custom routes
 

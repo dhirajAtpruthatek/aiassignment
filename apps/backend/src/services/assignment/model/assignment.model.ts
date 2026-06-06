@@ -91,7 +91,7 @@ const AssignmentSchema =
                     "COMPLETED",
                     "FAILED",
                 ],
-                default: "PENDING",
+                default: "DRAFT",
             },
 
             errorMessage: String,

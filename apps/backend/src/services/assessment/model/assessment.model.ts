@@ -64,9 +64,7 @@ const AssessmentSchema =
 
                 ref: "Assignment",
 
-                required: true,
-
-                unique: true,
+                required: true, 
             },
 
             title: {

@@ -1,6 +1,6 @@
 import SideBar from "./_components/sidebar/SideBar";
 import TitleBar from "./_components/titlebar/TitleBar";
-
+import { SocketProvider } from "../../lib/provider/socket-provider";
 
 export default function Layout({
      children,
@@ -8,17 +8,19 @@ export default function Layout({
      children: React.ReactNode;
 }) {
      return (
-          <div className="h-screen flex gradientBg  w-screen">
+          <SocketProvider>
+               <div className="h-screen flex gradientBg  relative w-screen">
 
-               <SideBar />
+                    <SideBar />
 
-               <div className="flex-1 flex flex-col   h-full overflow-hidden">
-                    <TitleBar />
-                         
-                    <main className="flex-1 overflow-auto hide-scrollbar">
-                         {children}
-                    </main>
+                    <div className="flex-1 flex flex-col   h-full overflow-hidden">
+                         <TitleBar />
+
+                         <main className="flex-1 overflow-auto hide-scrollbar">
+                              {children}
+                         </main>
+                    </div>
                </div>
-          </div>
+          </SocketProvider>
      );
 }  

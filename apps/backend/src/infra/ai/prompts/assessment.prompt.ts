@@ -54,10 +54,9 @@ export function buildAssessmentPrompt(
           | "questionRequirements"
      >
 ) {
-     const sections =
-          assignment.questionRequirements
-               .map(
-                    section => `
+     const sections = assignment.questionRequirements!
+          .map(
+               section => `
 QUESTION TYPE: ${section.type}
 
 COUNT: ${section.count}
@@ -69,8 +68,8 @@ DIFFICULTY: ${section.difficulty}
 GUIDELINE:
 ${getQuestionTypeGuide(section.type)}
 `
-               )
-               .join("\n\n");
+          )
+          .join("\n\n");
 
      return `
 Generate an academic assessment.

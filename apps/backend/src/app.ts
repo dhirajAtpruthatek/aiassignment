@@ -14,6 +14,7 @@ import assignmentContainer from './services/assignment/index.js';
 import todoContainer from './services/todo/index.js';
 import uploadContainer from './services/upload/index.js';
 import { NotFoundError } from './utils/error-handling/CustomError.js';
+const allowedOrigins = process.env.CORS_ORIGIN?.split(',') || [];
 
 export function createApp() {
   const app: Express = express();
@@ -21,7 +22,14 @@ export function createApp() {
   app.use(helmet());
   app.use(
     cors({
-      origin: ['http://localhost:3000'],
+      origin: (origin, callback) => {
+        // allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+          return callback(null, true);
+        }
+        return callback(new Error('Not allowed by CORS'));
+      },
       credentials: true,
     }),
   );
@@ -33,8 +41,7 @@ export function createApp() {
   app.use(requestLogger);
   app.use(responseFormatter);
   app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
-
-  // app.use("/health", healthRoutes);
+  
   // custom routes
 
   // Main Route Mapping

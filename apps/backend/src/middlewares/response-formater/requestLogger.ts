@@ -1,6 +1,6 @@
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from 'express';
 
-import { logger } from "../../infra/logger/index.js";
+import { logger } from '../../infra/logger/index.js';
 
 /**
  * Request Logger Middleware
@@ -18,10 +18,10 @@ export function requestLogger(
 ): void {
   const start = Date.now();
 
-  res.on("finish", () => {
+  res.on('finish', () => {
     const duration: number = Date.now() - start;
 
-    logger.info("HTTP Request", {
+    logger.info('HTTP Request', {
       method: req.method,
       url: req.originalUrl,
       status: res.statusCode,

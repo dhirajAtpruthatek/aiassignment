@@ -1,1 +1,1 @@
-export { UploadContainer as default } from "./upload.container.js";
+export { UploadContainer as default } from './upload.container.js';

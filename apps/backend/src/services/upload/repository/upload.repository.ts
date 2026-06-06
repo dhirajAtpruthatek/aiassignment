@@ -5,10 +5,7 @@ export class UploadRepository {
           }
   */
 
-    
   async findAll(): Promise<string[]> {
-          return [];
+    return [];
   }
-
-  
 }

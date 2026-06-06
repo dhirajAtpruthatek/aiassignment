@@ -5,14 +5,9 @@ export type ApiResponse<T> = {
   error?: any;
   message: string;
   timestamp: string;
-}
+};
 
-
-export type Difficulty =
-  | "easy"
-  | "medium"
-  | "hard"
-  | "mixed";
+export type Difficulty = 'easy' | 'medium' | 'hard' | 'mixed';
 
 export interface QuestionRequirement {
   type: string;
@@ -55,12 +50,7 @@ export interface Assignment {
 
   questionRequirements: QuestionRequirement[];
 
-  generationStatus:
-    | "DRAFT"
-    | "PENDING"
-    | "PROCESSING"
-    | "COMPLETED"
-    | "FAILED";
+  generationStatus: 'DRAFT' | 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED';
 
   errorMessage?: string;
 

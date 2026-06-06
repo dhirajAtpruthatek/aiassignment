@@ -1,9 +1,5 @@
+import { format } from 'date-fns';
 
-import { format } from "date-fns";
- 
- 
-export function datetoString(
-     date: Date | string
-) {
-     return format(date, "dd-MM-yyyy");
+export function datetoString(date: Date | string) {
+  return format(date, 'dd-MM-yyyy');
 }

@@ -1,6 +1,7 @@
-import { Request, Response } from "express";
-import { TodoService } from "../service/todo.service.js";
-import { asyncHandler } from "../../../middlewares/system/asyncHandler.js";
+import type { Request, Response } from 'express';
+
+import { asyncHandler } from '../../../middlewares/system/asyncHandler.js';
+import type { TodoService } from '../service/todo.service.js';
 
 interface TodoControllerDeps {
   todoService: TodoService;
@@ -15,7 +16,6 @@ export class TodoController {
 
   demoHandler = asyncHandler(async (_req: Request, res: Response) => {
     const data = await this.service.demoService();
-    res.success({ data, message: "Testing the services" });
-  })
-
+    res.success({ data, message: 'Testing the services' });
+  });
 }

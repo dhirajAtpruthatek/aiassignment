@@ -1,7 +1,7 @@
-import path from "path";
-import { fileURLToPath } from "url";
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 type Env = {
   NODE_ENV: string;
@@ -44,7 +44,7 @@ class EnvManager {
     const __dirname = path.dirname(__filename);
 
     const ENV_FILE =
-      process.env.NODE_ENV === "production" ? ".env.production" : ".env";
+      process.env.NODE_ENV === 'production' ? '.env.production' : '.env';
 
     dotenv.config({
       path: path.resolve(__dirname, `../../../${ENV_FILE}`),
@@ -65,23 +65,22 @@ class EnvManager {
     };
 
     this.#env = {
-      NODE_ENV: required("NODE_ENV"),
-      PORT: Number(required("PORT")),
+      NODE_ENV: required('NODE_ENV'),
+      PORT: Number(required('PORT')),
 
       /**
        * Modfiy according to need
        */
 
-      SERVICE_NAME: process.env.SERVICE_NAME ?? "app",
-      LOG_LEVEL: process.env.LOG_LEVEL ?? "info",
+      SERVICE_NAME: process.env.SERVICE_NAME ?? 'app',
+      LOG_LEVEL: process.env.LOG_LEVEL ?? 'info',
 
-      JWT_SECRET: process.env.JWT_SECRET ?? "secretsomthing",
-      JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN ?? "24h",
-
+      JWT_SECRET: process.env.JWT_SECRET ?? 'secretsomthing',
+      JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN ?? '24h',
 
       COOKIE: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === 'production',
         expiresIn: 24 * 60 * 60 * 1000,
       },
     };
@@ -105,14 +104,14 @@ class EnvManager {
    * @returns {Boolean}
    */
   isProduction() {
-    return this.#env.NODE_ENV === "production";
+    return this.#env.NODE_ENV === 'production';
   }
   /**
    * Check if env is development or not
    * @returns {Boolean}
    */
   isDevelopment() {
-    return this.#env.NODE_ENV === "development";
+    return this.#env.NODE_ENV === 'development';
   }
 }
 

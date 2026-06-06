@@ -1,31 +1,18 @@
 // lib/query-keys.ts
 
 export const queryKeys = {
-  assignments: ["assignments"],
+  assignments: ['assignments'],
 
-  assignment: (id: string) => [
-    "assignment",
-    id,
-  ],
+  assignment: (id: string) => ['assignment', id],
 
-  assignmentStatus: (
-    id: string
-  ) => [
-    "assignment-status",
-    id,
-  ],
+  assignmentStatus: (id: string) => ['assignment-status', id],
 
-  assessments: ["assessments"],
+  assessments: ['assessments'],
 
-  assessment: (id: string) => [
-    "assessment",
-    id,
-  ],
+  assessment: (id: string) => ['assessment', id],
 
-  assessmentByAssignment: (
-    assignmentId: string
-  ) => [
-    "assessment-by-assignment",
+  assessmentByAssignment: (assignmentId: string) => [
+    'assessment-by-assignment',
     assignmentId,
   ],
 };

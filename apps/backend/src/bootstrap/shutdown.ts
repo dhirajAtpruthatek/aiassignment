@@ -15,9 +15,9 @@
  * shutdownManager.register("mongodb", () => mongodb.disconnect());
  * shutdownManager.init(server);
  */
-import type { Server } from "http";
+import type { Server } from 'http';
 
-import type { Logger } from "../infra/logger/logger.interface.js";
+import type { Logger } from '../infra/logger/logger.interface.js';
 
 type ShutdownTask = {
   name: string;
@@ -45,7 +45,7 @@ export default class ShutdownManager {
    */
   register(
     name: string,
-    handler: ShutdownTask["handler"],
+    handler: ShutdownTask['handler'],
     priority: number = 0,
   ): void {
     this.tasks.push({ name, handler, priority });
@@ -55,7 +55,7 @@ export default class ShutdownManager {
    * Execute all cleanup tasks (priority-based + parallel)
    */
   private async executeTasks(): Promise<void> {
-    this.logger.info("Executing shutdown tasks...");
+    this.logger.info('Executing shutdown tasks...');
 
     // sort by priority (higher runs first)
     const sortedTasks = [...this.tasks].sort(
@@ -71,7 +71,7 @@ export default class ShutdownManager {
     );
 
     results.forEach((result, index) => {
-      if (result.status === "rejected") {
+      if (result.status === 'rejected') {
         this.logger.error(
           `Error closing ${sortedTasks[index].name}`,
           result.reason,
@@ -90,7 +90,7 @@ export default class ShutdownManager {
     this.logger.info(`${signal} received. Starting graceful shutdown...`);
 
     const forceTimeout = setTimeout(() => {
-      this.logger.error("Forced shutdown triggered");
+      this.logger.error('Forced shutdown triggered');
       process.exit(1);
     }, this.timeout);
 
@@ -99,7 +99,7 @@ export default class ShutdownManager {
       if (server) {
         await new Promise<void>((resolve) => {
           server.close(() => {
-            this.logger.info("HTTP server closed");
+            this.logger.info('HTTP server closed');
             resolve();
           });
         });
@@ -109,11 +109,11 @@ export default class ShutdownManager {
       await this.executeTasks();
 
       clearTimeout(forceTimeout);
-      this.logger.info("Shutdown completed successfully");
+      this.logger.info('Shutdown completed successfully');
 
       process.exit(0);
     } catch (error) {
-      this.logger.error("Shutdown failed", error);
+      this.logger.error('Shutdown failed', error);
       process.exit(1);
     }
   }
@@ -122,7 +122,7 @@ export default class ShutdownManager {
    * Initialize listeners
    */
   init(server?: Server): void {
-    const signals: NodeJS.Signals[] = ["SIGINT", "SIGTERM"];
+    const signals: NodeJS.Signals[] = ['SIGINT', 'SIGTERM'];
 
     signals.forEach((signal) => {
       process.once(signal, () => {
@@ -130,14 +130,14 @@ export default class ShutdownManager {
       });
     });
 
-    process.on("uncaughtException", (error: Error) => {
-      this.logger.error("Uncaught Exception", error);
-      void this.shutdown("uncaughtException", server);
+    process.on('uncaughtException', (error: Error) => {
+      this.logger.error('Uncaught Exception', error);
+      void this.shutdown('uncaughtException', server);
     });
 
-    process.on("unhandledRejection", (reason: unknown) => {
-      this.logger.error("Unhandled Rejection", reason);
-      void this.shutdown("unhandledRejection", server);
+    process.on('unhandledRejection', (reason: unknown) => {
+      this.logger.error('Unhandled Rejection', reason);
+      void this.shutdown('unhandledRejection', server);
     });
   }
 }

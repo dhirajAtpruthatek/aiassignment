@@ -1,45 +1,39 @@
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-} from "@react-pdf/renderer";
+import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 
-import "./fonts";
+import './fonts';
 
-import type { Assessment } from "@/features/assessment/api/assessment.types";
+import type { Assessment } from '@/features/assessment/api/assessment.types';
 
 const styles = StyleSheet.create({
   page: {
     padding: 20,
     fontSize: 12,
-    fontFamily: "Inter",
+    fontFamily: 'Inter',
   },
 
   schoolName: {
     fontSize: 16,
-    textAlign: "center",
+    textAlign: 'center',
     fontWeight: 700,
     marginBottom: 4,
   },
 
   subject: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 12,
     marginBottom: 4,
   },
 
   className: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 12,
     marginBottom: 24,
   },
 
   topMeta: {
     fontSize: 11,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 6,
     fontWeight: 600,
   },
@@ -57,8 +51,8 @@ const styles = StyleSheet.create({
 
   fieldRow: {
     fontSize: 11,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
   line: {
@@ -68,7 +62,7 @@ const styles = StyleSheet.create({
   },
 
   sectionTitle: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 14,
     fontWeight: 600,
     marginBottom: 16,
@@ -106,7 +100,7 @@ const styles = StyleSheet.create({
   },
 
   answerItem: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 6,
     fontSize: 10,
   },
@@ -127,46 +121,28 @@ interface Props {
   assessment: Assessment;
 }
 
-export default function AssessmentDocument({
-  assessment,
-}: Props) {
+export default function AssessmentDocument({ assessment }: Props) {
   const assignment = assessment.assignmentId;
 
   return (
     <Document>
-      <Page
-        size="A4"
-        style={styles.page}
-      >
+      <Page size="A4" style={styles.page}>
         {/* Header */}
 
         <Text style={styles.schoolName}>
           Delhi Public School, Sector-4, Bokaro
         </Text>
 
-        <Text style={styles.subject}>
-          Subject: {assignment.subject}
-        </Text>
+        <Text style={styles.subject}>Subject: {assignment.subject}</Text>
 
-        <Text style={styles.className}>
-          Class: {assignment.className}
-        </Text>
+        <Text style={styles.className}>Class: {assignment.className}</Text>
 
         {/* Meta */}
 
         <View style={styles.topMeta}>
-          <Text>
-            Time Allowed:{" "}
-            {
-              assignment.timeAllowedMinutes
-            }{" "}
-            minutes
-          </Text>
+          <Text>Time Allowed: {assignment.timeAllowedMinutes} minutes</Text>
 
-          <Text>
-            Maximum Marks:{" "}
-            {assessment.totalMarks}
-          </Text>
+          <Text>Maximum Marks: {assessment.totalMarks}</Text>
         </View>
 
         {/* Instructions */}
@@ -180,163 +156,70 @@ export default function AssessmentDocument({
         <View style={styles.studentBox}>
           <View style={styles.fieldRow}>
             <Text>Name:</Text>
-            <Text>
-              ______________________
-            </Text>
+            <Text>______________________</Text>
           </View>
 
           <View style={styles.fieldRow}>
-            <Text>
-              Roll Number:
-            </Text>
+            <Text>Roll Number:</Text>
 
-            <Text>
-              _______________
-            </Text>
+            <Text>_______________</Text>
           </View>
 
           <View style={styles.fieldRow}>
-            <Text>
-              Class:{" "}
-              {
-                assignment.className
-              }{" "}
-              Section:
-            </Text>
+            <Text>Class: {assignment.className} Section:</Text>
 
-            <Text>
-              _________
-            </Text>
+            <Text>_________</Text>
           </View>
         </View>
 
         {/* Sections */}
 
-        {assessment.sections.map(
-          (
-            section,
-            sectionIndex
-          ) => (
-            <View
-              key={sectionIndex}
-              wrap={false}
-            >
-              <Text
-                style={
-                  styles.sectionTitle
-                }
-              >
-                Section{" "}
-                {String.fromCharCode(
-                  65 +
-                  sectionIndex
-                )}
-              </Text>
+        {assessment.sections.map((section, sectionIndex) => (
+          <View key={sectionIndex} wrap={false}>
+            <Text style={styles.sectionTitle}>
+              Section {String.fromCharCode(65 + sectionIndex)}
+            </Text>
 
-              <Text
-                style={
-                  styles.questionType
-                }
-              >
-                {section.title}
-              </Text>
+            <Text style={styles.questionType}>{section.title}</Text>
 
-              <Text
-                style={
-                  styles.questionInfo
-                }
-              >
-                Attempt all questions.
-                Each question
-                carries marks as
-                indicated.
-              </Text>
+            <Text style={styles.questionInfo}>
+              Attempt all questions. Each question carries marks as indicated.
+            </Text>
 
-              {section.questions.map(
-                (
-                  question,
-                  index
-                ) => (
-                  <Text
-                    key={index}
-                    style={
-                      styles.question
-                    }
-                  >
-                    {index + 1}. [
-                    {
-                      question.difficulty
-                    }
-                    ]{" "}
-                    {
-                      question.question
-                    }{" "}
-                    [
-                    {
-                      question.marks
-                    }{" "}
-                    Marks]
-                  </Text>
-                )
-              )}
-            </View>
-          )
-        )}
+            {section.questions.map((question, index) => (
+              <Text key={index} style={styles.question}>
+                {index + 1}. [{question.difficulty}] {question.question} [
+                {question.marks} Marks]
+              </Text>
+            ))}
+          </View>
+        ))}
 
         {/* Answer Key */}
-         
 
         {/* <View break /> */}
 
-        <Text style={styles.answerKeyTitle}>
-          Answer Key
-        </Text>
+        <Text style={styles.answerKeyTitle}>Answer Key</Text>
 
-        {assessment.sections.map(
-          (section, sectionIndex) => (
-            <View
-              key={`answer-${sectionIndex}`}
-              style={{ marginBottom: 16 }}
-            >
-              <Text
-                style={styles.answerSectionTitle}
-              >
-                Section{" "}
-                {String.fromCharCode(
-                  65 + sectionIndex
-                )} - {section.title}
-              </Text>
+        {assessment.sections.map((section, sectionIndex) => (
+          <View key={`answer-${sectionIndex}`} style={{ marginBottom: 16 }}>
+            <Text style={styles.answerSectionTitle}>
+              Section {String.fromCharCode(65 + sectionIndex)} - {section.title}
+            </Text>
 
-              {section.questions.map(
-                (question, questionIndex) => (
-                  <View
-                    key={questionIndex}
-                    style={styles.answerItem}
-                  >
-                    <Text
-                      style={
-                        styles.answerNumber
-                      }
-                    >
-                      {questionIndex + 1}.
-                    </Text>
+            {section.questions.map((question, questionIndex) => (
+              <View key={questionIndex} style={styles.answerItem}>
+                <Text style={styles.answerNumber}>{questionIndex + 1}.</Text>
 
-                    <Text
-                      style={
-                        styles.answerText
-                      }
-                    >
-                      {"answer" in question &&
-                        question.answer
-                        ? question.answer
-                        : "Answer not available"}
-                    </Text>
-                  </View>
-                )
-              )}
-            </View>
-          )
-        )}
+                <Text style={styles.answerText}>
+                  {'answer' in question && question.answer
+                    ? question.answer
+                    : 'Answer not available'}
+                </Text>
+              </View>
+            ))}
+          </View>
+        ))}
       </Page>
     </Document>
   );

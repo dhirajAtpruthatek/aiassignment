@@ -1,19 +1,14 @@
 // features/assignment/hooks/useAssignmentProgress.ts
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-export function useAssignmentProgress(
-  assignmentId: string
-) {
+export function useAssignmentProgress(assignmentId: string) {
   return useQuery({
-    queryKey: [
-      "assignment-progress",
-      assignmentId,
-    ],
+    queryKey: ['assignment-progress', assignmentId],
 
     queryFn: async () => ({
       percent: 0,
-      step: "Waiting",
+      step: 'Waiting',
     }),
 
     staleTime: Infinity,

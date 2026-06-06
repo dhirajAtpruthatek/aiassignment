@@ -1,6 +1,7 @@
-import { TodoRepository } from "../repository/todo.repository.js";
-import { TODO_EVENTS, TodoEvents } from "../events/todo.events.js";
-import { EventBus } from "../../../utils/local-eventbus/eventBus.js";
+import type { EventBus } from '../../../utils/local-eventbus/eventBus.js';
+import type { TodoEvents } from '../events/todo.events.js';
+import { TODO_EVENTS } from '../events/todo.events.js';
+import type { TodoRepository } from '../repository/todo.repository.js';
 
 interface TodoServiceDeps {
   todoRepository: TodoRepository;
@@ -15,16 +16,14 @@ export class TodoService {
     this.repo = todoRepository;
     this.eventBus = eventBus;
   }
-  
+
   async demoService() {
-    
     this.eventBus.emit(TODO_EVENTS.CREATED, {
       id: '1',
-      title: "Todo 1",
-      completed: false
+      title: 'Todo 1',
+      completed: false,
     });
-    
+
     return [];
   }
-
 }

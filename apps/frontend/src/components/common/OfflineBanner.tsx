@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useNetworkStatus } from "@/hooks/useNetworkStatus";
+import { useNetworkStatus } from '@/hooks/useNetworkStatus';
 
 export default function OfflineBanner() {
   const isOnline = useNetworkStatus();

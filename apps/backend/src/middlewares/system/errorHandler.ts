@@ -1,10 +1,10 @@
-import type { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from 'express';
+import z from 'zod';
 
-import { logger } from "../../infra/logger/index.js";
-import { AppError } from "../../core/errors/AppError.js";
-import envManager from "../../core/env/env.js";
-import getRequestId from "../../infra/request-context/index.js";
-import z from "zod";
+import envManager from '../../core/env/env.js';
+import { AppError } from '../../core/errors/AppError.js';
+import { logger } from '../../infra/logger/index.js';
+import getRequestId from '../../infra/request-context/index.js';
 
 /**
  * Global Error Handler Middleware
@@ -26,29 +26,28 @@ export function globalErrorHandler(
     error = err;
   } else if (err instanceof z.ZodError) {
     error = new AppError(
-      "Validation failed",
+      'Validation failed',
       400,
-      "VALIDATION_ERROR",
+      'VALIDATION_ERROR',
       err.issues.map((issue) => ({
-        field: issue.path.join("."),
+        field: issue.path.join('.'),
         message: issue.message,
       })),
       false,
     );
   } else if (err instanceof Error) {
     error = new AppError(
-      err.message || "Internal Server Error",
+      err.message || 'Internal Server Error',
       500,
-      "INTERNAL_ERROR",
+      'INTERNAL_ERROR',
       null,
       false,
     );
-  }
-  else {
+  } else {
     error = new AppError(
-      "Internal Server Error",
+      'Internal Server Error',
       500,
-      "INTERNAL_ERROR",
+      'INTERNAL_ERROR',
       null,
       false,
     );
@@ -58,7 +57,7 @@ export function globalErrorHandler(
   const requestId = getRequestId();
 
   // Structured logging
-  logger.error("API Error", {
+  logger.error('API Error', {
     requestId,
     message: error.message,
     code: error.code,

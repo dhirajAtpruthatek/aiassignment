@@ -1,11 +1,9 @@
-import { Todo } from "../types/todo.types.js";
+import type { Todo } from '../types/todo.types.js';
 
 export const TODO_EVENTS = {
-  CREATED: "todo.created",
-  UPDATED: "todo.updated",
+  CREATED: 'todo.created',
+  UPDATED: 'todo.updated',
 } as const;
-
-
 
 export type TodoEvents = {
   [TODO_EVENTS.CREATED]: Todo;

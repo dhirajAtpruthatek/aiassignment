@@ -1,103 +1,86 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const QuestionSchema =
-    new mongoose.Schema(
-        {
-            question: {
-                type: String,
-                required: true,
-            },
+const QuestionSchema = new mongoose.Schema(
+  {
+    question: {
+      type: String,
+      required: true,
+    },
 
-            marks: {
-                type: Number,
-                required: true,
-            },
+    marks: {
+      type: Number,
+      required: true,
+    },
 
-            difficulty: {
-                type: String,
-                enum: [
-                    "easy",
-                    "medium",
-                    "hard",
-                ],
-            },
+    difficulty: {
+      type: String,
+      enum: ['easy', 'medium', 'hard'],
+    },
 
-            answer: String,
+    answer: String,
 
-            solution: String,
-        },
-        {
-            _id: false,
-        }
-    );
+    solution: String,
+  },
+  {
+    _id: false,
+  },
+);
 
-const SectionSchema =
-    new mongoose.Schema(
-        {
-            title: {
-                type: String,
-                required: true,
-            },
+const SectionSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
 
-            instructions: {
-                type: String,
-            },
+    instructions: {
+      type: String,
+    },
 
-            totalMarks: Number,
+    totalMarks: Number,
 
-            questions: [
-                QuestionSchema,
-            ],
-        },
-        {
-            _id: false,
-        }
-    );
+    questions: [QuestionSchema],
+  },
+  {
+    _id: false,
+  },
+);
 
-const AssessmentSchema =
-    new mongoose.Schema(
-        {
-            assignmentId: {
-                type:
-                    mongoose.Schema.Types
-                        .ObjectId,
+const AssessmentSchema = new mongoose.Schema(
+  {
+    assignmentId: {
+      type: mongoose.Schema.Types.ObjectId,
 
-                ref: "Assignment",
+      ref: 'Assignment',
 
-                required: true, 
-            },
+      required: true,
+    },
 
-            title: {
-                type: String,
-                required: true,
-            },
+    title: {
+      type: String,
+      required: true,
+    },
 
-            totalMarks: {
-                type: Number,
-                required: true,
-            },
+    totalMarks: {
+      type: Number,
+      required: true,
+    },
 
-            sections: [
-                SectionSchema,
-            ],
+    sections: [SectionSchema],
 
-            generatedBy: {
-                type: String,
-                default: "AI",
-            },
+    generatedBy: {
+      type: String,
+      default: 'AI',
+    },
 
-            version: {
-                type: Number,
-                default: 1,
-            },
-        },
-        {
-            timestamps: true,
-        }
-    );
+    version: {
+      type: Number,
+      default: 1,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
-export const AssessmentModel =
-    mongoose.model(
-        "Assessment",
-        AssessmentSchema
-    );
+export const AssessmentModel = mongoose.model('Assessment', AssessmentSchema);

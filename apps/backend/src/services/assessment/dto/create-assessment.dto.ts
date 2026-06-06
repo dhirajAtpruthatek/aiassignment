@@ -1,68 +1,37 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-export const QuestionDTO =
-  z.object({
-    question:
-      z.string(),
+export const QuestionDTO = z.object({
+  question: z.string(),
 
-    difficulty:
-      z.enum([
-        "easy",
-        "medium",
-        "hard",
-      ]),
+  difficulty: z.enum(['easy', 'medium', 'hard']),
 
-    marks:
-      z.number(),
+  marks: z.number(),
 
-    answer:
-      z.string()
-        .optional(),
+  answer: z.string().optional(),
 
-    solution:
-      z.string()
-        .optional(),
-  });
+  solution: z.string().optional(),
+});
 
-export const SectionDTO =
-  z.object({
-    title:
-      z.string(),
+export const SectionDTO = z.object({
+  title: z.string(),
 
-    instruction:
-      z.string(),
+  instruction: z.string(),
 
-    totalMarks:
-      z.number(),
+  totalMarks: z.number(),
 
-    questions:
-      z.array(
-        QuestionDTO
-      ),
-  });
+  questions: z.array(QuestionDTO),
+});
 
-export const CreateAssessmentDTO =
-  z.object({
-    assignmentId:
-      z.string(),
+export const CreateAssessmentDTO = z.object({
+  assignmentId: z.string(),
 
-    title:
-      z.string(),
+  title: z.string(),
 
-    totalMarks:
-      z.number(),
+  totalMarks: z.number(),
 
-    version:
-      z.number()
-        .default(1),
+  version: z.number().default(1),
 
-    sections:
-      z.array(
-        SectionDTO
-      ),
-  });
+  sections: z.array(SectionDTO),
+});
 
-export type CreateAssessmentDTOType =
-  z.infer<
-    typeof CreateAssessmentDTO
-  >;
+export type CreateAssessmentDTOType = z.infer<typeof CreateAssessmentDTO>;

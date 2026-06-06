@@ -1,0 +1,6 @@
+if [ "$CI" = "true" ]; then
+  echo "CI environment detected, skipping husky"
+  exit 0
+fi
+
+npx lint-staged

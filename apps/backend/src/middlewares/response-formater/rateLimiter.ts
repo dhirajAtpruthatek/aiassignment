@@ -1,6 +1,6 @@
 import rateLimit, {
   type Options as RateLimitOptions,
-} from "express-rate-limit";
+} from 'express-rate-limit';
 
 /**
  * Rate Limiter Factory
@@ -49,13 +49,13 @@ export type RateLimiterConfig = {
   /**
    * Optional override for advanced use cases
    */
-  keyGenerator?: RateLimitOptions["keyGenerator"];
+  keyGenerator?: RateLimitOptions['keyGenerator'];
 };
 
 const rateLimiter = ({
   windowMs = 15 * 60 * 1000,
   max = 100,
-  message = "Too many requests, please try again later.",
+  message = 'Too many requests, please try again later.',
   keyGenerator,
 }: RateLimiterConfig = {}) => {
   return rateLimit({

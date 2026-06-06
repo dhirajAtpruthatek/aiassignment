@@ -42,7 +42,7 @@ export class AppError extends Error {
   constructor(
     message: string,
     statusCode: number = 500,
-    code: string = "INTERNAL_ERROR",
+    code: string = 'INTERNAL_ERROR',
     details: unknown = null,
     isOperational: boolean = true,
   ) {

@@ -1,7 +1,7 @@
-import PinoLogger from "./transports/pino.logger.js";
-import ConsoleLogger from "./transports/console.logger.js";
-import { config } from "../../core/config/index.js";
-import type { Logger } from "./logger.interface.js";
+import { config } from '../../core/config/index.js';
+import type { Logger } from './logger.interface.js';
+import ConsoleLogger from './transports/console.logger.js';
+import PinoLogger from './transports/pino.logger.js';
 
 /**
  * Create logger instance based on config
@@ -10,10 +10,10 @@ import type { Logger } from "./logger.interface.js";
 
 function resolveLogger(type: string): Logger {
   switch (type) {
-    case "pino":
+    case 'pino':
       return new PinoLogger();
 
-    case "console":
+    case 'console':
       return new ConsoleLogger();
 
     default:

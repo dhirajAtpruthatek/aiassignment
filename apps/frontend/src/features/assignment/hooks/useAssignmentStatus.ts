@@ -1,35 +1,17 @@
- 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import {
-     getAssignmentStatus,
-} from "../api/assignment.api";
+import { getAssignmentStatus } from '../api/assignment.api';
 
-export function useAssignmentStatus(
-     assignmentId: string
-) {
-     return useQuery({
-          queryKey: [
-               "assignment-status",
-               assignmentId,
-          ],
+export function useAssignmentStatus(assignmentId: string) {
+  return useQuery({
+    queryKey: ['assignment-status', assignmentId],
 
-          queryFn: () =>
-               getAssignmentStatus(
-                    assignmentId
-               ),
+    queryFn: () => getAssignmentStatus(assignmentId),
 
-          refetchInterval:
-               query => {
-                    const status =
-                         query.state.data
-                              ?.generationStatus;
+    refetchInterval: (query) => {
+      const status = query.state.data?.generationStatus;
 
-                    return status ===
-                         "COMPLETED" ||
-                         status === "FAILED"
-                         ? false
-                         : 2000;
-               },
-     });
+      return status === 'COMPLETED' || status === 'FAILED' ? false : 2000;
+    },
+  });
 }

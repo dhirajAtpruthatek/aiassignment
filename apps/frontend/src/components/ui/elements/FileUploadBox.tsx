@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useRef, useState } from "react";
-import { UploadCloud, X, RotateCcw } from "lucide-react";
+import { RotateCcw, UploadCloud, X } from 'lucide-react';
+import { useRef, useState } from 'react';
 
 interface Props {
   onUpload: (file: File) => void;
   onSuccess: () => void;
   onFail: () => void;
-  id: string
+  id: string;
 }
 
 export function FileUploadBox({ onUpload, id, onFail, onSuccess }: Props) {
@@ -25,12 +25,16 @@ export function FileUploadBox({ onUpload, id, onFail, onSuccess }: Props) {
     setUploading(true);
 
     const formData = new FormData();
-    formData.append("pdf", file);
+    formData.append('pdf', file);
 
     const xhr = new XMLHttpRequest();
     xhrRef.current = xhr;
 
-    xhr.open("POST", `${process.env.NEXT_PUBLIC_BACKEND_URL}/assignment/${id}/upload-pdf`, true);
+    xhr.open(
+      'POST',
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/assignment/${id}/upload-pdf`,
+      true,
+    );
 
     // progress tracking
     xhr.upload.onprogress = (event) => {
@@ -49,8 +53,8 @@ export function FileUploadBox({ onUpload, id, onFail, onSuccess }: Props) {
           return;
         } else {
           onSuccess();
-        } 
- 
+        }
+
         onUpload(file);
       }
     };
@@ -104,13 +108,9 @@ export function FileUploadBox({ onUpload, id, onFail, onSuccess }: Props) {
 
         <UploadCloud className="mx-auto mb-3" />
 
-        <p className="font-medium">
-          Choose a file or drag & drop it here
-        </p>
+        <p className="font-medium">Choose a file or drag & drop it here</p>
 
-        <p className="text-xs text-gray-500">
-          JPEG, PNG, PDF up to 10MB
-        </p>
+        <p className="text-xs text-gray-500">JPEG, PNG, PDF up to 10MB</p>
 
         {!file && (
           <button className="mt-4 px-4 py-2 bg-gray-100 rounded-full text-sm">
@@ -121,9 +121,7 @@ export function FileUploadBox({ onUpload, id, onFail, onSuccess }: Props) {
         {/* FILE PREVIEW */}
         {file && (
           <div className="mt-4 space-y-2">
-            <p className="text-sm text-green-600">
-              {file.name}
-            </p>
+            <p className="text-sm text-green-600">{file.name}</p>
 
             {/* PROGRESS BAR */}
             {uploading && (

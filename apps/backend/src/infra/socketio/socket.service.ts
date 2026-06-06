@@ -1,6 +1,6 @@
 // infra/socket/socket.service.ts
 
-import { getIO } from "./socket.js";
+import { getIO } from './socket.js';
 
 export class SocketService {
   emitProgress(
@@ -8,79 +8,39 @@ export class SocketService {
     progress: {
       percent: number;
       step: string;
-    }
-  ) {
-
-    getIO()
-      .to(
-        `assignment:${assignmentId}`
-      )
-      .emit(
-        "assignment:progress",
-        {
-          assignmentId,
-          ...progress,
-        }
-      );
-  }
-  
-  emitStatus(
-    assignmentId: string,
-    status: string
+    },
   ) {
     getIO()
-      .to(
-        `assignment:${assignmentId}`
-      )
-      .emit(
-        "assignment:status",
-        {
-          assignmentId,
-          status,
-        }
-      );
-  }
-
-  emitCompleted(
-    assignmentId: string,
-    assessmentId: string
-  ) {
-
-    console.log(
-      "[SOCKET] assignment:completed",
-      {
+      .to(`assignment:${assignmentId}`)
+      .emit('assignment:progress', {
         assignmentId,
-        assessmentId,
-      }
-    );
-
-    getIO()
-      .to(
-        `assignment:${assignmentId}`
-      )
-      .emit(
-        "assignment:completed",
-        {
-          assignmentId,
-          assessmentId,
-        }
-      );
+        ...progress,
+      });
   }
 
-  emitFailed(
-    assignmentId: string,
-    message: string
-  ) {
-    getIO()
-      .to(
-        `assignment:${assignmentId}`
-      )
-      .emit(
-        "assignment:failed",
-        {
-          assignmentId,
-          message,
-        }
-      );
+  emitStatus(assignmentId: string, status: string) {
+    getIO().to(`assignment:${assignmentId}`).emit('assignment:status', {
+      assignmentId,
+      status,
+    });
+  }
+
+  emitCompleted(assignmentId: string, assessmentId: string) {
+    console.log('[SOCKET] assignment:completed', {
+      assignmentId,
+      assessmentId,
+    });
+
+    getIO().to(`assignment:${assignmentId}`).emit('assignment:completed', {
+      assignmentId,
+      assessmentId,
+    });
+  }
+
+  emitFailed(assignmentId: string, message: string) {
+    getIO().to(`assignment:${assignmentId}`).emit('assignment:failed', {
+      assignmentId,
+      message,
+    });
   }
 }

@@ -1,29 +1,23 @@
-import { Router } from "express";
-import { AssessmentController } from "../controller/assessment.controller.js";
+import { Router } from 'express';
+
+import type { AssessmentController } from '../controller/assessment.controller.js';
 
 interface RouteDeps {
   assessmentController: AssessmentController;
 }
 
-export default function createAssessmentRoutes({ assessmentController }: RouteDeps) {
+export default function createAssessmentRoutes({
+  assessmentController,
+}: RouteDeps) {
   const router = Router();
 
-  router.get(
-    "/",
-    assessmentController.getAll
-  );
+  router.get('/', assessmentController.getAll);
 
+  router.get('/:id', assessmentController.getById);
+  router.delete('/:id', assessmentController.delete);
   router.get(
-    "/:id",
-    assessmentController.getById
-  );
-  router.delete(
-    "/:id",
-    assessmentController.delete
-  );
-  router.get(
-    "/assignment/:assignmentId",
-    assessmentController.getByAssignmentId
+    '/assignment/:assignmentId',
+    assessmentController.getByAssignmentId,
   );
   return router;
 }

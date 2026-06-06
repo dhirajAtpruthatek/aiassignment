@@ -1,29 +1,24 @@
-import { generationQueue } from "../queues/generation.queue.js";
+import { generationQueue } from '../queues/generation.queue.js';
 
- 
-export async function
-     enqueueGeneration(
-          assignmentId: string
-     ) {
+export async function enqueueGeneration(assignmentId: string) {
+  await generationQueue.add(
+    'assessment-generation',
 
-     await generationQueue.add(
-          "assessment-generation",
+    {
+      assignmentId,
+    },
 
-          {
-               assignmentId,
-          },
+    {
+      attempts: 3,
 
-          {
-               attempts: 3,
+      backoff: {
+        type: 'exponential',
+        delay: 5000,
+      },
 
-               backoff: {
-                    type: "exponential",
-                    delay: 5000,
-               },
+      removeOnComplete: 100,
 
-               removeOnComplete: 100,
-
-               removeOnFail: 50,
-          }
-     );
+      removeOnFail: 50,
+    },
+  );
 }

@@ -1,7 +1,7 @@
-import type { SafeParseReturnType, ZodSchema } from "zod/v3";
-import type { NextFunction, Request, RequestHandler, Response } from "express";
+import type { NextFunction, Request, RequestHandler, Response } from 'express';
+import type { SafeParseReturnType, ZodSchema } from 'zod/v3';
 
-import { AppError } from "../../core/errors/AppError.js";
+import { AppError } from '../../core/errors/AppError.js';
 
 /**
  * Zod Validation Middleware
@@ -48,7 +48,7 @@ export default function validate(schema: ZodSchema): RequestHandler {
        */
       const formattedErrors: { field: string; message: string }[] =
         result.error.errors.map((err) => ({
-          field: err.path.join(".") || "root", // fallback if no path
+          field: err.path.join('.') || 'root', // fallback if no path
           message: err.message,
         }));
 
@@ -58,9 +58,9 @@ export default function validate(schema: ZodSchema): RequestHandler {
        */
       next(
         new AppError(
-          "Validation failed", // human-readable message
+          'Validation failed', // human-readable message
           400, // HTTP status code
-          "VALIDATION_ERROR", // machine-readable error code
+          'VALIDATION_ERROR', // machine-readable error code
           formattedErrors, // detailed validation issues
         ),
       );

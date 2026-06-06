@@ -1,6 +1,6 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -64,10 +64,9 @@
 }
 
 :root {
-
-  --ONE: #5E5E5ECC;
+  --ONE: #5e5e5ecc;
   --TWO: #303030;
-  --THREE: #5E5E5E;
+  --THREE: #5e5e5e;
   --FOUR: #043b9a;
 
   --background: oklch(1 0 0);
@@ -139,9 +138,8 @@
 }
 
 .gradientBg {
-  background: linear-gradient(180deg, #EEEEEE 0%, #DADADA 100%);
+  background: linear-gradient(180deg, #eeeeee 0%, #dadada 100%);
 }
-
 
 @layer utilities {
   .hide-scrollbar {
@@ -162,14 +160,12 @@
   body {
     @apply bg-background text-foreground font-bricolage text-ONE text-[16px] tracking-[-4p%] leading-[140%] font-normal;
   }
-
 }
 
 .sidebarShadow {
   box-shadow: 0px 32px 48px 0px rgba(0, 0, 0, 0.2);
 
   box-shadow: 0px 16px 48px 0px rgba(0, 0, 0, 0.12);
-
 }
 
 .aiToolkitButton {
@@ -179,14 +175,12 @@
 }
 
 .aiToolkitButton::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   padding: 4px;
   border-radius: inherit;
-  background: linear-gradient(180deg,
-      #FF7950 0%,
-      #C0350A 100%);
+  background: linear-gradient(180deg, #ff7950 0%, #c0350a 100%);
 
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
@@ -201,29 +195,35 @@
 .createAssignButton {
   border: 1.5px solid;
   border-radius: 90px;
-  border-image-source: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(102, 102, 102, 0) 100%);
-
-
+  border-image-source: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(102, 102, 102, 0) 100%
+  );
 }
 
 .footerGradient {
-  background: linear-gradient(to top,
-      rgba(244, 244, 244, 1) 0%,
-      rgba(244, 244, 244, 0.9) 30%,
-      rgba(244, 244, 244, 0) 100%);
-  backdrop-filter: blur(1px)
+  background: linear-gradient(
+    to top,
+    rgba(244, 244, 244, 1) 0%,
+    rgba(244, 244, 244, 0.9) 30%,
+    rgba(244, 244, 244, 0) 100%
+  );
+  backdrop-filter: blur(1px);
 }
 .custom-loader {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: 
-    radial-gradient(farthest-side,#FF5623 94%,#0000) top/16px 16px no-repeat,
-    conic-gradient(#0000 30%,#FF5623);
-  -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 16px),#000 0);
-  animation:s3 0.5s infinite linear;
+  background:
+    radial-gradient(farthest-side, #ff5623 94%, #0000) top/16px 16px no-repeat,
+    conic-gradient(#0000 30%, #ff5623);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 16px), #000 0);
+  animation: s3 0.5s infinite linear;
 }
 
-@keyframes s3{ 
-  100%{transform: rotate(1turn)}
+@keyframes s3 {
+  100% {
+    transform: rotate(1turn);
+  }
 }

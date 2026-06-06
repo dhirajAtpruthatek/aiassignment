@@ -1,250 +1,242 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { CreateAssignmentField } from "@/components/common/create-assignment-form/FormField";
-import { useParams } from "next/navigation";
+import { CreateAssignmentField } from '@/components/common/create-assignment-form/FormField';
+import { Button } from '@/components/ui/button';
+import { useParams } from 'next/navigation';
 
 import {
-     AssignmentConfigurationForm,
-     AssignmentConfigurationSchema,
-} from "@/features/assignment/utils/assignment.schema";
+  AssignmentConfigurationForm,
+  AssignmentConfigurationSchema,
+} from '@/features/assignment/utils/assignment.schema';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useWatch, useFieldArray, useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { Datepicker } from "@/components/ui/elements/Datepicker";
-import { ArrowRight, Plus } from "lucide-react";
-import { submitAssignment, updateConfiguration, uploadPdf } from "@/features/assignment/api/assignment.api";
-import { toast } from "sonner";
-import { FileUploadBox } from "@/components/ui/elements/FileUploadBox";
-
+import { Datepicker } from '@/components/ui/elements/Datepicker';
+import { FileUploadBox } from '@/components/ui/elements/FileUploadBox';
+import {
+  submitAssignment,
+  updateConfiguration,
+} from '@/features/assignment/api/assignment.api';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ArrowRight, Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form';
+import { toast } from 'sonner';
 
 export default function ConfigurationPage() {
-     const router = useRouter();
-     const { id } = useParams();
+  const router = useRouter();
+  const { id } = useParams();
 
-     const {
-          register,
-          control,
-          handleSubmit,
-          setValue,
-          reset,
-          formState: { errors, isSubmitting },
-     } = useForm<AssignmentConfigurationForm>({
-          resolver: zodResolver(AssignmentConfigurationSchema),
+  const {
+    register,
+    control,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<AssignmentConfigurationForm>({
+    resolver: zodResolver(AssignmentConfigurationSchema),
 
-          defaultValues: {
-               assignmentDate: new Date(),
-               dueDate: new Date(),
-               additionalInstructions: "",
-               sourceContent: "",
-               questionRequirements: [
-                    {
-                         type: "MCQ",
-                         count: 5,
-                         marksPerQuestion: 1,
-                    },
-               ],
-          },
-     });
+    defaultValues: {
+      assignmentDate: new Date(),
+      dueDate: new Date(),
+      additionalInstructions: '',
+      sourceContent: '',
+      questionRequirements: [
+        {
+          type: 'MCQ',
+          count: 5,
+          marksPerQuestion: 1,
+        },
+      ],
+    },
+  });
 
-     const { fields, append, remove } = useFieldArray({
-          control,
-          name: "questionRequirements",
-     });
-     const questionRequirements = useWatch({
-          control,
-          name: "questionRequirements",
-     });
-     const totalQuestions =
-          questionRequirements?.reduce((acc, q) => acc + (q.count || 0), 0) || 0;
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'questionRequirements',
+  });
+  const questionRequirements = useWatch({
+    control,
+    name: 'questionRequirements',
+  });
+  const totalQuestions =
+    questionRequirements?.reduce((acc, q) => acc + (q.count || 0), 0) || 0;
 
-     const totalMarks =
-          questionRequirements?.reduce(
-               (acc, q) => acc + (q.count || 0) * (q.marksPerQuestion || 0),
-               0
-          ) || 0;
+  const totalMarks =
+    questionRequirements?.reduce(
+      (acc, q) => acc + (q.count || 0) * (q.marksPerQuestion || 0),
+      0,
+    ) || 0;
 
-     async function onSubmit(data: AssignmentConfigurationForm) {
-          try {
+  async function onSubmit(data: AssignmentConfigurationForm) {
+    try {
+      const response = await updateConfiguration(String(id), data);
 
-               const response = await updateConfiguration(String(id), data);
+      if (response.success === true) {
+        if (!response.data?._id) {
+          toast.error(response.message || 'Failed to create assignment');
+          return;
+        }
 
-               if (response.success === true) {
-                    if (!response.data?._id) {
-                         toast.error(response.message || "Failed to create assignment");
-                         return;
-                    };
+        const submit = await submitAssignment(response.data?._id);
+        if (!submit.success) {
+          toast.error(submit.message || 'Failed to submit assignment');
+          return;
+        }
+        toast.success('Started Generating Assignment!');
+        router.push('/dashboard');
+      } else {
+        toast.error(response.message || 'Failed to create assignment');
+      }
+    } catch (error: any) {
+      toast.error(error?.message || 'Something went wrong');
+    } finally {
+      reset();
+    }
+  }
 
-                    const submit = await submitAssignment(response.data?._id);
-                    if (!submit.success) {
-                         toast.error(submit.message || "Failed to submit assignment");
-                         return;
-                    }
-                    toast.success("Started Generating Assignment!");
-                    router.push("/dashboard");
+  return (
+    <>
+      <div className="  w-full rounded-[32px] bg-[#FFFFFF80] border p-8 flex flex-col gap-8 border-white">
+        <div>
+          <h2 className=" text-[20px] font-bold text-TWO">
+            Assignment Details
+          </h2>
+          <p className=" text-[14px]  text-[#5E5E5ECC]">
+            Basic information about your assignment
+          </p>
+        </div>
 
-               } else {
-                    toast.error(response.message || "Failed to create assignment");
-               }
-          } catch (error: any) {
-               toast.error(error?.message || "Something went wrong");
-          } finally {
-               reset();
-          }
+        <FileUploadBox
+          id={String(id)}
+          onUpload={async (file) => {}}
+          onSuccess={() => {
+            toast.success('File uploaded successfully');
+          }}
+          onFail={() => {
+            toast.error('Failed to upload file');
+          }}
+        />
+        <form className="space-y-8 w-full">
+          {/* Dates */}
 
-     }
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <CreateAssignmentField.Heading title="Assignment Date" />
+              {/* Assignment Date */}
+              <Controller
+                control={control}
+                name="assignmentDate"
+                render={({ field }) => (
+                  <Datepicker
+                    value={field.value}
+                    onChange={(date) => field.onChange(date)}
+                  />
+                )}
+              />
+            </div>
 
+            <div className="space-y-2">
+              <CreateAssignmentField.Heading title="Due Date" />
 
+              {/* Due Date */}
+              <Controller
+                control={control}
+                name="dueDate"
+                render={({ field }) => (
+                  <Datepicker
+                    value={field.value}
+                    onChange={(date) => field.onChange(date)}
+                  />
+                )}
+              />
+            </div>
+          </div>
 
-     return (
+          {/* Question Requirements */}
+          <div className="space-y-2">
+            <div className="flex flex-row justify-between">
+              <CreateAssignmentField.Heading title="Question Types" />
+              <div className="flex flex-row gap-8 pr-7">
+                <CreateAssignmentField.Heading title="No. Of Questions" />
+                <CreateAssignmentField.Heading title="Marks" />
+              </div>
+            </div>
+            <div className="space-y-4 w-full">
+              {fields.map((field, index) => (
+                <CreateAssignmentField.QuestionRequirementRow
+                  key={field.id}
+                  index={index}
+                  control={control}
+                  remove={() => remove(index)}
+                />
+              ))}
 
-          <>
-               <div className="  w-full rounded-[32px] bg-[#FFFFFF80] border p-8 flex flex-col gap-8 border-white">
+              <Button
+                type="button"
+                className=" bg-transparent -translate-x-3 flex flex-row items-center   text-black  hover:bg-transparent"
+                onClick={() =>
+                  append({
+                    type: 'MCQ',
+                    count: 1,
+                    marksPerQuestion: 1,
+                  })
+                }
+              >
+                <div className=" bg-TWO p-2   rounded-full">
+                  <Plus className="  size-6" color="#FFF" />
+                </div>{' '}
+                Add Question Type
+              </Button>
 
-                    <div>
-                         <h2 className=" text-[20px] font-bold text-TWO">
-                              Assignment Details
-                         </h2>
-                         <p className=" text-[14px]  text-[#5E5E5ECC]">Basic information about your assignment</p>
-                    </div>
+              <div className="flex text-black flex-col gap-2  items-end   font-medium ">
+                <div className="  ">
+                  Total Questions: <span className="">{totalQuestions}</span>
+                </div>
 
-                    <FileUploadBox
-                         id={String(id)}
-                         onUpload={async (file) => { }}
-                         onSuccess={()=>{ toast.success("File uploaded successfully")}}
-                         onFail={()=>{ toast.error("Failed to upload file")}}
-                    />
-                    <form className="space-y-8 w-full">
+                <div className=" not-open: ">
+                  Total Marks: <span className=" ">{totalMarks}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* Instructions */}
+          <div className="space-y-2">
+            <CreateAssignmentField.Heading title="Material Content" />
+            <CreateAssignmentField.Textarea
+              placeholder="Give your assignment material content..."
+              error={errors.sourceContent}
+              {...register('sourceContent')}
+            />
+          </div>
+          {/* Instructions */}
+          <div className="space-y-2">
+            <CreateAssignmentField.Heading title="Additional Instructions" />
+            <CreateAssignmentField.Textarea
+              placeholder="Any special instructions..."
+              error={errors.additionalInstructions}
+              rows={6}
+              {...register('additionalInstructions')}
+            />
+          </div>
+        </form>
+      </div>
+      <div className=" flex flex-row justify-between gap-4 mb-8">
+        <Button
+          onClick={() => router.push('/dashboard/assignment/create')}
+          className=" px-4 text-[16px]  hover:bg-white bg-white text-TWO font-medium h-11 rounded-full   flex justify-center items-center gap-2"
+        >
+          <ArrowRight className=" size-5 rotate-180" /> Previous
+        </Button>
 
-                         {/* Dates */}
-
-
-                         <div className="grid grid-cols-2 gap-4">
-
-                              <div className="space-y-2">
-                                   <CreateAssignmentField.Heading title="Assignment Date" />
-                                   {/* Assignment Date */}
-                                   <Controller
-                                        control={control}
-                                        name="assignmentDate"
-                                        render={({ field }) => (
-                                             <Datepicker
-                                                  value={field.value}
-                                                  onChange={(date) => field.onChange(date)}
-                                             />
-                                        )}
-                                   />
-                              </div>
-
-                              <div className="space-y-2">
-                                   <CreateAssignmentField.Heading title="Due Date" />
-
-                                   {/* Due Date */}
-                                   <Controller
-                                        control={control}
-                                        name="dueDate"
-                                        render={({ field }) => (
-                                             <Datepicker
-                                                  value={field.value}
-                                                  onChange={(date) => field.onChange(date)}
-                                             />
-                                        )}
-                                   />
-                              </div>
-
-
-                         </div>
-
-
-                         {/* Question Requirements */}
-                         <div className="space-y-2">
-                              <div className="flex flex-row justify-between">
-
-                                   <CreateAssignmentField.Heading title="Question Types" />
-                                   <div className="flex flex-row gap-8 pr-7">
-                                        <CreateAssignmentField.Heading title="No. Of Questions" />
-                                        <CreateAssignmentField.Heading title="Marks" />
-                                   </div>
-                              </div>
-                              <div className="space-y-4 w-full">
-
-                                   {fields.map((field, index) => (
-                                        <CreateAssignmentField.QuestionRequirementRow
-                                             key={field.id}
-                                             index={index}
-                                             control={control}
-                                             remove={() => remove(index)}
-                                        />
-                                   ))}
-
-                                   <Button
-                                        type="button"
-                                        className=" bg-transparent -translate-x-3 flex flex-row items-center   text-black  hover:bg-transparent"
-                                        onClick={() =>
-                                             append({
-                                                  type: "MCQ",
-                                                  count: 1,
-                                                  marksPerQuestion: 1,
-                                             })
-                                        }
-                                   >
-                                        <div className=" bg-TWO p-2   rounded-full">
-                                             <Plus className="  size-6" color="#FFF" />
-                                        </div>  Add Question Type
-                                   </Button>
-
-
-                                   <div className="flex text-black flex-col gap-2  items-end   font-medium ">
-                                        <div className="  ">
-                                             Total Questions: <span className="">{totalQuestions}</span>
-                                        </div>
-
-                                        <div className=" not-open: ">
-                                             Total Marks: <span className=" ">{totalMarks}</span>
-                                        </div>
-                                   </div>
-                              </div>
-
-                         </div>
-                         {/* Instructions */}
-                         <div className="space-y-2">
-                              <CreateAssignmentField.Heading title="Material Content" />
-                              <CreateAssignmentField.Textarea
-                                   placeholder="Give your assignment material content..."
-                                   error={errors.sourceContent}
-
-                                   {...register("sourceContent")}
-                              />
-                         </div>
-                         {/* Instructions */}
-                         <div className="space-y-2">
-                              <CreateAssignmentField.Heading title="Additional Instructions" />
-                              <CreateAssignmentField.Textarea
-                                   placeholder="Any special instructions..."
-                                   error={errors.additionalInstructions}
-                                   rows={6}
-                                   {...register("additionalInstructions")}
-                              />
-                         </div>
-                    </form>
-
-               </div>
-               <div className=" flex flex-row justify-between gap-4 mb-8">
-                    <Button
-                         onClick={() => router.push("/dashboard/assignment/create")}
-                         className=" px-4 text-[16px]  hover:bg-white bg-white text-TWO font-medium h-11 rounded-full   flex justify-center items-center gap-2">
-                         <ArrowRight className=" size-5 rotate-180" />  Previous
-                    </Button>
-
-                    <Button onClick={handleSubmit(onSubmit)} disabled={isSubmitting} className=" px-4 text-[16px]  font-medium h-11 rounded-full   flex justify-center items-center gap-2">
-                         {isSubmitting ? "Saving..." : "Save & Continue"} <ArrowRight className=" size-5  " />
-                    </Button>
-               </div>
-
-          </>
-
-
-
-     );
+        <Button
+          onClick={handleSubmit(onSubmit)}
+          disabled={isSubmitting}
+          className=" px-4 text-[16px]  font-medium h-11 rounded-full   flex justify-center items-center gap-2"
+        >
+          {isSubmitting ? 'Saving...' : 'Save & Continue'}{' '}
+          <ArrowRight className=" size-5  " />
+        </Button>
+      </div>
+    </>
+  );
 }

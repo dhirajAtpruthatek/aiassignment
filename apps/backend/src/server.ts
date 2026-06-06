@@ -1,11 +1,11 @@
-import { createServer } from "http";
+import { createServer } from 'http';
 
-import { config } from "./core/config/index.js";
-import { createApp } from "./app.js";
-import { logger } from "./infra/logger/index.js";
-import ShutdownManager from "./bootstrap/shutdown.js";
-import { bootstrapApp } from "./bootstrap/index.js";
-import { initSocket } from "./infra/socketio/socket.js";
+import { createApp } from './app.js';
+import { bootstrapApp } from './bootstrap/index.js';
+import ShutdownManager from './bootstrap/shutdown.js';
+import { config } from './core/config/index.js';
+import { logger } from './infra/logger/index.js';
+import { initSocket } from './infra/socketio/socket.js';
 
 async function startServer() {
   try {
@@ -15,7 +15,6 @@ async function startServer() {
     const server = createServer(app);
     await initSocket(server);
 
-
     server.listen(config.port, () => {
       logger.info(`Server running on  http://localhost:${String(config.port)}`);
     });
@@ -24,8 +23,8 @@ async function startServer() {
     const shutdownManager = new ShutdownManager(logger);
     shutdownManager.init(server);
   } catch (err: unknown) {
-    logger.error(err as string, "Startup failed");
-    console.error(err, "Startup failed");
+    logger.error(err as string, 'Startup failed');
+    console.error(err, 'Startup failed');
     process.exit(1);
   }
 }

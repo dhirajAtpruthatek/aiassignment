@@ -1,87 +1,71 @@
-"use client";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { FieldError } from "react-hook-form";
-
+'use client';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { FieldError } from 'react-hook-form';
 
 export const QUESTION_TYPE_LABELS: Record<string, string> = {
-  MCQ: "Multiple Choice Questions",
-  TRUE_FALSE: "True / False",
-  FILL_IN_THE_BLANK: "Fill in the Blanks",
-  ONE_WORD: "One Word Answers",
-  VERY_SHORT_ANSWER: "Very Short Answers",
-  SHORT_ANSWER: "Short Answer Questions",
-  SHORT_NOTE: "Short Notes",
-  LONG_ANSWER: "Long Answer Questions",
-  ESSAY: "Essay Questions",
-  NUMERICAL_PROBLEM: "Numerical Problems",
-  DIAGRAM_BASED: "Diagram / Graph Based Questions",
+  MCQ: 'Multiple Choice Questions',
+  TRUE_FALSE: 'True / False',
+  FILL_IN_THE_BLANK: 'Fill in the Blanks',
+  ONE_WORD: 'One Word Answers',
+  VERY_SHORT_ANSWER: 'Very Short Answers',
+  SHORT_ANSWER: 'Short Answer Questions',
+  SHORT_NOTE: 'Short Notes',
+  LONG_ANSWER: 'Long Answer Questions',
+  ESSAY: 'Essay Questions',
+  NUMERICAL_PROBLEM: 'Numerical Problems',
+  DIAGRAM_BASED: 'Diagram / Graph Based Questions',
 } as const;
-
 
 type BaseProps = {
   label?: string;
   error?: FieldError;
 };
 
-type InputProps = BaseProps &
-  React.InputHTMLAttributes<HTMLInputElement>;
+type InputProps = BaseProps & React.InputHTMLAttributes<HTMLInputElement>;
 
 type TextareaProps = BaseProps &
   React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-function InputField({
-  label,
-  error,
-  ...props
-}: InputProps) {
+function InputField({ label, error, ...props }: InputProps) {
   return (
     <div className="space-y-2">
-      {label &&
-        <Label className="text-[16px] font-bold font-bricolage leading-[140%] tracking-[-4%] text-TWO">{label}</Label>
-      }
- 
-      <Input className=" rounded-3xl  h-11   bg-[#FFFFFF40] font-bricolage  border-2 text-[16px]   border-[#A9A9A9]" {...props} />
-
-      {error && (
-        <p className="text-sm text-red-500">
-          {error.message}
-        </p>
+      {label && (
+        <Label className="text-[16px] font-bold font-bricolage leading-[140%] tracking-[-4%] text-TWO">
+          {label}
+        </Label>
       )}
+
+      <Input
+        className=" rounded-3xl  h-11   bg-[#FFFFFF40] font-bricolage  border-2 text-[16px]   border-[#A9A9A9]"
+        {...props}
+      />
+
+      {error && <p className="text-sm text-red-500">{error.message}</p>}
     </div>
   );
 }
 
-function TextareaField({
-  label,
-  error,
-  ...props
-}: TextareaProps) {
+function TextareaField({ label, error, ...props }: TextareaProps) {
   return (
     <div className="space-y-1">
-      {label &&
-        <Label>{label}</Label>
-      }
+      {label && <Label>{label}</Label>}
       <Textarea
-        className=" rounded-[16px]  outline-dashed outline-2  bg-[#FFFFFF40] outline-[#DADADA]  border-0" {...props} />
+        className=" rounded-[16px]  outline-dashed outline-2  bg-[#FFFFFF40] outline-[#DADADA]  border-0"
+        {...props}
+      />
 
-      {error && (
-        <p className="text-sm text-red-500">
-          {error.message}
-        </p>
-      )}
+      {error && <p className="text-sm text-red-500">{error.message}</p>}
     </div>
   );
 }
 
-function Heading({
-  title
-}: {
-  title: string;
-}) {
+function Heading({ title }: { title: string }) {
   return (
-    <p className="text-[16px] font-bold font-bricolage leading-[140%] tracking-[-4%] text-TWO">{title}</p>
+    <p className="text-[16px] font-bold font-bricolage leading-[140%] tracking-[-4%] text-TWO">
+      {title}
+    </p>
   );
 }
 
@@ -92,7 +76,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
 interface QuestionTypeFieldProps {
   value?: string;
@@ -104,31 +88,19 @@ export function QuestionTypeField({
   value,
   onValueChange,
   options,
-  placeholder
+  placeholder,
 }: QuestionTypeFieldProps) {
   return (
-    <Select
-      value={value}
-      onValueChange={onValueChange}
-    >
-      <SelectTrigger
-        className=" rounded-full border-0 bg-white px-5 py-6   w-[85%] text-[16px] font-medium  shadow-none"
-      >
-        <SelectValue placeholder={placeholder} >
-          {value
-            ? QUESTION_TYPE_LABELS[value]
-            : "Select Question Type"}
+    <Select value={value} onValueChange={onValueChange}>
+      <SelectTrigger className=" rounded-full border-0 bg-white px-5 py-6   w-[85%] text-[16px] font-medium  shadow-none">
+        <SelectValue placeholder={placeholder}>
+          {value ? QUESTION_TYPE_LABELS[value] : 'Select Question Type'}
         </SelectValue>
       </SelectTrigger>
 
-      <SelectContent
-        className=" rounded-3xl  sidebarShadow font-bricolage  p-3  text-[16px]  bg-[#FFFFFF]  "
-      >
+      <SelectContent className=" rounded-3xl  sidebarShadow font-bricolage  p-3  text-[16px]  bg-[#FFFFFF]  ">
         {options.map((option) => (
-          <SelectItem
-            key={option}
-            value={option}
-          >
+          <SelectItem key={option} value={option}>
             {QUESTION_TYPE_LABELS[option]}
           </SelectItem>
         ))}
@@ -137,11 +109,10 @@ export function QuestionTypeField({
   );
 }
 
-
 /* @ts-ignore */
 
-import { Minus, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
+import { Minus, Plus } from 'lucide-react';
 
 interface StepperFieldProps {
   value: number;
@@ -175,29 +146,19 @@ export function StepperField({
         variant="ghost"
         size="icon"
         className="h-6 w-6  text-[#b6b6b6] rounded-full"
-        onClick={() =>
-          onChange(
-            Math.max(min, value - 1)
-          )
-        }
+        onClick={() => onChange(Math.max(min, value - 1))}
       >
         <Minus size={14} />
       </Button>
 
-      <span className="font-medium">
-        {value}
-      </span>
+      <span className="font-medium">{value}</span>
 
       <Button
         type="button"
         variant="ghost"
         size="icon"
         className="h-6 text-[#b6b6b6]  w-6 rounded-full"
-        onClick={() =>
-          onChange(
-            Math.min(max, value + 1)
-          )
-        }
+        onClick={() => onChange(Math.min(max, value + 1))}
       >
         <Plus size={14} />
       </Button>
@@ -205,17 +166,14 @@ export function StepperField({
   );
 }
 
-
 /* Remove Button */
-import { X } from "lucide-react";
+import { X } from 'lucide-react';
 
 interface RemoveButtonProps {
   onClick?: () => void;
 }
 
-export function RemoveButton({
-  onClick,
-}: RemoveButtonProps) {
+export function RemoveButton({ onClick }: RemoveButtonProps) {
   return (
     <button
       type="button"
@@ -227,14 +185,10 @@ export function RemoveButton({
   );
 }
 
-
 /* Stepper Field */
-import {
-  Control,
-  Controller,
-} from "react-hook-form";
+import { Control, Controller } from 'react-hook-form';
 
-import { AssignmentConfigurationForm } from "@/features/assignment/utils/assignment.schema";
+import { AssignmentConfigurationForm } from '@/features/assignment/utils/assignment.schema';
 
 interface QuestionRequirementRowProps {
   index: number;
@@ -253,7 +207,6 @@ export function QuestionRequirementRow({
     <div className="flex flex-row gap-3 w-full items-center justify-between">
       {/* Question Type */}
       <div className="flex flex-row flex-1 items-center">
-
         <Controller
           control={control}
           name={`questionRequirements.${index}.type`}
@@ -268,24 +221,16 @@ export function QuestionRequirementRow({
 
         {/* Remove */}
 
-        <RemoveButton
-          onClick={remove}
-        />
+        <RemoveButton onClick={remove} />
       </div>
 
-      
-      
       <div className="flex flex-row items-center gap-6">
-
         {/* Count */}
         <Controller
           control={control}
           name={`questionRequirements.${index}.count`}
           render={({ field }) => (
-            <StepperField
-              value={field.value}
-              onChange={field.onChange}
-            />
+            <StepperField value={field.value} onChange={field.onChange} />
           )}
         />
 
@@ -295,10 +240,7 @@ export function QuestionRequirementRow({
           control={control}
           name={`questionRequirements.${index}.marksPerQuestion`}
           render={({ field }) => (
-            <StepperField
-              value={field.value}
-              onChange={field.onChange}
-            />
+            <StepperField value={field.value} onChange={field.onChange} />
           )}
         />
       </div>

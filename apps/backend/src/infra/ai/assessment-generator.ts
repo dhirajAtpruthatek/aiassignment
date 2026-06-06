@@ -1,23 +1,13 @@
-import { ChatGoogle } from "@langchain/google";
-import { buildAssessmentPrompt } from "../ai/prompts/assessment.prompt.js";
+import { ChatGoogle } from '@langchain/google';
 
-import {
-  AssessmentSchema,
-} from "./schemas/assessment-output.schema.js";
+import { buildAssessmentPrompt } from '../ai/prompts/assessment.prompt.js';
+import { AssessmentSchema } from './schemas/assessment-output.schema.js';
 
-export const model =
-  new ChatGoogle(
-    "gemini-2.5-flash",
-    {
-      apiKey:
-        process.env.GOOGLE_API_KEY,
-    }
-  );
+export const model = new ChatGoogle('gemini-2.5-flash', {
+  apiKey: process.env.GOOGLE_API_KEY,
+});
 
-const structuredModel =
-  model.withStructuredOutput(
-    AssessmentSchema
-  );
+const structuredModel = model.withStructuredOutput(AssessmentSchema);
 
 interface QuestionRequirement {
   type: string;
@@ -26,11 +16,7 @@ interface QuestionRequirement {
 
   marksPerQuestion: number;
 
-  difficulty:
-  | "easy"
-  | "medium"
-  | "hard"
-  | "mixed";
+  difficulty: 'easy' | 'medium' | 'hard' | 'mixed';
 }
 
 interface GenerateAssessmentInput {
@@ -46,18 +32,15 @@ interface GenerateAssessmentInput {
 
   sourceContent: string;
 
-  questionRequirements:
-  QuestionRequirement[];
+  questionRequirements: QuestionRequirement[];
 }
 
-export async function generateAssessment(
-  input: GenerateAssessmentInput
-) {
+export async function generateAssessment(input: GenerateAssessmentInput) {
   const prompt = buildAssessmentPrompt(input);
 
   return structuredModel.invoke([
     [
-      "system",
+      'system',
       `
 You are an expert academic assessment creator.
 
@@ -74,9 +57,6 @@ STRICT RULES:
 - Return only schema-compatible output.
 `,
     ],
-    [
-      "human",
-      prompt,
-    ],
+    ['human', prompt],
   ]);
 }

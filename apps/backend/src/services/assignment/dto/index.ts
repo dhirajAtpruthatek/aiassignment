@@ -1,1 +1,1 @@
-export * from "./create-assignment.dto.js";
+export * from './create-assignment.dto.js';

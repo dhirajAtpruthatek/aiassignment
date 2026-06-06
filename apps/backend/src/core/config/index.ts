@@ -1,5 +1,5 @@
-import envManager from "../env/env.js";
-import { loggerConfig } from "./logger.config.js";
+import envManager from '../env/env.js';
+import { loggerConfig } from './logger.config.js';
 
 const env = envManager.get();
 

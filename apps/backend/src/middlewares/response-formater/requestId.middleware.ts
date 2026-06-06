@@ -1,9 +1,9 @@
-import { randomUUID } from "crypto";
+import { randomUUID } from 'crypto';
 
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from 'express';
 
-import { requestContext } from "../../infra/request-context/index.js";
-import { APP_SETTING } from "../../core/constants/app.constants.js";
+import { APP_SETTING } from '../../core/constants/app.constants.js';
+import { requestContext } from '../../infra/request-context/index.js';
 
 /**
  * Request ID Middleware
@@ -21,7 +21,7 @@ export function requestIdMiddleware(
 ): void {
   const incomingId = req.header(APP_SETTING.REQUEST_ID_HEADER);
 
-  const isValidId = typeof incomingId === "string" && incomingId.length < 100;
+  const isValidId = typeof incomingId === 'string' && incomingId.length < 100;
 
   const requestId = isValidId ? incomingId : randomUUID();
 

@@ -1,2 +1,1 @@
- 
-export const APP_NAME = "VedaAI";
+export const APP_NAME = 'VedaAI';

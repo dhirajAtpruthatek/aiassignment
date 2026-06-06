@@ -1,12 +1,9 @@
 // features/assessment/api/assessment.types.ts
-import { Assignment } from '@/features/assignment/api/assignment.types'
+import { Assignment } from '@/features/assignment/api/assignment.types';
 export interface Question {
   question: string;
   answer?: string;
-  difficulty:
-  | "easy"
-  | "medium"
-  | "hard";
+  difficulty: 'easy' | 'medium' | 'hard';
 
   marks: number;
 }

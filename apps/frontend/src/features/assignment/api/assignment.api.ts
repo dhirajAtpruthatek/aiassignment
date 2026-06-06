@@ -1,140 +1,102 @@
 // features/assignment/api/assignment.api.ts
 
-import { api } from "@/lib/axios";
+import { api } from '@/lib/axios';
 
 import {
-     ApiResponse,
-     Assignment,
-     CreateDraftDTO,
-     UpdateBasicDetailsDTO,
-     UpdateConfigurationDTO,
-} from "./assignment.types";
+  ApiResponse,
+  Assignment,
+  CreateDraftDTO,
+  UpdateBasicDetailsDTO,
+  UpdateConfigurationDTO,
+} from './assignment.types';
 
-export async function createDraft(
-     payload: CreateDraftDTO
-) {
-     const { data } = await api.post<ApiResponse<Assignment>>(
-          "/assignment/draft",
-          payload
-     );
+export async function createDraft(payload: CreateDraftDTO) {
+  const { data } = await api.post<ApiResponse<Assignment>>(
+    '/assignment/draft',
+    payload,
+  );
 
-     return data;
+  return data;
 }
 
 export async function getAssignments() {
-     const { data } =
-          await api.get<{
-               data: Assignment[];
-          }>("/assignment");
+  const { data } = await api.get<{
+    data: Assignment[];
+  }>('/assignment');
 
-     return data.data;
+  return data.data;
 }
 
-export async function getAssignment(
-     id: string
-) {
-     const { data } =
-          await api.get<{
-               data: Assignment;
-          }>(
-               `/assignment/${id}`
-          );
+export async function getAssignment(id: string) {
+  const { data } = await api.get<{
+    data: Assignment;
+  }>(`/assignment/${id}`);
 
-     return data.data;
+  return data.data;
 }
 
 export async function updateBasicDetails(
-     id: string,
-     payload: UpdateBasicDetailsDTO
+  id: string,
+  payload: UpdateBasicDetailsDTO,
 ) {
-     const { data } =
-          await api.patch(
-               `/assignment/${id}/basic-details`,
-               payload
-          );
+  const { data } = await api.patch(`/assignment/${id}/basic-details`, payload);
 
-     return data.data;
+  return data.data;
 }
 
 export async function updateConfiguration(
-     id: string,
-     payload: UpdateConfigurationDTO
+  id: string,
+  payload: UpdateConfigurationDTO,
 ) {
-     const { data } =
-          await api.patch<ApiResponse<Assignment>>(
-               `/assignment/${id}/configuration`,
-               payload
-          );
+  const { data } = await api.patch<ApiResponse<Assignment>>(
+    `/assignment/${id}/configuration`,
+    payload,
+  );
 
-     return data;
+  return data;
 }
 
-export async function uploadPdf(
-     id: string,
-     file: File
-) {
-     const formData =
-          new FormData();
+export async function uploadPdf(id: string, file: File) {
+  const formData = new FormData();
 
-     formData.append(
-          "pdf",
-          file
-     );
+  formData.append('pdf', file);
 
-     const { data } =
-          await api.post<ApiResponse<Assignment>>(
-               `/assignment/${id}/upload-pdf`,
-               formData,
-               {
-                    headers: {
-                         "Content-Type":
-                              "multipart/form-data",
-                    },
-               }
-          );
+  const { data } = await api.post<ApiResponse<Assignment>>(
+    `/assignment/${id}/upload-pdf`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
 
-     return data;
+  return data;
 }
 
-export async function submitAssignment(
-     id: string
-) {
-     const { data } =
-          await api.post<ApiResponse<Assignment>>(
-               `/assignment/${id}/submit`
-          );
+export async function submitAssignment(id: string) {
+  const { data } = await api.post<ApiResponse<Assignment>>(
+    `/assignment/${id}/submit`,
+  );
 
-     return data;
+  return data;
 }
 
-export async function retryGeneration(
-     id: string
-) {
-     const { data } =
-          await api.post(
-               `/assignment/${id}/retry`
-          );
+export async function retryGeneration(id: string) {
+  const { data } = await api.post(`/assignment/${id}/retry`);
 
-     return data.data;
+  return data.data;
 }
 
-export async function getAssignmentStatus(
-     id: string
-) {
-     const { data } =
-          await api.get(
-               `/assignment/${id}/status`
-          );
+export async function getAssignmentStatus(id: string) {
+  const { data } = await api.get(`/assignment/${id}/status`);
 
-     return data.data;
+  return data.data;
 }
-export async function deleteAssignment(
-     assignmentId: string
-) {
-     const { data } =
-          await api.delete<ApiResponse<{ message: string }>>(
-               `/assignment/${assignmentId}`
-          );
+export async function deleteAssignment(assignmentId: string) {
+  const { data } = await api.delete<ApiResponse<{ message: string }>>(
+    `/assignment/${assignmentId}`,
+  );
 
-     return data;
+  return data;
 }

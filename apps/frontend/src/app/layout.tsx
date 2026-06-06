@@ -1,17 +1,19 @@
-import type { Metadata } from "next";
-import { Inter, Bricolage_Grotesque } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/lib/utils";
-import OfflineBanner from "@/components/common/OfflineBanner";
-import { QueryProvider } from "@/lib/provider/query-provider";
-import { Toaster } from "@/components/ui/sonner";
+import OfflineBanner from '@/components/common/OfflineBanner';
+import { Toaster } from '@/components/ui/sonner';
+import { QueryProvider } from '@/lib/provider/query-provider';
+import { cn } from '@/lib/utils';
+import type { Metadata } from 'next';
+import { Bricolage_Grotesque, Inter } from 'next/font/google';
+import './globals.css';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const bricolageGrotesque = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-bricolage' });
-
+const bricolageGrotesque = Bricolage_Grotesque({
+  subsets: ['latin'],
+  variable: '--font-bricolage',
+});
 
 export const metadata: Metadata = {
-  title: "VedaAI",
-  description: "AI Powered Assessment Generator",
+  title: 'VedaAI',
+  description: 'AI Powered Assessment Generator',
 };
 
 export default function RootLayout({
@@ -22,7 +24,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", bricolageGrotesque.variable, inter.variable)}
+      className={cn(
+        'h-full',
+        'antialiased',
+        bricolageGrotesque.variable,
+        inter.variable,
+      )}
     >
       <body className="min-h-full flex flex-col">
         <QueryProvider>

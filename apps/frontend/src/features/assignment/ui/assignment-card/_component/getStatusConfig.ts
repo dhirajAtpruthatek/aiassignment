@@ -1,52 +1,41 @@
 export function getStatusConfig(
-  status:
-    | "DRAFT"
-    | "PENDING"
-    | "PROCESSING"
-    | "COMPLETED"
-    | "FAILED"
+  status: 'DRAFT' | 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED',
 ) {
   switch (status) {
-    case "DRAFT":
+    case 'DRAFT':
       return {
-        label: "Draft",
-        color:
-          "bg-gray-100 text-gray-700",
+        label: 'Draft',
+        color: 'bg-gray-100 text-gray-700',
       };
 
-    case "PENDING":
+    case 'PENDING':
       return {
-        label: "Queued",
-        color:
-          "bg-yellow-100 text-yellow-700",
+        label: 'Queued',
+        color: 'bg-yellow-100 text-yellow-700',
       };
 
-    case "PROCESSING":
+    case 'PROCESSING':
       return {
-        label: "Generating",
-        color:
-          "bg-blue-100 text-blue-700",
+        label: 'Generating',
+        color: 'bg-blue-100 text-blue-700',
       };
 
-    case "COMPLETED":
+    case 'COMPLETED':
       return {
-        label: "Completed",
-        color:
-          "bg-green-100 text-green-700",
+        label: 'Completed',
+        color: 'bg-green-100 text-green-700',
       };
 
-    case "FAILED":
+    case 'FAILED':
       return {
-        label: "Failed",
-        color:
-          "bg-red-100 text-red-700",
+        label: 'Failed',
+        color: 'bg-red-100 text-red-700',
       };
 
     default:
       return {
-        label: "Unknown",
-        color:
-          "bg-gray-100 text-gray-500",
+        label: 'Unknown',
+        color: 'bg-gray-100 text-gray-500',
       };
   }
 }

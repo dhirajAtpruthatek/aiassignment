@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export function useNetworkStatus() {
   const [isOnline, setIsOnline] = useState<boolean>(true);
-     
+
   useEffect(() => {
     setIsOnline(navigator.onLine);
-    
+
     function goOnline() {
       setIsOnline(true);
     }
@@ -14,12 +14,12 @@ export function useNetworkStatus() {
       setIsOnline(false);
     }
 
-    window.addEventListener("online", goOnline);
-    window.addEventListener("offline", goOffline);
+    window.addEventListener('online', goOnline);
+    window.addEventListener('offline', goOffline);
 
     return () => {
-      window.removeEventListener("online", goOnline);
-      window.removeEventListener("offline", goOffline);
+      window.removeEventListener('online', goOnline);
+      window.removeEventListener('offline', goOffline);
     };
   }, []);
 

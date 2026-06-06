@@ -1,26 +1,26 @@
-import { Font } from "@react-pdf/renderer";
+import { Font } from '@react-pdf/renderer';
 
 Font.register({
-  family: "Inter",
+  family: 'Inter',
   fonts: [
     {
-      src: "/fonts/Inter-Regular.ttf",
+      src: '/fonts/Inter-Regular.ttf',
       fontWeight: 400,
     },
     {
-      src: "/fonts/Inter-Medium.ttf",
+      src: '/fonts/Inter-Medium.ttf',
       fontWeight: 500,
     },
     {
-      src: "/fonts/Inter-SemiBold.ttf",
+      src: '/fonts/Inter-SemiBold.ttf',
       fontWeight: 600,
     },
     {
-      src: "/fonts/Inter-Bold.ttf",
+      src: '/fonts/Inter-Bold.ttf',
       fontWeight: 700,
     },
     {
-      src: "/fonts/Inter-ExtraBold.ttf",
+      src: '/fonts/Inter-ExtraBold.ttf',
       fontWeight: 800,
     },
   ],

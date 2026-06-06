@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { create } from "zustand";
+import { create } from 'zustand';
 
-type Theme = "light" | "dark";
+type Theme = 'light' | 'dark';
 
 type ThemeState = {
   theme: Theme;
@@ -15,23 +15,23 @@ type ThemeState = {
 function applyTheme(theme: Theme) {
   const root = document.documentElement;
 
-  if (theme === "dark") {
-    root.classList.add("dark");
-    root.style.colorScheme = "dark";
+  if (theme === 'dark') {
+    root.classList.add('dark');
+    root.style.colorScheme = 'dark';
   } else {
-    root.classList.remove("dark");
-    root.style.colorScheme = "light";
+    root.classList.remove('dark');
+    root.style.colorScheme = 'light';
   }
 
-  localStorage.setItem("theme", theme);
+  localStorage.setItem('theme', theme);
 }
 
 export const useThemeStore = create<ThemeState>((set, get) => ({
-  theme: "light", // 👈 always same on server + client
+  theme: 'light', // 👈 always same on server + client
   hydrated: false,
 
   init: () => {
-    const stored = (localStorage.getItem("theme") as Theme) || "light";
+    const stored = (localStorage.getItem('theme') as Theme) || 'light';
     applyTheme(stored);
     set({ theme: stored, hydrated: true });
   },
@@ -42,7 +42,7 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
   },
 
   toggle: () => {
-    const next = get().theme === "dark" ? "light" : "dark";
+    const next = get().theme === 'dark' ? 'light' : 'dark';
     applyTheme(next);
     set({ theme: next });
   },

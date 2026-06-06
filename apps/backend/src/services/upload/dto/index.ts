@@ -1,1 +1,1 @@
-export * from "./create-upload.dto.js";
+export * from './create-upload.dto.js';

@@ -1,9 +1,9 @@
-import pino, { type Logger as PinoInstance } from "pino";
+import pino, { type Logger as PinoInstance } from 'pino';
 
-import getRequestId from "../../request-context/index.js";
-import { config } from "../../../core/config/index.js";
-import envManager from "../../../core/env/env.js";
-import type { Logger } from "../logger.interface.js";
+import { config } from '../../../core/config/index.js';
+import envManager from '../../../core/env/env.js';
+import getRequestId from '../../request-context/index.js';
+import type { Logger } from '../logger.interface.js';
 
 export default class PinoLogger implements Logger {
   private logger: PinoInstance;
@@ -22,7 +22,7 @@ export default class PinoLogger implements Logger {
 
       transport: !envManager.isProduction()
         ? {
-            target: "pino-pretty",
+            target: 'pino-pretty',
             options: { colorize: true },
           }
         : undefined,

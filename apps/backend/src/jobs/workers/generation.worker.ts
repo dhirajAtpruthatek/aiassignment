@@ -1,77 +1,45 @@
 // jobs/workers/generation.worker.ts
 
-import { Worker } from "bullmq";
+import { Worker } from 'bullmq';
 
-import { redis } from "../../infra/redis/redis.js";
-
-import { AssignmentRepository }
-     from "../../services/assignment/repository/assignment.repository.js";
-
-import { AssessmentRepository }
-     from "../../services/assessment/repository/assessment.repository.js";
-
-import { AssignmentModel }
-     from "../../services/assignment/model/assignment.model.js";
-
-import { AssessmentModel }
-     from "../../services/assessment/model/assessment.model.js";
-
-import { AssessmentGenerationProcessor }
-     from "../processors/assessment-generation.processor.js";
-import { SocketService } from "../../infra/socketio/socket.service.js";
+import { redis } from '../../infra/redis/redis.js';
+import { SocketService } from '../../infra/socketio/socket.service.js';
+import { AssessmentModel } from '../../services/assessment/model/assessment.model.js';
+import { AssessmentRepository } from '../../services/assessment/repository/assessment.repository.js';
+import { AssignmentModel } from '../../services/assignment/model/assignment.model.js';
+import { AssignmentRepository } from '../../services/assignment/repository/assignment.repository.js';
+import { AssessmentGenerationProcessor } from '../processors/assessment-generation.processor.js';
 
 const processor = new AssessmentGenerationProcessor({
-     assignmentRepository: new AssignmentRepository(AssignmentModel),
-     assessmentRepository: new AssessmentRepository(AssessmentModel),
-     socketService: new SocketService()
+  assignmentRepository: new AssignmentRepository(AssignmentModel),
+  assessmentRepository: new AssessmentRepository(AssessmentModel),
+  socketService: new SocketService(),
 });
 
-let worker = new Worker(
-     "assessment-generation",
+const worker = new Worker(
+  'assessment-generation',
 
-     async (job) => {
-          console.log(
-               "Processing Job:",
-               job.id
-          );
+  async (job) => {
+    console.log('Processing Job:', job.id);
 
-          await processor.process(
-               job.data.assignmentId,
-               job
-          );
-     },
+    await processor.process(job.data.assignmentId, job);
+  },
 
-     {
-          connection: redis,
-     }
+  {
+    connection: redis,
+  },
 );
 
-worker.on("completed", job => {
-     console.log(
-          `Job ${job.id} completed`
-     );
+worker.on('completed', (job) => {
+  console.log(`Job ${job.id} completed`);
 });
 
-worker.on("failed", (job, err) => {
-     console.error(
-          `Job ${job?.id} failed:`,
-          err
-     );
+worker.on('failed', (job, err) => {
+  console.error(`Job ${job?.id} failed:`, err);
 });
-worker.on(
-     "progress",
-     (job, progress: any) => {
-
-          new SocketService().emitProgress(
-               job.data.assignmentId,
-               progress
-          );
-
-     }
-);
-worker.on("error", err => {
-     console.error(
-          "Worker error:",
-          err
-     );
+worker.on('progress', (job, progress: any) => {
+  new SocketService().emitProgress(job.data.assignmentId, progress);
+});
+worker.on('error', (err) => {
+  console.error('Worker error:', err);
 });

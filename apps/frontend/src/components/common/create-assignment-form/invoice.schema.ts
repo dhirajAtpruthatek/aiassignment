@@ -1,31 +1,17 @@
-import { z } from "zod"
+import { z } from 'zod';
 
 export const invoiceSchema = z.object({
-  invoiceNumber: z
-    .string()
-    .min(1, "Invoice number is required"),
+  invoiceNumber: z.string().min(1, 'Invoice number is required'),
 
-  issueDate: z
-    .string()
-    .min(1, "Issue date is required"),
+  issueDate: z.string().min(1, 'Issue date is required'),
 
-  partyId: z
-    .string()
-    .uuid("Select a valid party"),
+  partyId: z.string().uuid('Select a valid party'),
 
-  shipToId: z
-    .string()
-    .optional(),
+  shipToId: z.string().optional(),
 
-  stateCode: z
-    .string()
-    .optional(),
+  stateCode: z.string().optional(),
 
-  status: z.enum([
-    "DRAFT",
-    "SENT",
-    "CANCELLED",
-  ]),
+  status: z.enum(['DRAFT', 'SENT', 'CANCELLED']),
 
   vechileNo: z.string().optional(),
 
@@ -40,7 +26,6 @@ export const invoiceSchema = z.object({
   cgst: z.number().min(0).max(100),
 
   igst: z.number().min(0).max(100),
-})
+});
 
-export type InvoiceFormType =
-  z.infer<typeof invoiceSchema>
+export type InvoiceFormType = z.infer<typeof invoiceSchema>;

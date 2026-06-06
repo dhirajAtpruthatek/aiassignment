@@ -1,7 +1,7 @@
-import mongoose, { type Mongoose } from "mongoose";
+import mongoose, { type Mongoose } from 'mongoose';
 
-import { DatabaseInterface } from "../database.interface.js";
-import type { Logger } from "../../logger/logger.interface.js";
+import type { Logger } from '../../logger/logger.interface.js';
+import { DatabaseInterface } from '../database.interface.js';
 
 type MongooseConfig = {
   logger: Logger;

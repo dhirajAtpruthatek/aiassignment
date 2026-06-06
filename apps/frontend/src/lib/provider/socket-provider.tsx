@@ -1,33 +1,18 @@
- 
-"use client";
+'use client';
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useEffect, useState } from 'react';
 
-import { io, Socket } from "socket.io-client";
+import { io, Socket } from 'socket.io-client';
 
-const SocketContext =
-  createContext<Socket | null>(null);
+const SocketContext = createContext<Socket | null>(null);
 
-export function SocketProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [socket, setSocket] =
-    useState<Socket | null>(null);
+export function SocketProvider({ children }: { children: React.ReactNode }) {
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const socketInstance = io(
-       process.env.NEXT_PUBLIC_BACKEND_URL,
-      {
-        transports: ["websocket"],
-      }
-    );
+    const socketInstance = io(process.env.NEXT_PUBLIC_BACKEND_URL, {
+      transports: ['websocket'],
+    });
 
     setSocket(socketInstance);
 
@@ -37,11 +22,7 @@ export function SocketProvider({
   }, []);
 
   return (
-    <SocketContext.Provider
-      value={socket}
-    >
-      {children}
-    </SocketContext.Provider>
+    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
   );
 }
 

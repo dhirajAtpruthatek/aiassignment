@@ -1,21 +1,21 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-console.log("🚀 Creating new module...");
+console.log('🚀 Creating new module...');
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
 
 if (!args[0]) {
-  console.error("❌ Please provide module name");
+  console.error('❌ Please provide module name');
   process.exit(1);
 }
 
 const moduleName = args[0].toLowerCase();
 const ModuleName = capitalize(moduleName);
 
-const basePath = path.join(__dirname, "../src/services", moduleName);
+const basePath = path.join(__dirname, '../src/services', moduleName);
 
 // Prevent overwrite
 if (fs.existsSync(basePath)) {
@@ -25,12 +25,12 @@ if (fs.existsSync(basePath)) {
 
 // Create folders
 const folders = [
-  "controller",
-  "service",
-  "repository",
-  "routes",
-  "dto",
-  "events",
+  'controller',
+  'service',
+  'repository',
+  'routes',
+  'dto',
+  'events',
 ];
 
 folders.forEach((folder) => {
@@ -40,9 +40,8 @@ folders.forEach((folder) => {
 // ================= FILE CONTENTS ================= //
 
 const files = {
-
   // Controller
-  "controller": {
+  controller: {
     [`${moduleName}.controller.ts`]: `
 
 import { Request, Response } from "express";
@@ -71,7 +70,7 @@ export class ${ModuleName}Controller {
   },
 
   // Service
-  "service": {
+  service: {
     [`${moduleName}.service.ts`]: `
 import { ${ModuleName}Repository } from "../repository/${moduleName}.repository.js";
  
@@ -97,7 +96,7 @@ export class ${ModuleName}Service {
   },
 
   // Repository
-  "repository": {
+  repository: {
     [`${moduleName}.repository.ts`]: `
 export class ${ModuleName}Repository {
   /* 
@@ -117,7 +116,7 @@ export class ${ModuleName}Repository {
   },
 
   // Routes
-  "routes": {
+  routes: {
     [`${moduleName}.routes.ts`]: `
 import { Router } from "express";
 import { ${ModuleName}Controller } from "../controller/${moduleName}.controller.js";
@@ -137,7 +136,7 @@ export default function create${ModuleName}Routes({ ${moduleName}Controller }: R
   },
 
   // DTO
-  "dto": {
+  dto: {
     [`create-${moduleName}.dto.ts`]: `
     import { z } from "zod";
 
@@ -155,7 +154,7 @@ export * from "./create-${moduleName}.dto.js";
   },
 
   // Events
-  "events": {
+  events: {
     [`${moduleName}.events.ts`]: `
 export const ${ModuleName.toUpperCase()}_EVENTS = {
   CREATED: "${moduleName}.created",
@@ -168,7 +167,7 @@ export const ${ModuleName.toUpperCase()}_EVENTS = {
   },
 
   // Container
-  "": {
+  '': {
     [`${moduleName}.container.ts`]: `
 import { ${ModuleName}Repository } from "./repository/${moduleName}.repository.js";
 import { ${ModuleName}Service } from "./service/${moduleName}.service.js";

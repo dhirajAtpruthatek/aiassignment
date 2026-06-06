@@ -1,18 +1,17 @@
-import { UploadRepository } from "./repository/upload.repository.js";
-import { UploadService } from "./service/upload.service.js";
-import { UploadController } from "./controller/upload.controller.js";
-import createUploadRoutes from "./routes/upload.routes.js";
- 
+import { UploadController } from './controller/upload.controller.js';
+import { UploadRepository } from './repository/upload.repository.js';
+import createUploadRoutes from './routes/upload.routes.js';
+import { UploadService } from './service/upload.service.js';
+
 export class UploadContainer {
   static init() {
-
     const repositories = {
       uploadRepository: new UploadRepository(),
     };
 
     const services = {
       uploadService: new UploadService({
-        uploadRepository: repositories.uploadRepository 
+        uploadRepository: repositories.uploadRepository,
       }),
     };
 
@@ -28,7 +27,6 @@ export class UploadContainer {
       }),
     };
 
-   
     return {
       repositories,
       services,

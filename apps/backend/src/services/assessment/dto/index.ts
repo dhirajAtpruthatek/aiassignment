@@ -1,1 +1,1 @@
-export * from "./create-assessment.dto.js";
+export * from './create-assessment.dto.js';

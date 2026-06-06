@@ -8,14 +8,10 @@ export interface QuestionRequirementDTO {
   type: string;
 
   count: number;
-  
+
   marksPerQuestion: number;
 
-  difficulty:
-  | "easy"
-  | "medium"
-  | "hard"
-  | "mixed";
+  difficulty: 'easy' | 'medium' | 'hard' | 'mixed';
 }
 
 export interface CreateAssignmentDTO {
@@ -37,8 +33,5 @@ export interface CreateAssignmentDTO {
 
   uploadedPdf?: UploadedPdfDTO;
 
-  questionRequirements?:
-  QuestionRequirementDTO[];
+  questionRequirements?: QuestionRequirementDTO[];
 }
-
- 

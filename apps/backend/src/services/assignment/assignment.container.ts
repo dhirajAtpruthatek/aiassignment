@@ -1,14 +1,13 @@
-import { AssignmentRepository } from "./repository/assignment.repository.js";
-import { AssignmentService } from "./service/assignment.service.js";
-import { AssignmentController } from "./controller/assignment.controller.js";
-import createAssignmentRoutes from "./routes/assignment.routes.js";
-import { AssignmentModel } from "./model/assignment.model.js";
-import { AssessmentRepository } from "../assessment/repository/assessment.repository.js";
-import { AssessmentModel } from "../assessment/model/assessment.model.js";
- 
+import { AssessmentModel } from '../assessment/model/assessment.model.js';
+import { AssessmentRepository } from '../assessment/repository/assessment.repository.js';
+import { AssignmentController } from './controller/assignment.controller.js';
+import { AssignmentModel } from './model/assignment.model.js';
+import { AssignmentRepository } from './repository/assignment.repository.js';
+import createAssignmentRoutes from './routes/assignment.routes.js';
+import { AssignmentService } from './service/assignment.service.js';
+
 export class AssignmentContainer {
   static init() {
-
     const repositories = {
       assignmentRepository: new AssignmentRepository(AssignmentModel),
       assessmentRepository: new AssessmentRepository(AssessmentModel),
@@ -33,7 +32,6 @@ export class AssignmentContainer {
       }),
     };
 
-   
     return {
       repositories,
       services,

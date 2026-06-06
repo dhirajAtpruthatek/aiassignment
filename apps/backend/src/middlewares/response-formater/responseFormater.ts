@@ -1,4 +1,4 @@
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from 'express';
 
 /**
  * Response Formatter Middleware
@@ -11,7 +11,7 @@ export function responseFormatter(
   next: NextFunction,
 ): void {
   res.success = ({
-    message = "Success",
+    message = 'Success',
     data = null,
     meta = null,
     statusCode = 200,

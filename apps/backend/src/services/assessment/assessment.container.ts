@@ -1,19 +1,18 @@
-import { AssessmentRepository } from "./repository/assessment.repository.js";
-import { AssessmentService } from "./service/assessment.service.js";
-import { AssessmentController } from "./controller/assessment.controller.js";
-import createAssessmentRoutes from "./routes/assessment.routes.js";
-import { AssessmentModel } from "./model/assessment.model.js";
+import { AssessmentController } from './controller/assessment.controller.js';
+import { AssessmentModel } from './model/assessment.model.js';
+import { AssessmentRepository } from './repository/assessment.repository.js';
+import createAssessmentRoutes from './routes/assessment.routes.js';
+import { AssessmentService } from './service/assessment.service.js';
 
 export class AssessmentContainer {
   static init() {
-
     const repositories = {
       assessmentRepository: new AssessmentRepository(AssessmentModel),
     };
 
     const services = {
       assessmentService: new AssessmentService({
-        assessmentRepository: repositories.assessmentRepository
+        assessmentRepository: repositories.assessmentRepository,
       }),
     };
 
@@ -28,7 +27,6 @@ export class AssessmentContainer {
         assessmentController: controllers.assessmentController,
       }),
     };
-
 
     return {
       repositories,

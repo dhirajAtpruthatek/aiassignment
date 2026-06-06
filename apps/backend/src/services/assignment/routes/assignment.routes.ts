@@ -1,12 +1,15 @@
-import { Router } from "express";
-import { AssignmentController } from "../controller/assignment.controller.js";
-import { pdfUpload } from "../../../middlewares/pdfUpload.middleware.js";
+import { Router } from 'express';
+
+import { pdfUpload } from '../../../middlewares/pdfUpload.middleware.js';
+import type { AssignmentController } from '../controller/assignment.controller.js';
 
 interface RouteDeps {
   assignmentController: AssignmentController;
 }
 
-export default function createAssignmentRoutes({ assignmentController }: RouteDeps) {
+export default function createAssignmentRoutes({
+  assignmentController,
+}: RouteDeps) {
   const router = Router();
 
   /*  
@@ -27,61 +30,30 @@ export default function createAssignmentRoutes({ assignmentController }: RouteDe
 
   */
 
-
   ///
-  router.post(
-    "/draft",
-    assignmentController.createDraft
-  );
+  router.post('/draft', assignmentController.createDraft);
 
-  router.patch(
-    "/:id/basic-details",
-    assignmentController.updateBasicDetails
-  );
+  router.patch('/:id/basic-details', assignmentController.updateBasicDetails);
 
-  router.patch(
-    "/:id/configuration",
-    assignmentController.updateConfiguration
-  );
+  router.patch('/:id/configuration', assignmentController.updateConfiguration);
 
   router.post(
-    "/:id/upload-pdf",
-    pdfUpload.single("pdf"),
-    assignmentController.uploadPdf
+    '/:id/upload-pdf',
+    pdfUpload.single('pdf'),
+    assignmentController.uploadPdf,
   );
 
-  router.post(
-    "/:id/submit",
-    assignmentController.submitAssignment
-  );
-  
-  router.post(
-    "/:id/retry",
-    assignmentController.retryGeneration
-  );
+  router.post('/:id/submit', assignmentController.submitAssignment);
 
-  router.get(
-    "/:id/status",
-    assignmentController.getStatus
-  );
+  router.post('/:id/retry', assignmentController.retryGeneration);
 
-  router.get(
-    "/:id",
-    assignmentController.getAssignmentById
-  );
+  router.get('/:id/status', assignmentController.getStatus);
 
-  router.get(
-    "/",
-    assignmentController.getAllAssignments
-  );
-  
-  router.delete(
-    "/:id",
-    assignmentController.deleteAssignment
-  );
+  router.get('/:id', assignmentController.getAssignmentById);
 
+  router.get('/', assignmentController.getAllAssignments);
 
-
+  router.delete('/:id', assignmentController.deleteAssignment);
 
   return router;
 }

@@ -82,7 +82,7 @@ export class AssignmentService {
     if (!assignment) {
       throw new AppError('Assignment not found', 404);
     }
-
+    
     assignment.generationStatus = 'PENDING';
 
     assignment.errorMessage = undefined;

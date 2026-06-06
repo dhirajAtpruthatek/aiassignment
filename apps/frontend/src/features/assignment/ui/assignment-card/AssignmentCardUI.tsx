@@ -29,15 +29,15 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
   const { mutate, isPending } = useDeleteAssignment();
 
   return (
-    <div className="h-40 w-full rounded-[24px] bg-white p-6 flex justify-between">
+    <div className=" h-38 md:h-40 w-full rounded-[24px] bg-white p-6 flex justify-between">
       <div className="flex flex-col flex-1 justify-between">
-        <h4 className="text-2xl font-extrabold leading-[120%] tracking-[-4%] text-TWO">
+        <h4 className=" text-[20px] md:text-2xl font-extrabold leading-[120%] tracking-[-4%] text-TWO">
           {assignment.title}
         </h4>
         <div>
           <div
             className={cn(
-              '  rounded-full  w-fit mb-1 px-3 py-1 text-sm font-medium',
+              '  rounded-full  w-fit mb-1  px-2 md:px-3  py-0.5 md:py-1  text-[12px] md:text-sm font-medium',
               statusConfig.color,
             )}
           >

@@ -17,7 +17,16 @@ export class AssessmentRepository {
   async findById(id: string) {
     return this.model.findById(id).populate('assignmentId');
   }
-
+  async findLatestByAssignmentId(assignmentId: string) {
+    return this.model
+      .findOne({
+        assignmentId,
+      })
+      .sort({
+        createdAt: -1,
+      })
+      .select('assignmentId version');
+  }
   async findByAssignmentId(assignmentId: string) {
     return this.model
       .findOne({

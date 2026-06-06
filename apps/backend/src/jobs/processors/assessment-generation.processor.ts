@@ -16,6 +16,7 @@ export class AssessmentGenerationProcessor {
 
   async process(assignmentId: string, job: Job) {
     await job.updateProgress({ percent: 10, step: 'Starting Generation' });
+    console.log('Check 1');
     const assignment =
       await this.deps.assignmentRepository.findById(assignmentId);
 
@@ -23,6 +24,7 @@ export class AssessmentGenerationProcessor {
       throw new Error('Assignment not found');
     }
 
+    console.log('Check 2');
     await job.updateProgress({ percent: 20, step: 'Generating Questions' });
     await this.deps.assignmentRepository.updateGenerationStatus(
       assignmentId,
@@ -32,6 +34,7 @@ export class AssessmentGenerationProcessor {
     this.deps.socketService.emitStatus(assignmentId, 'PROCESSING');
 
     try {
+      console.log('Check 3');
       await job.updateProgress({ percent: 30, step: 'Generating Assessment' });
 
       const assessment = await generateAssessment({
@@ -42,10 +45,11 @@ export class AssessmentGenerationProcessor {
         additionalInstructions: assignment.additionalInstructions ?? '',
         sourceContent: assignment.sourceContent ?? '',
         questionRequirements: assignment.questionRequirements,
-      });
-
+      }); 
+      console.log('Check 4');
       await job.updateProgress({ percent: 80, step: 'Saving Assessment' });
 
+      console.log('Check 5');
       const totalMarks = assessment.sections.reduce(
         (sectionTotal, section) =>
           sectionTotal +
@@ -56,22 +60,30 @@ export class AssessmentGenerationProcessor {
         0,
       );
 
+      const latest =
+        await this.deps.assessmentRepository.findLatestByAssignmentId(
+          assignmentId,
+        );
+        
+      const version = latest ? latest.version + 1 : 1;
       const savedAssessment = await this.deps.assessmentRepository.create({
         assignmentId,
         title: assessment.title,
         totalMarks,
-        version: 1,
+        version: version,
         sections: assessment.sections.map((sec) => ({
           ...sec,
           totalMarks: sec.questions.reduce((acc, q) => acc + q.marks, 0),
         })),
       });
 
+      console.log('Check 6');
       await this.deps.assignmentRepository.updateGenerationStatus(
         assignmentId,
         'COMPLETED',
       );
 
+      console.log('Check 7');
       await job.updateProgress({ percent: 100, step: 'Completed' });
 
       this.deps.socketService.emitCompleted(

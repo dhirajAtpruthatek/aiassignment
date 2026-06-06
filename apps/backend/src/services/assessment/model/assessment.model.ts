@@ -50,9 +50,7 @@ const AssessmentSchema = new mongoose.Schema(
   {
     assignmentId: {
       type: mongoose.Schema.Types.ObjectId,
-
       ref: 'Assignment',
-
       required: true,
     },
 
@@ -82,5 +80,5 @@ const AssessmentSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
-
+AssessmentSchema.index({ assignmentId: 1, version: 1 }, { unique: true });
 export const AssessmentModel = mongoose.model('Assessment', AssessmentSchema);

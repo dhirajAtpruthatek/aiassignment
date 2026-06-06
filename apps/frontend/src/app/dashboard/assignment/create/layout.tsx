@@ -8,6 +8,7 @@ export default function layout({ children }: Props) {
   return (
     <div>
       <div className=" mt-2 pr-3 h-full  w-full  relative">
+        
         {/* assignments heading */}
         <div className=" flex items-center pl-1 pt-3 gap-4 translate-x-2">
           <div className=" size-3 rounded-full outline-4 outline-[#4BC26D66] bg-[#4BC26D]"></div>
@@ -22,7 +23,7 @@ export default function layout({ children }: Props) {
         </div>
       </div>
 
-      <div className=" w-205 mx-auto  mt-7 space-y-5">
+      <div className="  w-full md:w-205 mx-auto  mt-7 space-y-5">
         <div className=" flex flex-row justify-between gap-4">
           <div
             className=" w-1/2 h-1.25   rounded-2xl"

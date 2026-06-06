@@ -92,7 +92,7 @@ export function QuestionTypeField({
 }: QuestionTypeFieldProps) {
   return (
     <Select value={value} onValueChange={onValueChange}>
-      <SelectTrigger className=" rounded-full border-0 bg-white px-5 py-6   w-[85%] text-[16px] font-medium  shadow-none">
+      <SelectTrigger className=" rounded-full border-0 bg-white  md:px-5  md:py-6   md:w-[85%] text-[16px] font-medium  shadow-none">
         <SelectValue placeholder={placeholder}>
           {value ? QUESTION_TYPE_LABELS[value] : 'Select Question Type'}
         </SelectValue>
@@ -204,9 +204,9 @@ export function QuestionRequirementRow({
   const options = Object.keys(QUESTION_TYPE_LABELS) as string[];
 
   return (
-    <div className="flex flex-row gap-3 w-full items-center justify-between">
+    <div className="flex  flex-col bg-white md:bg-transparent   p-1  rounded-3xl md:rounded-none md:flex-row gap-3 w-full items-center justify-between">
       {/* Question Type */}
-      <div className="flex flex-row flex-1 items-center">
+      <div className="flex flex-row w-full   md:justify-start justify-between flex-1 items-center">
         <Controller
           control={control}
           name={`questionRequirements.${index}.type`}
@@ -224,7 +224,7 @@ export function QuestionRequirementRow({
         <RemoveButton onClick={remove} />
       </div>
 
-      <div className="flex flex-row items-center gap-6">
+      <div className=" hidden md:flex   w-auto bg-[#F0F0F0] md:bg-transparent flex-row items-center gap-6">
         {/* Count */}
         <Controller
           control={control}
@@ -244,6 +244,8 @@ export function QuestionRequirementRow({
           )}
         />
       </div>
+
+            
     </div>
   );
 }

@@ -96,7 +96,7 @@ export function FileUploadBox({ onUpload, id, onFail, onSuccess }: Props) {
         onDragOver={(e) => e.preventDefault()}
         onDrop={onDrop}
         onClick={() => inputRef.current?.click()}
-        className="border-2 border-dashed rounded-xl p-8 text-center cursor-pointer bg-white"
+        className="border-2 border-dashed  rounded-2xl md:rounded-xl p-8 text-center cursor-pointer bg-white"
       >
         <input
           type="file"

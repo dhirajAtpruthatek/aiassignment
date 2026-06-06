@@ -59,7 +59,8 @@ export default function Page() {
 
   return (
     <>
-      <div className="  rounded-[32px] bg-[#FFFFFF80] border p-8 flex flex-col gap-8 border-white">
+      <div className="  rounded-[32px] bg-[#FFFFFF80] border px-4  md:px-8 py-8 flex flex-col gap-8 border-white">
+
         <div>
           <h2 className=" text-[20px] font-bold text-TWO">Create Assignment</h2>
           <p className=" text-[14px]  text-[#5E5E5ECC]">
@@ -67,7 +68,7 @@ export default function Page() {
           </p>
         </div>
 
-        <form className="space-y-4 p-4">
+        <form className="space-y-4  ">
           <CreateAssignmentField.Input
             label="Assignment Title"
             placeholder="e.g Assignment 01"

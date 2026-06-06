@@ -5,13 +5,13 @@ import TitleBar from './_components/titlebar/TitleBar';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SocketProvider>
-      <div className="h-screen flex gradientBg  relative w-screen">
+      <div className="h-screen flex   gradientBg  relative w-screen">
         <SideBar />
-
+        {/* bg-[#CECECE] */}
         <div className="flex-1 flex flex-col   h-full overflow-hidden">
           <TitleBar />
 
-          <main className="flex-1 overflow-auto hide-scrollbar">
+          <main className="flex-1 px-3 overflow-auto hide-scrollbar">
             {children}
           </main>
         </div>

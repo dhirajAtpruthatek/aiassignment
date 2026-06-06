@@ -112,7 +112,8 @@ export default function ConfigurationPage() {
 
   return (
     <>
-      <div className="  w-full rounded-[32px] bg-[#FFFFFF80] border p-8 flex flex-col gap-8 border-white">
+      <div className="  w-full rounded-[32px] bg-[#FFFFFF80] border px-4  md:px-8 py-8 flex flex-col gap-8 border-white">
+
         <div>
           <h2 className=" text-[20px] font-bold text-TWO">
             Assignment Details
@@ -136,7 +137,7 @@ export default function ConfigurationPage() {
         <form className="space-y-8 w-full">
           {/* Dates */}
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid  grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <CreateAssignmentField.Heading title="Assignment Date" />
               {/* Assignment Date */}
@@ -171,13 +172,16 @@ export default function ConfigurationPage() {
 
           {/* Question Requirements */}
           <div className="space-y-2">
+
             <div className="flex flex-row justify-between">
               <CreateAssignmentField.Heading title="Question Types" />
-              <div className="flex flex-row gap-8 pr-7">
+              <div className="hidden md:flex flex-row gap-8 pr-7">
                 <CreateAssignmentField.Heading title="No. Of Questions" />
                 <CreateAssignmentField.Heading title="Marks" />
               </div>
             </div>
+
+
             <div className="space-y-4 w-full">
               {fields.map((field, index) => (
                 <CreateAssignmentField.QuestionRequirementRow

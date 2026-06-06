@@ -2,6 +2,7 @@ import mongoose, { type Mongoose } from 'mongoose';
 
 import type { Logger } from '../../logger/logger.interface.js';
 import { DatabaseInterface } from '../database.interface.js';
+import { AssessmentModel } from '../../../services/assessment/model/assessment.model.js';
 
 type MongooseConfig = {
   logger: Logger;
@@ -33,6 +34,7 @@ class MongooseDatabase extends DatabaseInterface<Mongoose> {
       this.#connection = await mongoose.connect(this.uri, {
         dbName: this.dbName,
       });
+    
 
       this.logger.info(`✅ [Mongo:${this.dbName}] connected`);
       return this.#connection;
@@ -41,7 +43,7 @@ class MongooseDatabase extends DatabaseInterface<Mongoose> {
       throw error;
     }
   }
-
+  
   async disconnect(): Promise<void> {
     if (this.#connection) {
       await mongoose.disconnect();

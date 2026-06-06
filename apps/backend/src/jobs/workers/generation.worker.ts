@@ -21,7 +21,6 @@ const worker = new Worker(
 
   async (job) => {
     console.log('Processing Job:', job.id);
-
     await processor.process(job.data.assignmentId, job);
   },
 

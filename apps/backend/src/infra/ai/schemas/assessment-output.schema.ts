@@ -21,7 +21,6 @@ export const SectionSchema = z.object({
 
 export const AssessmentSchema = z.object({
   title: z.string(),
-
   sections: z.array(SectionSchema),
 });
 
@@ -31,6 +30,8 @@ export interface Question {
   question: string;
   difficulty: 'easy' | 'medium' | 'hard';
   marks: number;
+  options?: string[];
+  answer: string;
 }
 
 export interface Section {

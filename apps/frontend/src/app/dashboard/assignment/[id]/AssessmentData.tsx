@@ -25,8 +25,8 @@ export default function AssessmentData({
   return (
     <>
       <div className=" px-4 pt-4 ">
-        <div className="rounded-[28px] px-8 py-6   bg-[#181818CC]">
-          <p className="   mb-4 font-semibold text-[20px] font-bricolage text-white leading-[140%] ">
+        <div className="rounded-[28px]  px-4 md:px-8 py-6 sidebarShadow   bg-[#181818CC]">
+          <p className="   mb-4 font-semibold  text-[14px] md:text-[20px] font-bricolage text-white leading-[140%] ">
             Certainly, Lakshya! Here are customized Question Paper for your CBSE
             Grade 8 Science classes on the NCERT chapters:
           </p>
@@ -67,23 +67,23 @@ export default function AssessmentData({
         </div>
       </div>
 
-      <div className=" mx-auto px-5 pt-3 pb-5 font-inter">
-        <div className="rounded-[28px] mx-auto bg-white p-10 text-[12px] leading-relaxed font-inter">
+      <div className=" mx-auto px-4 md:px-5 pt-3 pb-5 font-inter">
+        <div className="rounded-[28px] mx-auto bg-white   px-3 md:px-10  py-8 md:py-10 text-[12px] leading-relaxed font-inter">
           {/* Header */}
 
           <div className="text-center">
-            <h1 className="text-[32px] font-bold">
+            <h1 className=" text-[22px] md:text-[32px] font-bold">
               Delhi Public School, Sector-4, Bokaro
             </h1>
 
-            <p className="mt-1 text-[24px]">Subject: {assignment.subject}</p>
+            <p className="mt-1 text-[18px] md:text-[24px]">Subject: {assignment.subject}</p>
 
-            <p className="  text-[24px]">Class: {assignment.className}</p>
+            <p className="  text-[18px] md:text-[24px]">Class: {assignment.className}</p>
           </div>
 
           {/* Meta */}
 
-          <div className="flex justify-between mt-8 text-[18px] font-medium">
+          <div className="flex justify-between  flex-col md:flex-row mt-8  text-[16px] md:text-[18px] font-medium">
             <p>Time Allowed: {assignment.timeAllowedMinutes} minutes</p>
 
             <p>Maximum Marks: {data.totalMarks}</p>
@@ -91,13 +91,13 @@ export default function AssessmentData({
 
           {/* Instructions */}
 
-          <div className="mt-4 text-[18px]">
+          <div className="mt-4  text-[16px] md:text-[18px]">
             <p>All questions are compulsory unless stated otherwise.</p>
           </div>
 
           {/* Student Details */}
 
-          <div className="mt-8 space-y-3 text-[18px]">
+          <div className="mt-8 space-y-3  text-[16px] md:text-[18px]">
             <div>Name: ______________________________</div>
 
             <div>Roll Number: ________________________</div>
@@ -109,7 +109,7 @@ export default function AssessmentData({
 
           {data.sections.map((section, sectionIndex) => (
             <div key={sectionIndex} className="mt-10">
-              <h2 className="text-center text-[24px] font-semibold mb-4">
+              <h2 className="text-center  text-[20px] md:text-[24px] font-semibold mb-4">
                 Section {String.fromCharCode(65 + sectionIndex)}
               </h2>
 
@@ -131,18 +131,18 @@ export default function AssessmentData({
           {/*ANSWER KEY */}
 
           <div className="mt-16   pt-10">
-            <h2 className="  text-[24px] font-bold mb-8">Answer Key:</h2>
+            <h2 className="  text-[20px]  md:text-[24px] font-bold mb-8">Answer Key:</h2>
 
             {data.sections.map((section, sectionIndex) => (
               <div key={`answer-${sectionIndex}`} className="mb-10">
-                <h3 className="text-center text-[22px] font-semibold mb-4">
+                <h3 className="text-center  text-[20px] md:text-[22px] font-semibold mb-4">
                   Section {String.fromCharCode(65 + sectionIndex)}
                 </h3>
 
                 <p className="font-semibold text-[18px] mb-4">
                   {section.title}
                 </p>
-
+                
                 <div className="space-y-2">
                   {section.questions.map((question, questionIndex) => (
                     <div key={questionIndex} className="flex gap-3 text-[16px]">

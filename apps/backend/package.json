@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch --clear-screen=false src/server.ts",
-    "build": "rimraf dist && tsc",
+    "build": "tsc -p ./tsconfig.json",
     "start": "node dist/server.js",
     "lint": "npx eslint src --ext .ts --fix",
     "cm": "node scripts/createModule.js",
@@ -50,6 +50,12 @@
     "pdf-parse": "^2.4.5",
     "pino": "^10.3.1",
     "pino-pretty": "^13.1.3",
-    "zod": "^4.3.6"
+    "zod": "^4.3.6",
+    "@langchain/core": "^1.1.48",
+    "@langchain/google": "^0.1.12",
+    "bullmq": "^5.78.0",
+    "ioredis": "^5.11.0",
+    "langchain": "^1.4.4",
+    "socket.io": "^4.8.3"
   }
 }

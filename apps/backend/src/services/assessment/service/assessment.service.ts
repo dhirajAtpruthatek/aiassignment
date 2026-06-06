@@ -37,7 +37,7 @@ export class AssessmentService {
   }
 
   async delete(id: string) {
-    const assessment = await this.repo.delete(id);
+    const assessment = await this.repo.deleteByAssignmentId(id);
 
     if (!assessment) {
       throw new AppError('Assessment not found', 404);

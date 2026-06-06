@@ -151,16 +151,32 @@ export class AssignmentService {
 
     return assignment;
   }
+
   async updateConfiguration(
     id: string,
     payload: {
+      sourceContent?: string;
       assignmentDate: Date;
       dueDate: Date;
       additionalInstructions?: string;
       questionRequirements: any[];
     },
   ) {
-    const assignment = await this.repo.update(id, payload);
+    const updateData: any = {
+      assignmentDate: payload.assignmentDate,
+      dueDate: payload.dueDate,
+      additionalInstructions: payload.additionalInstructions,
+      questionRequirements: payload.questionRequirements,
+    };
+
+    if (
+      payload.sourceContent !== undefined &&
+      payload.sourceContent.trim() !== ''
+    ) {
+      updateData.sourceContent = payload.sourceContent;
+    }
+
+    const assignment = await this.repo.update(id, updateData);
 
     if (!assignment) {
       throw new AppError('Assignment not found', 404);
@@ -202,31 +218,29 @@ export class AssignmentService {
       throw new AppError('Unable to extract PDF content', 400);
     }
 
-    return this.repo.update(assignmentId, {
+    if (!sourceContent) {
+      throw new AppError('Unable to extract PDF content', 400);
+    }
+    let data = await this.repo.update(assignmentId, {
       uploadedPdf: {
         fileName: extracted.fileName,
-
         fileUrl: extracted.fileUrl,
-
         fileSize: extracted.fileSize,
       },
-
-      sourceContent,
-    });
+      sourceContent: sourceContent,
+    }); 
+    return data;
   }
+
   async submitAssignment(id: string) {
     const assignment = await this.repo.findById(id);
-
+    console.log(assignment);
     if (!assignment) {
       throw new AppError('Assignment not found', 404);
     }
 
     if (!assignment.questionRequirements?.length) {
       throw new AppError('Question requirements missing', 400);
-    }
-
-    if (!assignment.sourceContent) {
-      throw new AppError('Study material missing', 400);
     }
 
     await this.repo.updateGenerationStatus(id, 'PENDING');

@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 
 interface Props {
   onUpload: (file: File) => void;
-  onSuccess: () => void;
+  onSuccess: (response: any) => void;
   onFail: () => void;
   id: string;
 }
@@ -52,7 +52,7 @@ export function FileUploadBox({ onUpload, id, onFail, onSuccess }: Props) {
           onFail();
           return;
         } else {
-          onSuccess();
+          onSuccess(response);
         }
 
         onUpload(file);

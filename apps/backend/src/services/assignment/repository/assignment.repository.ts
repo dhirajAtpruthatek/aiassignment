@@ -43,7 +43,6 @@ export class AssignmentRepository {
   async update(id: string, payload: any) {
     return this.model.findByIdAndUpdate(
       id,
-
       payload,
       {
         new: true,

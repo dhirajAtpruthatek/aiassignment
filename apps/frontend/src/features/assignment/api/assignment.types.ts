@@ -86,5 +86,6 @@ export interface UpdateConfigurationDTO {
 
   additionalInstructions?: string;
 
+  sourceContent?: string;
   questionRequirements: QuestionRequirement[];
 }

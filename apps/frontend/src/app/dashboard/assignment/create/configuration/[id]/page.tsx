@@ -20,11 +20,14 @@ import { ArrowRight, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
+import { useUpdateConfiguration } from '@/features/assignment/api/assignment.query';
+import { useState } from 'react';
 
 export default function ConfigurationPage() {
   const router = useRouter();
   const { id } = useParams();
-
+  const { mutateAsync, isSuccess } = useUpdateConfiguration();
+  const [hasUploadedPdf, setHasUploadedPdf] = useState(false);
   const {
     register,
     control,
@@ -69,8 +72,21 @@ export default function ConfigurationPage() {
 
   async function onSubmit(data: AssignmentConfigurationForm) {
     try {
-      const response = await updateConfiguration(String(id), data);
+      const payload: any = {
+        assignmentDate: data.assignmentDate,
+        dueDate: data.dueDate,
+        additionalInstructions: data.additionalInstructions,
+        questionRequirements: data.questionRequirements,
+      };
 
+      if (data.sourceContent?.trim()) {
+        payload.sourceContent = data.sourceContent;
+      }
+
+      const response = await mutateAsync({
+        id: String(id),
+        payload,
+      });
       if (response.success === true) {
         if (!response.data?._id) {
           toast.error(response.message || 'Failed to create assignment');
@@ -108,8 +124,9 @@ export default function ConfigurationPage() {
 
         <FileUploadBox
           id={String(id)}
-          onUpload={async (file) => {}}
-          onSuccess={() => {
+          onUpload={async (file) => { }}
+          onSuccess={(data: any) => {
+            setHasUploadedPdf(true);
             toast.success('File uploaded successfully');
           }}
           onFail={() => {

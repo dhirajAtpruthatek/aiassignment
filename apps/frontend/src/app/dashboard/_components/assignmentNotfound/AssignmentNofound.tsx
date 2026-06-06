@@ -1,10 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 type Props = {};
 
-export default function AssignmentNofound({}: Props) {
+export default function AssignmentNofound({ }: Props) {
+  const router = useRouter();
   return (
     <div className=" mt-20 flex flex-col items-center ">
       <div className="  relative size-64">
@@ -19,7 +21,9 @@ export default function AssignmentNofound({}: Props) {
         submissions. You can set up rubrics, define marking criteria, and let AI
         assist with grading.
       </p>
-      <Button className="flex mt-8 createAssignButton px-6 py-5 flex-row justify-center gap-2  rounded-2xl  ">
+      <Button onClick={()=>{
+        router.push("/dashboard/assignment/create")
+      }} className="flex mt-8 createAssignButton px-6 py-5 flex-row justify-center gap-2  rounded-2xl  ">
         <Plus color="#fff" size={28} />
         <span className=" leading-[140%] font-medium  text-white text-[16px]">
           Create Your First Assignment

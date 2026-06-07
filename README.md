@@ -1,159 +1,279 @@
-# Turborepo starter
+# AI Assignment Generator
 
-This Turborepo starter is maintained by the Turborepo core team.
+An AI-powered assignment and assessment generation platform built using a modern TypeScript monorepo architecture.
 
-## Using this example
+The platform enables educators to generate structured assignments from study materials using Large Language Models (LLMs), configure question patterns, manage assessments, and export assignments efficiently.
 
-Run the following command:
+---
 
-```sh
-npx create-turbo@latest
+## Features
+
+### Assignment Generation
+
+* Generate assignments using AI
+* Multiple question types
+
+  * MCQ
+  * True / False
+  * Short Answer
+  * Long Answer
+* Difficulty-based question generation
+* Section-wise assignment creation
+* Configurable marks and question counts
+* Realtime status updation
+* Retry Functionality (if server down, when it start again generate pending work)
+
+
+### AI Integration
+
+* LangChain powered workflows
+* Google Gemini integration
+* Structured JSON validation using Zod
+
+### Real-Time Updates
+
+* Socket.IO integration
+* Real-time assignment generation status
+* Background processing support
+
+### File Processing
+
+* PDF upload support
+* Automatic PDF text extraction
+* Study material parsing
+
+### Developer Experience
+
+* TypeScript throughout the stack
+* Turborepo monorepo architecture
+* Shared build pipeline
+* Zod schema validation
+* ESLint configuration
+
+---
+
+# Tech Stack
+
+## Frontend
+
+* Next.js 16
+* React 19
+* TypeScript
+* Tailwind CSS v4
+* React Query
+* React Hook Form
+* Zod
+* Zustand
+* ShadCN UI
+* Socket.IO Client
+
+## Backend
+
+* Express.js
+* TypeScript
+* MongoDB
+* Mongoose
+* LangChain
+* BullMQ
+* Redis
+* Socket.IO
+* Multer
+
+## AI Providers
+
+* OpenAI
+* Groq
+* Google Gemini
+
+---
+
+# Project Structure
+
+```bash
+ai-assignment-generator/
+
+├── apps/
+│   ├── frontend/
+│   │   ├── src/
+│   │   └── package.json
+│   │
+│   └── backend/
+│       ├── src/
+│       └── package.json
+│
+├── turbo.json
+├── package.json
+└── README.md
 ```
 
-## What's inside?
+---
 
-This Turborepo includes the following packages/apps:
 
-### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+# Clone Repository
 
-### Utilities
+```bash
+git clone https://github.com/dhirajAtpruthatek/aiassignment
 
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+cd aiassignment
 ```
 
-Without global `turbo`, use your package manager:
+---
 
-```sh
-cd my-turborepo
-npx turbo build
-npm dlx turbo build
-npm exec turbo build
+# Install Dependencies
+
+From the project root:
+
+```bash
+npm install
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+This installs dependencies for all workspace applications.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+---
 
-```sh
-turbo build --filter=docs
+# Environment Variables
+
+## Backend
+
+Create:
+
+```bash
+apps/backend/.env
 ```
 
-Without global `turbo`:
+Example:
 
-```sh
-npx turbo build --filter=docs
-npm exec turbo build --filter=docs
-npm exec turbo build --filter=docs
+```env
+NODE_ENV="production"
+
+PORT=9000
+
+GOOGLE_API_KEY=AQ.Ab8RN6Jgf93N8pzTvV1U36kpVwL3iBvt8hf527XFfvwPWfFZmg
+
+CORS_ORIGIN=http://localhost:3000
+
+MONGODB_URI=mongodb+srv://drsuthar781:thinkio@thinkio.0vg08.mongodb.net/aiassesment?retryWrites=true&w=majority&appName=main
+
+REDIS_URL="rediss://default:gQAAAAAAAXHEAAIgcDE4YWY0ODhiYTU1ZmM0M2UzOGFmM2M2YWIwODMxMDhlYw@charming-wren-94660.upstash.io:6379" 
+
+OPENROUTER_API_KEY=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
+
+GROK_API_KEY=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
 ```
 
-### Develop
+---
 
-To develop all apps and packages, run the following command:
+## Frontend
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+Create:
 
-```sh
-cd my-turborepo
-turbo dev
+```bash
+apps/frontend/.env
 ```
 
-Without global `turbo`, use your package manager:
+Example:
 
-```sh
-cd my-turborepo
-npx turbo dev
-npm exec turbo dev
-npm exec turbo dev
+```env
+NEXT_PUBLIC_BACKEND_URL="http://localhost:9000"
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+ 
+ 
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+# Development
 
-```sh
-turbo dev --filter=web
+Run all applications simultaneously:
+
+```bash
+npm run dev
 ```
 
-Without global `turbo`:
+Turbo will start:
 
-```sh
-npx turbo dev --filter=web
-npm exec turbo dev --filter=web
-npm exec turbo dev --filter=web
+```bash
+Frontend  -> http://localhost:3000
+
+Backend   -> http://localhost:9000
 ```
 
-### Remote Caching
+---
+  
+ 
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+# Build Project
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+Build all applications:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
+```bash
+npm build
 ```
 
-Without global `turbo`, use your package manager:
+---
 
-```sh
-cd my-turborepo
-npx turbo login
-npm exec turbo login
-npm exec turbo login
+# Start Production Build
+
+## Whole app
+
+```bash
+npm run build
+
+```
+```bash
+npm run start
+```
+  
+  
+# Assignment Generation Flow
+
+```text
+Upload Study Material
+          │
+          ▼
+Extract PDF Content
+          │
+          ▼
+Configure Assignment
+          │
+          ▼
+Send Generation Request
+          │
+          ▼
+AI Generates Questions
+          │
+          ▼
+Zod Validation
+          │
+          ▼
+Store Assignment
+          │
+          ▼
+Real-Time Status Updates
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+---
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+# Future Improvements
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+* Assignment templates
+* Assignment versioning
+* Multi-language generation
+* Export to PDF and DOCX
+* Teacher dashboard analytics
+* AI-generated grading rubric
+* Classroom integration
 
-```sh
-turbo link
-```
+---
 
-Without global `turbo`:
+# License
 
-```sh
-npx turbo link
-npm exec turbo link
-npm exec turbo link
-```
+This project is licensed under the MIT License.
 
-## Useful Links
+---
 
-Learn more about the power of Turborepo:
+# Author
 
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+Dhiraj Suthar
+
+Built with TypeScript, AI, and modern web technologies.

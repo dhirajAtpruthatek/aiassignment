@@ -35,7 +35,7 @@ export default function AssignmentRender({ data }: Props) {
 
         <div className=" fixed bottom-0   w-full md:w-[81%] right-0 h-20 pointer-events-none footerGradient z-20" />
 
-        <div className="  fixed  bottom-10 md:bottom-2  right-3 md:right-0 flex   w-full md:w-[81%]  justify-end md:justify-center z-30">
+        <div className="  fixed  bottom-30 md:bottom-2  right-3 md:right-0 flex   w-full md:w-[81%]  justify-end md:justify-center z-30">
           <Link
             href="/dashboard/assignment/create"
             className="flex createAssignButton  px-2 md:px-5  py-2 sidebarShadow md:py-1.5 items-center flex-row justify-center gap-2 rounded-2xl bg-white md:bg-TWO"

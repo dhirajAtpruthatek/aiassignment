@@ -1,10 +1,12 @@
 import { ArrowLeft } from "lucide-react";
 import ProfileSection from "./ProfileSection";
 import PageHeadingSection from "../PageHeadingSection";
+import TitleBarHeadingSection from "./TitleBarHeadingSection";
 
 type Props = {};
 
 export default function TitleBar({ }: Props) {
+  
   return (
     <div className="w-full  relative z-800  md:pt-3 md:pr-3">
       <div className="w-full flex   md:border border-white  flex-row items-center justify-between rounded-[16px]   bg-transparent md:bg-[#FFFFFFBF]  px-3 md:px-6 py-2   md:sidebarShadow  ">
@@ -18,7 +20,7 @@ export default function TitleBar({ }: Props) {
 
           {/* Title Bar Heading - Only Desktop*/}
           <div className=" md:inline hidden">
-            Assignments
+            <TitleBarHeadingSection />
           </div>
 
           {/* Page Heading - Only Mobile*/}
@@ -26,7 +28,7 @@ export default function TitleBar({ }: Props) {
             <PageHeadingSection  />
           </div>
 
-        </div>
+        </div>  
 
         {/* Right */}
         <div className="  hidden md:flex  flex-row gap-4 items-center">

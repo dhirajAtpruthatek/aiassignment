@@ -1,5 +1,5 @@
 import { Bell, ChevronDown, Menu } from "lucide-react";
-
+import { IoMenu } from "react-icons/io5";
 type Props = {}
 
 export default function ProfileSection({ }: Props) {
@@ -18,7 +18,7 @@ export default function ProfileSection({ }: Props) {
                     <ChevronDown className="   hidden md:inline" />
                </div>
                <div className="  w-fit md:hidden">
-                    <Menu className="size-7"/>
+                    <IoMenu className="size-7"/>
                </div>
           </div>
      )

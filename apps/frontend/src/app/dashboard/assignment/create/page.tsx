@@ -100,7 +100,9 @@ export default function Page() {
           />
         </form>
       </div>
-      <div className=" flex flex-row justify-between gap-4 mb-8">
+
+      {/* Buttons */}
+      <div className=" flex flex-row justify-between gap-4  mb-16 md:mb-8">
         <Button
           onClick={() => router.push('/dashboard')}
           className=" px-4 text-[16px]  hover:bg-white bg-white text-TWO font-medium h-11 rounded-full   flex justify-center items-center gap-2"

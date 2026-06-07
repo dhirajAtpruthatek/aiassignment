@@ -11,7 +11,7 @@ export function getDisplayStatus(assignment: Assignment, progress?: Progress) {
     case 'DRAFT':
       return {
         label: 'Draft',
-        color: 'bg-gray-100 text-gray-700',
+        color: ' bg-gray-200 md:bg-gray-100 text-gray-700',
       };
     case 'PENDING':
       return {

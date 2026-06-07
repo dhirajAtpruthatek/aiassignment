@@ -13,7 +13,7 @@ export default function AssessmentData({
   const { data, isLoading, error } = useAssessmentByAssignment(assignmentId);
 
   if (isLoading) {
-    return <div className="p-10">Loading...</div>;
+    return <div className="p-10 text-white">Loading...</div>;
   }
 
   if (error || !data) {
@@ -24,8 +24,8 @@ export default function AssessmentData({
 
   return (
     <>
-      <div className=" px-4 pt-4 ">
-        <div className="rounded-[28px]  px-4 md:px-8 py-6 sidebarShadow   bg-[#181818CC]">
+      <div className=" px-4 pt-4   ">
+        <div className="rounded-[28px]  px-4 md:px-8 py-6 sidebarShadow   bg-[#303030]  md:bg-[#181818CC]">
           <p className="   mb-4 font-semibold  text-[14px] md:text-[20px] font-bricolage text-white leading-[140%] ">
             Certainly, Lakshya! Here are customized Question Paper for your CBSE
             Grade 8 Science classes on the NCERT chapters:
@@ -66,9 +66,9 @@ export default function AssessmentData({
           </PDFDownloadLink>
         </div>
       </div>
-
-      <div className=" mx-auto px-4 md:px-5 pt-3 pb-5 font-inter">
-        <div className="rounded-[28px] mx-auto bg-white   px-3 md:px-10  py-8 md:py-10 text-[12px] leading-relaxed font-inter">
+              
+      <div className=" mx-auto px-4 md:px-5   pt-3  pb-5 mb-14 md:mb-0 font-inter">
+        <div className="rounded-[28px] mx-auto bg-[#F6F6F6]   px-3 md:px-10  py-8 md:py-10 text-[12px] leading-relaxed font-inter">
           {/* Header */}
 
           <div className="text-center">

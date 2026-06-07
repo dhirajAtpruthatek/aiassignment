@@ -9,7 +9,7 @@ export default function layout({ children }: Props) {
   
   return (
     <div>
-      <div className=" mt-2 pr-3 h-full  w-full  relative">
+      <div className=" mt-2 pr-3  h-full  w-full  relative">
 
         {/* create assignment heading - hide on mobile*/}
         <div className='   hidden md:block'>
@@ -18,7 +18,7 @@ export default function layout({ children }: Props) {
         
       </div>
 
-      <div className="  w-full md:w-205 mx-auto  mt-7 space-y-5">
+      <div className="  w-full md:w-205 mx-auto   mt-7 space-y-5">
         <div className=" flex flex-row justify-between gap-4">
           <div
             className=" w-1/2 h-1.25   rounded-2xl"

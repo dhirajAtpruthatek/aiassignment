@@ -7,21 +7,24 @@ import { usePathname } from 'next/navigation';
 export default function LinksSection() {
   const pathname = usePathname();
 
-  const links = [
+  const links: { title: string, pattern: RegExp, href: string, icon: React.JSX.Element, endIcon?: React.JSX.Element }[] = [
     {
       title: 'Home',
       href: '/dashboard',
-      icon: LayoutGrid,
+      pattern: /^\/dashboard$/,
+      icon: <LayoutGrid />,
     },
     {
       title: 'My Groups',
       href: '/dashboard/groups',
-      icon: UsersRound,
+      pattern: /^\/dashboard\/groups(\/[^/]+)?$/,
+      icon: <UsersRound />,
     },
     {
       title: 'Assignments',
       href: '/dashboard/assignments',
-      icon: FileText,
+      pattern: /^\/dashboard\/assignment(\/[^/]+)?$/,
+      icon: <FileText />,
       endIcon: (
         <div className="bg-[#FF5623] text-sm px-2 rounded-lg flex items-center font-semibold h-5 text-white">
           20
@@ -31,25 +34,32 @@ export default function LinksSection() {
     {
       title: 'AI Teacher’s Toolkit',
       href: '/dashboard/toolkit',
-      icon: Book,
+      pattern: /^\/dashboard\/toolkit$/,
+      icon: <Book />,
     },
     {
       title: 'My Library',
       href: '/dashboard/library',
-      icon: ChartPie,
+      pattern: /^\/dashboard\/library$/,
+      icon: <ChartPie />,
     },
   ];
 
+
+  const pageConfig = links.find((route) =>
+    route.pattern.test(pathname)
+  );
+
   return (
     <div className="space-y-1">
-      {links.map((link) => (
+      {links.map((link, index) => (
         <LinkRender
-          key={link.href}
+          key={index}
           href={link.href}
           title={link.title}
-          logo={<link.icon size={20} />}
+          logo={link.icon}
           endIcon={link.endIcon}
-          isActive={pathname === link.href}
+          isActive={pageConfig?.title === link.title}
         />
       ))}
     </div>
@@ -72,14 +82,12 @@ function LinkRender({
   return (
     <Link
       href={href}
-      className={`flex items-center justify-between px-3 py-2.5 rounded-[8px] transition-colors ${
-        isActive ? 'bg-[#F0F0F0]' : 'hover:bg-gray-50'
-      }`}
+      className={`flex items-center justify-between px-3 py-2.5 rounded-[8px] transition-colors ${isActive ? 'bg-[#F0F0F0]' : 'hover:bg-gray-50'
+        }`}
     >
       <div
-        className={`flex items-center gap-2 ${
-          isActive ? 'text-TWO font-medium' : 'text-ONE font-normal'
-        }`}
+        className={`flex items-center gap-2 ${isActive ? 'text-TWO font-medium' : 'text-ONE font-normal'
+          }`}
       >
         {/* Icon automatically inherits text color */}
         <span className="flex items-center">{logo}</span>

@@ -9,44 +9,51 @@ import { BsStars } from "react-icons/bs";
 export default function LinkSectionMobile() {
      const pathname = usePathname();
 
-     const links = [
-          {
+     const links: { title: string, href: string, pattern: RegExp, icon: React.JSX.Element }[] = [
+          {    
                title: 'Home',
+               pattern: /^\/dashboard$/,
                href: '/dashboard',
                icon: <IoGrid className="size-5" />,
           },
 
           {
                title: 'Assignments',
-               href: '/dashboard/assignment',
+               href: '/dashboard',
+               pattern: /^\/dashboard\/assignment(\/[^/]+)?$/,
                icon: <HiCalendarDays className="size-6" />
           },
 
           {
                title: 'Library',
-               href: '/dashboard/library',
+               href: '/dashboard',
+               pattern: /^\/dashboard\/library$/,
                icon: <HiDocumentPlus className="size-5" />,
           },
 
           {
                title: 'AI Toolkit',
-               href: '/dashboard/toolkit',
+               href: '/dashboard',
+               pattern: /^\/dashboard\/toolkit$/,
                icon: <BsStars className="size-5" />,
           },
      ];
-
-
+     
+     const pageConfig = links.find((route) =>
+          route.pattern.test(pathname)
+     );
+     
      return (
           <div className="fixed bottom-0  w-full   p-3 z-888 left-0   md:hidden ">
                <div className=' rounded-[24px]  px-3 py-2 flex items-center text-white bg-[#181818]   flex-row justify-between'>
-                    {links.map((link) => (
+                    {links.map((link,index) => (
                          <LinkRender
-                              key={link.href}
+                              key={index}
                               href={link.href}
                               title={link.title}
                               logo={link.icon}
 
-                              isActive={pathname === link.href }
+                              isActive={pageConfig?.title === link.title}
                          />
                     ))}
 

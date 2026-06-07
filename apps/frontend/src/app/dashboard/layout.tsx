@@ -6,7 +6,7 @@ import TitleBar from './_components/titlebar/TitleBar';
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SocketProvider>
-      <div className="h-screen flex   flex-col md:flex-row   gradientBg  relative w-screen">
+      <div className="h-screen flex  pb-14 md:pb-0  flex-col md:flex-row   gradientBg  relative w-screen">
         <SideBar />
         {/* bg-[#CECECE] */}
         <div className="flex-1 flex flex-col    h-full overflow-hidden">

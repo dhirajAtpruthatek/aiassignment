@@ -74,9 +74,7 @@ export function useAssignments() {
 export function useAssignment(id: string) {
   return useQuery({
     queryKey: assignmentKeys.detail(id),
-
     queryFn: () => getAssignment(id),
-
     enabled: !!id,
   });
 }

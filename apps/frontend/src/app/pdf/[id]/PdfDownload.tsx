@@ -12,7 +12,7 @@ interface Props {
 
 export default function PdfDownload({ assignmentId }: Props) {
   const { data: assessment, isLoading, error } = useAssessmentByAssignment(assignmentId);
-
+  console.log(assessment);
   if (isLoading) {
     return <div>Loading assessment...</div>;
   }

@@ -75,18 +75,6 @@ export class AssessmentGenerationProcessor {
         questionRequirements: assignment.questionRequirements,
       });
 
-      /*    
-
-      const assessment = await generateAssessment({
-        title: assignment.title,
-        className: assignment.className ?? '',
-        subject: assignment.subject ?? '',
-        timeAllowedMinutes: assignment.timeAllowedMinutes ?? 0,
-        additionalInstructions: assignment.additionalInstructions ?? '',
-        sourceContent: assignment.sourceContent ?? '',
-        questionRequirements: assignment.questionRequirements,
-      }); */
-
       /**
        * Update progress after assessment generation
        */
@@ -130,6 +118,7 @@ export class AssessmentGenerationProcessor {
       this.deps.socketService.emitCompleted(assignmentId, savedAssessment._id.toString());
       return savedAssessment;
     } catch (error) {
+      console.error('===============', error);
       /**
        * Error handling
        */
@@ -196,6 +185,7 @@ export class AssessmentGenerationProcessor {
     try {
       return await generateAssessment(payload);
     } catch (error) {
+      console.error('===============', error);
       const classified = classifyGenerationError(error);
 
       throw new AssessmentGenerationError(classified.type, classified.retryable, error);

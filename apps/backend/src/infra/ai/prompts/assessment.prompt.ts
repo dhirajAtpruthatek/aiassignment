@@ -3,69 +3,29 @@ import type { CreateAssignmentDTO } from '../../../services/assignment/dto/creat
 function getQuestionTypeGuide(type: string, marksPerQuestion: number): string {
   switch (type) {
     case 'MCQ':
-      return `
-- Generate exactly 4 options.
-- Only one option should be correct.
-- Options should be realistic and meaningful.
-- answer field must contain the correct option text.
-`;
+      return 'Exactly 4 options. One correct answer.';
 
     case 'TRUE_FALSE':
-      return `
-- Generate True/False statements.
-- answer must be either "True" or "False".
-`;
+      return 'Answer must be True or False.';
 
     case 'FILL_IN_THE_BLANK':
-      return `
-- Generate fill-in-the-blank questions.
-- answer must contain the missing word or phrase.
-`;
+      return 'Answer contains missing word or phrase.';
 
     case 'ONE_WORD':
-      return `
-- Answer must be a single word or short term.
-`;
-
-    case 'VERY_SHORT_ANSWER':
-      return `
-- Answer should be 1-2 sentences.
-`;
+      return 'Answer must be one word or short term.';
 
     case 'SHORT_ANSWER':
-      return `
-- Answer should be proportional to marks.
-- Minimum 3-5 meaningful sentences.
-`;
-
-    case 'SHORT_NOTE':
-      return `
-- Answer should be written as a short note.
-- Include important points from source material.
-`;
+      return 'Provide concise explanation.';
 
     case 'LONG_ANSWER':
-      return `
-- Answer must be detailed and examination-ready.
-- Never answer in 1-2 lines.
-- Include multiple key points.
-- Answer depth must match marks.
-`;
+      return 'Provide detailed exam-style answer.';
 
     case 'ESSAY':
-      return `
-- Generate essay-style questions.
-- Answer must contain:
-  - Introduction
-  - Main explanation
-  - Conclusion
-- Must be detailed and well structured.
-`;
+      return 'Use introduction, explanation and conclusion.';
 
     case 'NUMERICAL_PROBLEM':
       return `
 - Generate calculation-based questions only if supported by study material.
-- Include final answer.
 - Include working/steps whenever possible.
 `;
 
@@ -126,91 +86,49 @@ export function buildAssessmentPrompt(
     | 'questionRequirements'
   >,
 ) {
-  const sections = assignment
-    .questionRequirements!.map(
+  const sections = assignment.questionRequirements
+    ?.map(
       (section, index) => `
-SECTION ${index + 1}
+Section ${index + 1}
 
-QUESTION TYPE: ${section.type}
-
-NUMBER OF QUESTIONS: ${section.count}
-
-MARKS PER QUESTION: ${section.marksPerQuestion}
-
-DIFFICULTY: ${section.difficulty}
-
-QUESTION TYPE RULES:
+Type: ${section.type}
+Questions: ${section.count}
+Marks: ${section.marksPerQuestion}
+Difficulty: ${section.difficulty}
+      
+Rules:
 ${getQuestionTypeGuide(section.type, section.marksPerQuestion)}
-
-ANSWER DEPTH RULES:
 ${getAnswerLengthGuide(section.marksPerQuestion)}
 `,
     )
-    .join('\n\n');
-
+    .join('\n');
   return `
-Generate a complete academic assessment.
+# ASSESSMENT_REQUEST
 
-ASSESSMENT DETAILS
+Assignment Metadata:
 
-Title: ${assignment.title}
+${JSON.stringify(
+  {
+    title: assignment.title,
+    className: assignment.className,
+    subject: assignment.subject,
+    durationMinutes: assignment.timeAllowedMinutes,
+  },
+  null,
+  2,
+)}
 
-Class: ${assignment.className}
-
-Subject: ${assignment.subject}
-
-Duration: ${assignment.timeAllowedMinutes} minutes
-
-Additional Instructions:
-${assignment.additionalInstructions || 'None'}
-
-================================================================
-
-STUDY MATERIAL
-
+Study Material:
+"""
 ${assignment.sourceContent}
+"""
 
-================================================================
+Question Requirements:
+${JSON.stringify(assignment.questionRequirements, null, 2)}
 
-QUESTION REQUIREMENTS
+Assignment Instructions:
+${assignment.additionalInstructions}
 
-${sections}
 
-================================================================
-
-MANDATORY RULES
-
-1. Use ONLY information from STUDY MATERIAL.
-2. Never invent facts.
-3. Never use external knowledge.
-4. Follow exact section count.
-5. Follow exact question count.
-6. Follow exact marks.
-7. Follow exact difficulty.
-8. Create one section for each requirement.
-9. Do not merge sections.
-10. Do not create extra sections.
-11. Do not create fewer questions.
-12. Every question MUST contain an answer.
-13. Never leave answer empty.
-14. MCQ questions MUST contain exactly 4 options.
-15. Long-answer questions must be proportional to marks.
-16. 5-mark and higher answers must be detailed.
-17. Avoid duplicate questions.
-18. Cover different parts of the study material.
-19. Questions must be grammatically correct.
-20. Questions must be academically appropriate.
-
-FINAL VALIDATION BEFORE RETURNING
-
-- Verify every section exists.
-- Verify every question has an answer.
-- Verify MCQs have 4 options.
-- Verify answer length matches marks.
-- Verify question count matches requirements.
-- Verify no duplicate questions.
-- Verify output matches schema exactly.
-
-Return only schema-compatible data.
 `;
 }

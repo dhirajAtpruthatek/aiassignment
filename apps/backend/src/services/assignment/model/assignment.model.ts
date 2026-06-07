@@ -75,7 +75,7 @@ const AssignmentSchema = new mongoose.Schema(
 
     generationStatus: {
       type: String,
-      enum: ['DRAFT', 'PENDING', 'PROCESSING', 'COMPLETED', 'FAILED'],
+      enum: ['DRAFT', 'PENDING', 'PROCESSING', 'COMPLETED', 'FAILED', 'RETRYING'],
       default: 'DRAFT',
     },
 

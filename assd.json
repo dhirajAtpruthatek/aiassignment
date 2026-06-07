@@ -1,0 +1,8 @@
+{
+     "error": {
+          "message": "tool call validation failed: parameters for tool extract did not match schema: errors: [`/sections/1/questions/0/difficulty`: value must be one of \"easy\", \"medium\", \"hard\"]",
+          "type": "invalid_request_error",
+          "code": "tool_use_failed",
+          "failed_generation": "<function=extract>{\"title\": \"cola2\", \"sections\": [{\"title\": \"TRUE_FALSE\", \"instruction\": \"Identify whether the statement is True or False\", \"questions\": [{\"question\": \"Coca-Cola is the leading non-alcoholic drink producer in the world.\", \"answer\": \"True\", \"difficulty\": \"easy\", \"marks\": 1}, {\"question\": \"The company enjoys robust manufacturing and distribution mechanism.\", \"answer\": \"True\", \"difficulty\": \"easy\", \"marks\": 1}, {\"question\": \"The company has never experienced brand recalls.\", \"answer\": \"False\", \"difficulty\": \"medium\", \"marks\": 1}, {\"question\": \"The company's strong brand name enhances customer recall.\", \"answer\": \"True\", \"difficulty\": \"medium\", \"marks\": 1}, {\"question\": \"The company's popularity is decreasing.\", \"answer\": \"False\", \"difficulty\": \"hard\", \"marks\": 1}]}, {\"title\": \"LONG_ANSWER\", \"instruction\": \"Answer the question in detail\", \"questions\": [{\"question\": \"What are the strengths and weaknesses of Coca-Cola?\", \"answer\": \"Coca-Cola's strengths include its strong brand name, robust manufacturing and distribution mechanism, and large revenue. Its weaknesses include the erosion of its brand name due to brand recalls and concerns over the nutritious aspect of its products.\", \"difficulty\": \"mixed\", \"marks\": 5}]}]} </function>"
+     }
+}

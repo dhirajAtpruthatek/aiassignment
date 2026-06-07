@@ -24,7 +24,7 @@ export class Model {
 
   static Google() {
     const model = new ChatGoogle('gemini-2.5-flash', {
-      apiKey: 'AIzaSyBy2QGQ-tRwhaFE3IgPT2awdn2ciSxvbYI',
+      apiKey: process.env.GOOGLE_API_KEY,
     });
 
     return model;

@@ -26,17 +26,17 @@ export async function getAssignments(page: number) {
 }
 
 export async function getAssignment(id: string) {
-  const { data } = await api.get<{
-    data: Assignment;
-  }>(`/assignment/${id}`);
+  const { data } = await api.get<ApiResponse<Assignment>>(`/assignment/${id}`);
 
   return data.data;
 }
 
 export async function updateBasicDetails(id: string, payload: UpdateBasicDetailsDTO) {
-  const { data } = await api.patch(`/assignment/${id}/basic-details`, payload);
-
-  return data.data;
+  const { data } = await api.patch<ApiResponse<Assignment>>(
+    `/assignment/${id}/basic-details`,
+    payload,
+  );
+  return data;
 }
 
 export async function updateConfiguration(id: string, payload: UpdateConfigurationDTO) {

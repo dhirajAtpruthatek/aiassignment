@@ -8,7 +8,7 @@ type Props = {};
 export default function AssignmentNofound({}: Props) {
   const router = useRouter();
   return (
-    <div className=" mt-20 flex flex-col items-center ">
+    <div className="  mt-8 md:mt-20 flex flex-col items-center ">
       <div className="  relative size-64">
         <Image src="/assets/Illustrations.png" alt="assignmentNotFound" fill />
       </div>

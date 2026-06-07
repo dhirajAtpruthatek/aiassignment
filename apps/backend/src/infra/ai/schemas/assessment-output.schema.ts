@@ -3,13 +3,12 @@ import { z } from 'zod';
 export const QuestionSchema = z.object({
   question: z.string(),
 
-  difficulty: z.enum(['easy', 'medium', 'hard']),
+  difficulty: z.enum(['easy', 'medium', 'hard', 'mixed']),
 
   marks: z.number(),
 
   options: z.array(z.string()).optional(),
-
-  answer: z.string().optional(),
+  answer: z.string(),
 });
 export const SectionSchema = z.object({
   title: z.string(),
@@ -28,7 +27,7 @@ export type Assessment = z.infer<typeof AssessmentSchema>;
 
 export interface Question {
   question: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: 'easy' | 'medium' | 'hard' | 'mixed';
   marks: number;
   options?: string[];
   answer: string;

@@ -73,7 +73,36 @@ export class AssignmentService {
       errorMessage: assignment.errorMessage,
     };
   }
+  async retryGeneration(id: string) {
+    const assignment = await this.repo.findById(id);
 
+    if (!assignment) {
+      throw new AppError('Assignment not found', 404);
+    }
+
+    if (assignment.generationStatus !== 'FAILED') {
+      throw new AppError('Only failed assessments can be retried', 400);
+    }
+
+    assignment.generationStatus = 'RETRYING';
+
+    assignment.errorMessage = undefined;
+    assignment.progress = 0;
+    assignment.currentStep = 'Retry Queued';
+
+    assignment.retrying = true;
+
+    await assignment.save();
+
+    await this.queueGeneration(id);
+
+    return {
+      success: true,
+      message: 'Retry started',
+    };
+  }
+
+  /* 
   async retryGeneration(id: string) {
     const assignment = await this.repo.findById(id);
 
@@ -111,8 +140,45 @@ export class AssignmentService {
 
     return assignment;
   }
-
+ */
   async submitAssignment(id: string) {
+    const assignment = await this.repo.findById(id);
+
+    if (!assignment) {
+      throw new AppError('Assignment not found', 404);
+    }
+
+    if (!assignment.questionRequirements?.length) {
+      throw new AppError('Question requirements missing', 400);
+    }
+
+    if (!assignment.sourceContent?.trim()) {
+      throw new AppError('Source content missing', 400);
+    }
+
+    if (assignment.generationStatus === 'PROCESSING' || assignment.generationStatus === 'PENDING') {
+      throw new AppError('Generation already in progress', 409);
+    }
+
+    assignment.generationStatus = 'PENDING';
+    assignment.errorMessage = undefined;
+    assignment.progress = 0;
+    assignment.currentStep = 'Queued';
+
+    assignment.generationAttempts = 0;
+    assignment.maxAttempts = 3;
+    assignment.retrying = false;
+
+    await assignment.save();
+
+    await this.queueGeneration(id);
+
+    return {
+      success: true,
+      message: 'Assessment generation started',
+    };
+  }
+  /*  async submitAssignment(id: string) {
     const assignment = await this.repo.findById(id);
 
     if (!assignment) {
@@ -152,7 +218,7 @@ export class AssignmentService {
       message: 'Assessment generation started',
       assignment,
     };
-  }
+  } */
   async generateAssessment(id: string) {
     const assignment = await this.repo.findById(id);
 
@@ -290,5 +356,24 @@ export class AssignmentService {
     return {
       message: 'Assignment deleted',
     };
+  }
+
+  private async queueGeneration(assignmentId: string, attempts = 3) {
+    await generationQueue.add(
+      'assessment-generation',
+      {
+        assignmentId,
+      },
+      {
+        jobId: randomUUID(),
+        attempts,
+        backoff: {
+          type: 'exponential',
+          delay: 5000,
+        },
+        removeOnComplete: 100,
+        removeOnFail: 50,
+      },
+    );
   }
 }

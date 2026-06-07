@@ -30,7 +30,7 @@ export default function AssignmentCard({ assignment }: AssignmentCardProps) {
   const href =
     assignment.generationStatus === 'COMPLETED'
       ? `/dashboard/assignment/${assignment._id}`
-      : `/dashboard/assignment/create/configuration/${assignment._id}`;
+      : `/dashboard/assignment/edit/${assignment._id}`;
 
   const openAssignment = useCallback(() => {
     if (!canNavigate) {

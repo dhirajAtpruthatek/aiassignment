@@ -2,8 +2,15 @@
 
 import AssessmentDocument from '@/app/pdf/[id]/AssessmentDocument';
 import { useAssessmentByAssignment } from '@/features/assessment/api/assignment.query';
+import { formatQuestionType } from '@/utils/formatDate';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Image from 'next/image';
+
+const difficultyStyles = {
+  easy: 'bg-green-100 text-green-700 border-green-200',
+  medium: 'bg-yellow-100 text-yellow-700 border-yellow-200',
+  hard: 'bg-red-100 text-red-700 border-red-200',
+} as const;
 
 export default function AssessmentData({ assignmentId }: { assignmentId: string }) {
   const { data, isLoading, error } = useAssessmentByAssignment(assignmentId);
@@ -99,15 +106,30 @@ export default function AssessmentData({ assignmentId }: { assignmentId: string 
                 Section {String.fromCharCode(65 + sectionIndex)}
               </h2>
 
-              <p className="font-semibold text-[18px] mb-1">{section.title}</p>
+              <p className="font-semibold text-[18px] mb-1">
+                {formatQuestionType(
+                  assignment?.questionRequirements[sectionIndex]?.type || section.title,
+                )}
+              </p>
 
               <p className="  italic text-[16px] mb-4">{section.instruction}</p>
 
               {section.questions.map((question, index) => (
                 <div key={index} className="mb-3 text-[16px] font-inter">
                   <p>
-                    {index + 1}. [{question.difficulty}] {question.question} [{question.marks}{' '}
-                    Marks]
+                    {index + 1}.{' '}
+                    <span
+                      className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold border mr-2 ${
+                        difficultyStyles[question.difficulty as keyof typeof difficultyStyles] ??
+                        'bg-gray-100 text-gray-700 border-gray-200'
+                      }`}
+                    >
+                      {question.difficulty}
+                    </span>
+                    {question.question}
+                    <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 border border-blue-200">
+                      {question.marks} Marks
+                    </span>
                   </p>
                 </div>
               ))}
@@ -120,12 +142,10 @@ export default function AssessmentData({ assignmentId }: { assignmentId: string 
             <h2 className="  text-[20px]  md:text-[24px] font-bold mb-8">Answer Key:</h2>
 
             {data.sections.map((section, sectionIndex) => (
-              <div key={`answer-${sectionIndex}`} className="mb-10">
-                <h3 className="text-center  text-[20px] md:text-[22px] font-semibold mb-4">
+              <div key={`answer - ${sectionIndex}`} className="mb-10">
+                <p className="font-semibold text-[18px] mb-4">
                   Section {String.fromCharCode(65 + sectionIndex)}
-                </h3>
-
-                <p className="font-semibold text-[18px] mb-4">{section.title}</p>
+                </p>
 
                 <div className="space-y-2">
                   {section.questions.map((question, questionIndex) => (

@@ -3,6 +3,7 @@ import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import './fonts';
 
 import type { Assessment } from '@/features/assessment/api/assessment.types';
+import { formatQuestionType } from '@/utils/formatDate';
 
 const styles = StyleSheet.create({
   page: {
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
 
   questionType: {
     fontSize: 12,
+    textTransform: 'capitalize',
     fontWeight: 600,
     marginBottom: 4,
   },
@@ -178,11 +180,13 @@ export default function AssessmentDocument({ assessment }: Props) {
               Section {String.fromCharCode(65 + sectionIndex)}
             </Text>
 
-            <Text style={styles.questionType}>{section.title}</Text>
-
-            <Text style={styles.questionInfo}>
-              Attempt all questions. Each question carries marks as indicated.
+            <Text style={styles.questionType}>
+              {formatQuestionType(
+                assignment?.questionRequirements[sectionIndex]?.type || section.title,
+              )}
             </Text>
+
+            <Text style={styles.questionInfo}>{section.instruction}</Text>
 
             {section.questions.map((question, index) => (
               <Text key={index} style={styles.question}>
@@ -201,7 +205,7 @@ export default function AssessmentDocument({ assessment }: Props) {
         {assessment.sections.map((section, sectionIndex) => (
           <View key={`answer-${sectionIndex}`} style={{ marginBottom: 16 }}>
             <Text style={styles.answerSectionTitle}>
-              Section {String.fromCharCode(65 + sectionIndex)} - {section.title}
+              Section {String.fromCharCode(65 + sectionIndex)}
             </Text>
 
             {section.questions.map((question, questionIndex) => (

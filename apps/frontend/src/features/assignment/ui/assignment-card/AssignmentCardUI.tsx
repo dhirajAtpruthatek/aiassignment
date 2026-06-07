@@ -50,6 +50,7 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
           >
             {statusConfig.label}
           </div>
+
           <p className=" space-x-1 md:space-x-2">
             <span className=" text-[14px] md:text-[16px] font-extrabold text-TWO">Assigned On</span>
 
@@ -73,17 +74,26 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
             className="sidebarShadow p-2 w-52"
             onClick={(e) => e.stopPropagation()}
           >
+            {assignment.generationStatus === 'COMPLETED' && (
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+
+                  router.push(`/dashboard/assignment/${assignment._id}`);
+                }}
+              >
+                View Assignment
+              </DropdownMenuItem>
+            )}
+
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation();
-                if (assignment.generationStatus === 'COMPLETED') {
-                  router.push(`/dashboard/assignment/${assignment._id}`);
-                } else {
-                  router.push(`/dashboard/assignment/create/configuration/${assignment._id}`);
-                }
+
+                router.push(`/dashboard/assignment/edit/${assignment._id}`);
               }}
             >
-              {assignment.generationStatus === 'COMPLETED' ? ' View Assignment' : 'Edit Assignment'}
+              Edit Assignment
             </DropdownMenuItem>
             {canRetry && (
               <DropdownMenuItem

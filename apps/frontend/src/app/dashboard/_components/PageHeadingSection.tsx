@@ -27,6 +27,11 @@ const PAGE_CONFIG: {
     title: 'Assignment Configuration',
     description: 'Configure assignment settings and question generation.',
   },
+  {
+    pattern: /^\/dashboard\/assignment\/edit(\/[^/]+)?$/,
+    title: 'Edit Assignment',
+    description: 'Edit assignment settings and question generation.',
+  },
 ];
 
 export default function PageHeadingSection({ title, description }: Props) {

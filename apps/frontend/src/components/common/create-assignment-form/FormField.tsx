@@ -125,7 +125,8 @@ export function StepperField({ value, onChange, min = 1, max = 100 }: StepperFie
     <div
       className="
         h-13
-        min-w-22
+        w-full
+         md:min-w-22
         rounded-full
         bg-white
         px-3
@@ -194,7 +195,7 @@ export function QuestionRequirementRow({ index, control, remove }: QuestionRequi
   const options = Object.keys(QUESTION_TYPE_LABELS) as string[];
 
   return (
-    <div className="flex  flex-col bg-white md:bg-transparent   p-1  rounded-3xl md:rounded-none md:flex-row gap-3 w-full items-center justify-between">
+    <div className="flex  flex-col bg-white md:bg-transparent   p-1  rounded-[32px] md:rounded-none md:flex-row gap-3 w-full items-center justify-between">
       {/* Question Type */}
       <div className="flex flex-row w-full   md:justify-start justify-between flex-1 items-center">
         <Controller
@@ -229,6 +230,31 @@ export function QuestionRequirementRow({ index, control, remove }: QuestionRequi
           name={`questionRequirements.${index}.marksPerQuestion`}
           render={({ field }) => <StepperField value={field.value} onChange={field.onChange} />}
         />
+      </div>
+
+      {/* For mobile */}
+      <div className=" flex md:hidden   w-full  p-2  ">
+        <div className=" flex md:hidden w-full   p-2  rounded-4xl   bg-[#F0F0F0]   flex-row items-center gap-4">
+          <div className="flex flex-col w-1/2 items-center gap-2">
+            <p className=" font-bricolage text-[14px] font-medium  ">No. of Questions</p>
+            {/* Count */}
+            <Controller
+              control={control}
+              name={`questionRequirements.${index}.count`}
+              render={({ field }) => <StepperField value={field.value} onChange={field.onChange} />}
+            />
+          </div>
+          {/* Marks */}
+          <div className="flex flex-col w-1/2 items-center gap-2">
+            <p className=" font-bricolage text-[14px] font-medium  ">Marks</p>
+            {/* Count */}
+            <Controller
+              control={control}
+              name={`questionRequirements.${index}.marksPerQuestion`}
+              render={({ field }) => <StepperField value={field.value} onChange={field.onChange} />}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

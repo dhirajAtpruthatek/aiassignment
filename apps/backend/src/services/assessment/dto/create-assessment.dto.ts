@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const QuestionDTO = z.object({
   question: z.string(),
 
-  difficulty: z.enum(['easy', 'medium', 'hard']),
+  difficulty: z.enum(['easy', 'medium', 'hard', 'mixed']),
 
   marks: z.number(),
 

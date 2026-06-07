@@ -2,7 +2,7 @@ import { buildAssessmentPrompt } from '../ai/prompts/assessment.prompt.js';
 import { Model } from './llm.client.js';
 import { AssessmentSchema } from './schemas/assessment-output.schema.js';
 
-const structuredModel = Model.Grok().withStructuredOutput(AssessmentSchema);
+const structuredModel = Model.Google().withStructuredOutput(AssessmentSchema);
 
 interface QuestionRequirement {
   type: string;

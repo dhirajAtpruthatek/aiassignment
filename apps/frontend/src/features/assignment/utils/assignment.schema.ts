@@ -39,6 +39,7 @@ export const AssignmentConfigurationSchema = z.object({
   dueDate: z.date({
     error: 'Assignment date is required',
   }),
+  
   sourceContent: z.string().optional(),
   additionalInstructions: z.string().optional(),
   questionRequirements: z.array(QuestionRequirementSchema),

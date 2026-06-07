@@ -72,11 +72,16 @@ export default function ConfigurationPage() {
         additionalInstructions: data.additionalInstructions,
         questionRequirements: data.questionRequirements,
       };
-
+      
       if (data.sourceContent?.trim()) {
         payload.sourceContent = data.sourceContent;
       }
+      const hasSourceContent = !!data.sourceContent?.trim();
 
+      if (!(hasUploadedPdf || hasSourceContent)) {
+        toast.error('Please upload a PDF file or add source content');
+        return;
+      }
       const response = await mutateAsync({
         id: String(id),
         payload,
@@ -114,7 +119,7 @@ export default function ConfigurationPage() {
 
         <FileUploadBox
           id={String(id)}
-          onUpload={async (file) => {}}
+          onUpload={async (file) => { }}
           onSuccess={(data: any) => {
             setHasUploadedPdf(true);
             toast.success('File uploaded successfully');

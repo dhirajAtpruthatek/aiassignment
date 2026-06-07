@@ -77,7 +77,12 @@ export default function ConfigurationPage() {
       if (data.sourceContent?.trim()) {
         payload.sourceContent = data.sourceContent;
       }
+      const hasSourceContent = !!data.sourceContent?.trim();
 
+      if (!(hasUploadedPdf || hasSourceContent)) {
+        toast.error('Please upload a PDF file or add source content');
+        return;
+      }
       const response = await mutateAsync({
         id: String(assignmentid),
         payload,
@@ -110,7 +115,7 @@ export default function ConfigurationPage() {
       assignmentDate: data.assignmentDate ? new Date(data.assignmentDate) : new Date(),
 
       dueDate: data.dueDate ? new Date(data.dueDate) : new Date(),
-
+      
       additionalInstructions: data.additionalInstructions ?? '',
 
       sourceContent: data.sourceContent ?? '',
@@ -118,12 +123,12 @@ export default function ConfigurationPage() {
       questionRequirements: data.questionRequirements?.length
         ? data.questionRequirements
         : [
-            {
-              type: 'MCQ',
-              count: 5,
-              marksPerQuestion: 1,
-            },
-          ],
+          {
+            type: 'MCQ',
+            count: 5,
+            marksPerQuestion: 1,
+          },
+        ],
     });
   }, [data, reset]);
   if (isError)
@@ -150,7 +155,7 @@ export default function ConfigurationPage() {
 
         <FileUploadBox
           id={String(assignmentid)}
-          onUpload={async (file) => {}}
+          onUpload={async (file) => { }}
           onSuccess={(data: any) => {
             setHasUploadedPdf(true);
             toast.success('File uploaded successfully');

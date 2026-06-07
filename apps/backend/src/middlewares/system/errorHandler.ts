@@ -44,13 +44,7 @@ export function globalErrorHandler(
       false,
     );
   } else {
-    error = new AppError(
-      'Internal Server Error',
-      500,
-      'INTERNAL_ERROR',
-      null,
-      false,
-    );
+    error = new AppError('Internal Server Error', 500, 'INTERNAL_ERROR', null, false);
   }
 
   // Get requestId from context

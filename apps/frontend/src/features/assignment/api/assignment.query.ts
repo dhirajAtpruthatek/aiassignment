@@ -45,7 +45,7 @@ export function useRetryGeneration() {
 
     onSuccess: () => {
       toast.success('Generation restarted');
-      
+
       queryClient.invalidateQueries({
         queryKey: ['assignments'],
       });

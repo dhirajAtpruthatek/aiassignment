@@ -101,7 +101,7 @@ const AssignmentSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    
+
     currentStep: {
       type: String,
       default: '',

@@ -58,11 +58,7 @@ export class AssignmentRepository {
       new: true,
     });
   }
-  async updateGenerationProgress(
-    id: string,
-    progress: number,
-    currentStep: string,
-  ) {
+  async updateGenerationProgress(id: string, progress: number, currentStep: string) {
     return this.model.findByIdAndUpdate(
       id,
       {

@@ -6,16 +6,14 @@ type Props = { children: React.ReactNode };
 export default function layout({ children }: Props) {
   const pathname = usePathname();
   const isConfigPage = pathname.includes('/configuration');
-  
+
   return (
     <div>
       <div className=" mt-2 pr-3  h-full  w-full  relative">
-
         {/* create assignment heading - hide on mobile*/}
-        <div className='   hidden md:block'>
-          <PageHeadingSection  />
+        <div className="   hidden md:block">
+          <PageHeadingSection />
         </div>
-        
       </div>
 
       <div className="  w-full md:w-205 mx-auto   mt-7 space-y-5">

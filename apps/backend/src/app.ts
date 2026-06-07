@@ -41,7 +41,7 @@ export function createApp() {
   app.use(requestLogger);
   app.use(responseFormatter);
   app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
-  
+
   // custom routes
 
   // Main Route Mapping

@@ -11,8 +11,5 @@ export const queryKeys = {
 
   assessment: (id: string) => ['assessment', id],
 
-  assessmentByAssignment: (assignmentId: string) => [
-    'assessment-by-assignment',
-    assignmentId,
-  ],
+  assessmentByAssignment: (assignmentId: string) => ['assessment-by-assignment', assignmentId],
 };

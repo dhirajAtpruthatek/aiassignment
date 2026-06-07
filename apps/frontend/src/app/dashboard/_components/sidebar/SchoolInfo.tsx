@@ -9,9 +9,7 @@ export default function SchoolInfo({}: Props) {
         <Image src="/assets/image3.svg" alt="school" fill className="  " />
       </div>
       <div className="">
-        <p className=" font-bold tracking-[-4%] leading-[140%] text-TWO">
-          Delhi Public School
-        </p>
+        <p className=" font-bold tracking-[-4%] leading-[140%] text-TWO">Delhi Public School</p>
         <p className=" font-normal text-sm tracking-[-4%] leading-[140%] text-THREE">
           Bokaro Steel City
         </p>

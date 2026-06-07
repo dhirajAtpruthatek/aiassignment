@@ -30,8 +30,7 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
   const { mutate: retryGenerationMutation, isPending: isRetrying } = useRetryGeneration();
   const canRetry =
     assignment.generationStatus === 'FAILED' &&
-    (assignment.currentAttempt ?? 0) <
-    (assignment.maxAttempts ?? 3);
+    (assignment.currentAttempt ?? 0) < (assignment.maxAttempts ?? 3);
   const maxAttemptsReached =
     assignment.generationStatus === 'FAILED' &&
     (assignment.currentAttempt ?? 0) >= (assignment.maxAttempts ?? 3);
@@ -52,14 +51,10 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
             {statusConfig.label}
           </div>
           <p className=" space-x-1 md:space-x-2">
-            <span className=" text-[14px] md:text-[16px] font-extrabold text-TWO">
-              Assigned On
-            </span>
+            <span className=" text-[14px] md:text-[16px] font-extrabold text-TWO">Assigned On</span>
 
             <span className=" text-[14px] md:text-[16px]">
-              :              {assignment.assignmentDate
-                ? formatDate(assignment.assignmentDate)
-                : '-'}
+              : {assignment.assignmentDate ? formatDate(assignment.assignmentDate) : '-'}
             </span>
           </p>
         </div>
@@ -68,10 +63,7 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
       <div className="flex flex-col justify-between items-end">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button
-              className="rounded-md p-1 hover:bg-muted"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <button className="rounded-md p-1 hover:bg-muted" onClick={(e) => e.stopPropagation()}>
               <EllipsisVertical className="h-5 w-5" />
             </button>
           </DropdownMenuTrigger>
@@ -87,37 +79,26 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
                 if (assignment.generationStatus === 'COMPLETED') {
                   router.push(`/dashboard/assignment/${assignment._id}`);
                 } else {
-                  router.push(
-                    `/dashboard/assignment/create/configuration/${assignment._id}`,
-                  );
+                  router.push(`/dashboard/assignment/create/configuration/${assignment._id}`);
                 }
               }}
             >
-              {assignment.generationStatus === 'COMPLETED'
-                ? ' View Assignment'
-                : 'Edit Assignment'}
+              {assignment.generationStatus === 'COMPLETED' ? ' View Assignment' : 'Edit Assignment'}
             </DropdownMenuItem>
             {canRetry && (
               <DropdownMenuItem
                 onClick={(e) => {
                   e.stopPropagation();
 
-                  retryGenerationMutation(
-                    assignment._id,
-                  );
+                  retryGenerationMutation(assignment._id);
                 }}
               >
-                {isRetrying
-                  ? 'Retrying...'
-                  : 'Retry Generation'}
+                {isRetrying ? 'Retrying...' : 'Retry Generation'}
               </DropdownMenuItem>
             )}
-            {
-              maxAttemptsReached && (
-                <DropdownMenuItem disabled>
-                  Max Retry Limit Reached
-                </DropdownMenuItem>
-              )}
+            {maxAttemptsReached && (
+              <DropdownMenuItem disabled>Max Retry Limit Reached</DropdownMenuItem>
+            )}
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation();
@@ -134,10 +115,7 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
           <span className=" text-[14px] md:text-[16px] font-extrabold text-TWO">Due</span>
 
           <span className="text-[16px]">
-            :{' '}
-            {assignment.dueDate
-              ? formatDate(assignment.dueDate)
-              : '-'}
+            : {assignment.dueDate ? formatDate(assignment.dueDate) : '-'}
           </span>
         </p>
       </div>

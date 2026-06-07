@@ -5,11 +5,7 @@ import { useAssessmentByAssignment } from '@/features/assessment/api/assignment.
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import Image from 'next/image';
 
-export default function AssessmentData({
-  assignmentId,
-}: {
-  assignmentId: string;
-}) {
+export default function AssessmentData({ assignmentId }: { assignmentId: string }) {
   const { data, isLoading, error } = useAssessmentByAssignment(assignmentId);
 
   if (isLoading) {
@@ -27,8 +23,8 @@ export default function AssessmentData({
       <div className=" px-4 pt-4   ">
         <div className="rounded-[28px]  px-4 md:px-8 py-6 sidebarShadow   bg-[#303030]  md:bg-[#181818CC]">
           <p className="   mb-4 font-semibold  text-[14px] md:text-[20px] font-bricolage text-white leading-[140%] ">
-            Certainly, Lakshya! Here are customized Question Paper for your CBSE
-            Grade 8 Science classes on the NCERT chapters:
+            Certainly, Lakshya! Here are customized Question Paper for your CBSE Grade 8 Science
+            classes on the NCERT chapters:
           </p>
 
           <PDFDownloadLink
@@ -39,24 +35,14 @@ export default function AssessmentData({
               loading ? (
                 <div className=" px-5 py-2 rounded-3xl flex items-center gap-2 bg-white w-fit">
                   s
-                  <Image
-                    src="/assets/Frame.svg"
-                    alt="pdf"
-                    width={24}
-                    height={24}
-                  />
+                  <Image src="/assets/Frame.svg" alt="pdf" width={24} height={24} />
                   <span className=" font-bricolage font-medium text-[16px] text-TWO">
                     Preparing PDF...
                   </span>
                 </div>
               ) : (
                 <div className=" px-5 py-2 rounded-3xl flex items-center gap-2 bg-white w-fit">
-                  <Image
-                    src="/assets/Frame.svg"
-                    alt="pdf"
-                    width={24}
-                    height={24}
-                  />
+                  <Image src="/assets/Frame.svg" alt="pdf" width={24} height={24} />
                   <span className=" font-bricolage font-medium text-[16px] text-TWO">
                     Download as PDF
                   </span>
@@ -66,7 +52,7 @@ export default function AssessmentData({
           </PDFDownloadLink>
         </div>
       </div>
-              
+
       <div className=" mx-auto px-4 md:px-5   pt-3  pb-5 mb-14 md:mb-0 font-inter">
         <div className="rounded-[28px] mx-auto bg-[#F6F6F6]   px-3 md:px-10  py-8 md:py-10 text-[12px] leading-relaxed font-inter">
           {/* Header */}
@@ -120,8 +106,8 @@ export default function AssessmentData({
               {section.questions.map((question, index) => (
                 <div key={index} className="mb-3 text-[16px] font-inter">
                   <p>
-                    {index + 1}. [{question.difficulty}] {question.question} [
-                    {question.marks} Marks]
+                    {index + 1}. [{question.difficulty}] {question.question} [{question.marks}{' '}
+                    Marks]
                   </p>
                 </div>
               ))}
@@ -139,16 +125,12 @@ export default function AssessmentData({
                   Section {String.fromCharCode(65 + sectionIndex)}
                 </h3>
 
-                <p className="font-semibold text-[18px] mb-4">
-                  {section.title}
-                </p>
-                
+                <p className="font-semibold text-[18px] mb-4">{section.title}</p>
+
                 <div className="space-y-2">
                   {section.questions.map((question, questionIndex) => (
                     <div key={questionIndex} className="flex gap-3 text-[16px]">
-                      <span className="font-medium min-w-[32px]">
-                        {questionIndex + 1}.
-                      </span>
+                      <span className="font-medium min-w-[32px]">{questionIndex + 1}.</span>
 
                       <span>{question.answer}</span>
                     </div>

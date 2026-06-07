@@ -11,7 +11,7 @@ declare module 'express-serve-static-core' {
   }
 }
 
-import "express";
+import 'express';
 
 declare global {
   namespace Express {
@@ -34,5 +34,5 @@ declare global {
     }
   }
 }
- 
+
 export {};

@@ -1,6 +1,4 @@
-import rateLimit, {
-  type Options as RateLimitOptions,
-} from 'express-rate-limit';
+import rateLimit, { type Options as RateLimitOptions } from 'express-rate-limit';
 
 /**
  * Rate Limiter Factory

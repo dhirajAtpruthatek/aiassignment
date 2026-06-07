@@ -3,8 +3,6 @@ import { ChatGroq } from '@langchain/groq';
 import { ChatOpenAI } from '@langchain/openai';
 
 export class Model {
-
-
   static Grok() {
     const model = new ChatGroq({
       model: 'llama-3.3-70b-versatile',
@@ -12,7 +10,6 @@ export class Model {
     });
     return model;
   }
-
 
   static OpenAI() {
     const model = new ChatOpenAI({
@@ -25,7 +22,6 @@ export class Model {
     });
   }
 
-  
   static Google() {
     const model = new ChatGoogle('gemini-2.5-flash', {
       apiKey: 'AIzaSyBy2QGQ-tRwhaFE3IgPT2awdn2ciSxvbYI',

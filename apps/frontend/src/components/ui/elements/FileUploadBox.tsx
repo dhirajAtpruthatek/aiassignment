@@ -30,11 +30,7 @@ export function FileUploadBox({ onUpload, id, onFail, onSuccess }: Props) {
     const xhr = new XMLHttpRequest();
     xhrRef.current = xhr;
 
-    xhr.open(
-      'POST',
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/assignment/${id}/upload-pdf`,
-      true,
-    );
+    xhr.open('POST', `${process.env.NEXT_PUBLIC_BACKEND_URL}/assignment/${id}/upload-pdf`, true);
 
     // progress tracking
     xhr.upload.onprogress = (event) => {
@@ -113,9 +109,7 @@ export function FileUploadBox({ onUpload, id, onFail, onSuccess }: Props) {
         <p className="text-xs text-gray-500">JPEG, PNG, PDF up to 10MB</p>
 
         {!file && (
-          <button className="mt-4 px-4 py-2 bg-gray-100 rounded-full text-sm">
-            Browse Files
-          </button>
+          <button className="mt-4 px-4 py-2 bg-gray-100 rounded-full text-sm">Browse Files</button>
         )}
 
         {/* FILE PREVIEW */}

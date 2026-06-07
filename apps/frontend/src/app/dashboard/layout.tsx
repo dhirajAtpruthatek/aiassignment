@@ -12,9 +12,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex-1 flex flex-col    h-full overflow-hidden">
           <TitleBar />
 
-          <main className="flex-1 px-3 overflow-auto hide-scrollbar">
-            {children}
-          </main>
+          <main className="flex-1 px-3 overflow-auto hide-scrollbar">{children}</main>
         </div>
 
         <LinkSectionMobile />

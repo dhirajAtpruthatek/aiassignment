@@ -33,9 +33,7 @@ export class AssessmentController {
   });
 
   getByAssignmentId = asyncHandler(async (req: Request, res: Response) => {
-    const data = await this.service.getByAssignmentId(
-      req.params.assignmentId as string,
-    );
+    const data = await this.service.getByAssignmentId(req.params.assignmentId as string);
 
     res.success({
       data,

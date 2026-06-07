@@ -74,7 +74,7 @@ export class AssessmentGenerationProcessor {
         sourceContent: assignment.sourceContent ?? '',
         questionRequirements: assignment.questionRequirements,
       });
-      
+
       /*    
 
       const assessment = await generateAssessment({

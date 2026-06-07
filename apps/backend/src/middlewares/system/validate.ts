@@ -46,11 +46,12 @@ export default function validate(schema: ZodSchema): RequestHandler {
        *   { field: "params.id", message: "Required" }
        * ]
        */
-      const formattedErrors: { field: string; message: string }[] =
-        result.error.errors.map((err) => ({
+      const formattedErrors: { field: string; message: string }[] = result.error.errors.map(
+        (err) => ({
           field: err.path.join('.') || 'root', // fallback if no path
           message: err.message,
-        }));
+        }),
+      );
 
       /**
        * Forward error to global error handler

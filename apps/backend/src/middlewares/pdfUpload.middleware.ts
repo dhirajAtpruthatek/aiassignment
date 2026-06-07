@@ -38,11 +38,7 @@ export const pdfUpload = multer({
     fileSize: 20 * 1024 * 1024,
   },
 
-  fileFilter: (
-    _req: Request,
-    file: Express.Multer.File,
-    cb: FileFilterCallback,
-  ) => {
+  fileFilter: (_req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
     if (file.mimetype !== 'application/pdf') {
       cb(new Error('Only PDF files are allowed'));
       return;

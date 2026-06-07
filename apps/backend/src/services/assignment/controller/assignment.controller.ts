@@ -22,21 +22,19 @@ export class AssignmentController {
   }
 
   // imp route for creating assignment
-  createAssignmentHandler = asyncHandler(
-    async (req: Request, res: Response) => {
-      const assignment = await this.service.createAssignment(req.body);
+  createAssignmentHandler = asyncHandler(async (req: Request, res: Response) => {
+    const assignment = await this.service.createAssignment(req.body);
 
-      res.success({
-        data: {
-          assignmentId: assignment._id,
+    res.success({
+      data: {
+        assignmentId: assignment._id,
 
-          status: assignment.generationStatus,
-        },
+        status: assignment.generationStatus,
+      },
 
-        message: 'Assignment created successfully',
-      });
-    },
-  );
+      message: 'Assignment created successfully',
+    });
+  });
 
   getAllAssignments = asyncHandler(async (req: Request, res: Response) => {
     const page = Number(req.query.page || 1);
@@ -78,10 +76,7 @@ export class AssignmentController {
   });
 
   updateAssignment = asyncHandler(async (req, res) => {
-    const data = await this.service.updateAssignment(
-      req.params.id as string,
-      req.body,
-    );
+    const data = await this.service.updateAssignment(req.params.id as string, req.body);
 
     res.success({
       data,
@@ -98,10 +93,7 @@ export class AssignmentController {
     });
   });
   updateBasicDetails = asyncHandler(async (req: Request, res: Response) => {
-    const data = await this.service.updateBasicDetails(
-      req.params.id as string,
-      req.body,
-    );
+    const data = await this.service.updateBasicDetails(req.params.id as string, req.body);
 
     res.success({
       data,
@@ -109,10 +101,7 @@ export class AssignmentController {
     });
   });
   updateConfiguration = asyncHandler(async (req, res) => {
-    const data = await this.service.updateConfiguration(
-      req.params.id as string,
-      req.body,
-    );
+    const data = await this.service.updateConfiguration(req.params.id as string, req.body);
 
     res.success({
       data,
@@ -125,10 +114,7 @@ export class AssignmentController {
       throw new AppError('PDF required', 400);
     }
 
-    const data = await this.service.uploadPdf(
-      req.params.id as string,
-      req.file,
-    );
+    const data = await this.service.uploadPdf(req.params.id as string, req.file);
 
     res.success({
       data,
@@ -145,9 +131,7 @@ export class AssignmentController {
   });
 
   deleteAssignment = asyncHandler(async (req, res) => {
-    const data = await this.service.deleteAssignMentnAssesment(
-      req.params.id as string,
-    );
+    const data = await this.service.deleteAssignMentnAssesment(req.params.id as string);
     res.success({
       data,
       message: 'Assignment deleted',

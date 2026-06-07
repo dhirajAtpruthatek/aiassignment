@@ -7,9 +7,7 @@ interface RouteDeps {
   assignmentController: AssignmentController;
 }
 
-export default function createAssignmentRoutes({
-  assignmentController,
-}: RouteDeps) {
+export default function createAssignmentRoutes({ assignmentController }: RouteDeps) {
   const router = Router();
 
   /*  
@@ -37,11 +35,7 @@ export default function createAssignmentRoutes({
 
   router.patch('/:id/configuration', assignmentController.updateConfiguration);
 
-  router.post(
-    '/:id/upload-pdf',
-    pdfUpload.single('pdf'),
-    assignmentController.uploadPdf,
-  );
+  router.post('/:id/upload-pdf', pdfUpload.single('pdf'), assignmentController.uploadPdf);
 
   router.post('/:id/submit', assignmentController.submitAssignment);
 

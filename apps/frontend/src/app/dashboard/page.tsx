@@ -1,8 +1,6 @@
 'use client';
 
-import {
-  useAssignments,
-} from '@/features/assignment/api/assignment.query';
+import { useAssignments } from '@/features/assignment/api/assignment.query';
 
 import AssignmentRender from './_components/AssignmentRender';
 import AssignmentNotFound from './_components/assignmentNotfound/AssignmentNofound';
@@ -10,31 +8,16 @@ import AssignmentNotFound from './_components/assignmentNotfound/AssignmentNofou
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 
- 
 export default function Page() {
-  
-  const {
-    data,
-    isLoading,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useAssignments();
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useAssignments();
 
-  const assignments =
-    data?.pages.flatMap(
-      (page) => page.items
-    ) ?? [];
+  const assignments = data?.pages.flatMap((page) => page.items) ?? [];
 
   const handleLoadMore = async () => {
     await fetchNextPage();
-
   };
 
-  if (
-    !isLoading &&
-    assignments.length === 0
-  ) {
+  if (!isLoading && assignments.length === 0) {
     return <AssignmentNotFound />;
   }
 
@@ -49,11 +32,9 @@ export default function Page() {
             onClick={handleLoadMore}
             disabled={isFetchingNextPage}
           >
-            {isFetchingNextPage
-              ? 'Loading...'
-              : 'Load More'}
+            {isFetchingNextPage ? 'Loading...' : 'Load More'}
 
-              <ArrowRight className="size-5" />
+            <ArrowRight className="size-5" />
           </Button>
         </div>
       )}

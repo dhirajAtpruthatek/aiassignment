@@ -8,7 +8,13 @@ import { usePathname } from 'next/navigation';
 export default function LinksSection() {
   const pathname = usePathname();
   const { totalAssignments } = useAssignmentStore();
-  const links: { title: string, pattern: RegExp, href: string, icon: React.JSX.Element, endIcon?: React.JSX.Element }[] = [
+  const links: {
+    title: string;
+    pattern: RegExp;
+    href: string;
+    icon: React.JSX.Element;
+    endIcon?: React.JSX.Element;
+  }[] = [
     {
       title: 'Home',
       href: '/dashboard',
@@ -46,10 +52,7 @@ export default function LinksSection() {
     },
   ];
 
-
-  const pageConfig = links.find((route) =>
-    route.pattern.test(pathname)
-  );
+  const pageConfig = links.find((route) => route.pattern.test(pathname));
 
   return (
     <div className="space-y-1">
@@ -83,12 +86,14 @@ function LinkRender({
   return (
     <Link
       href={href}
-      className={`flex items-center justify-between px-3 py-2.5 rounded-[8px] transition-colors ${isActive ? 'bg-[#F0F0F0]' : 'hover:bg-gray-50'
-        }`}
+      className={`flex items-center justify-between px-3 py-2.5 rounded-[8px] transition-colors ${
+        isActive ? 'bg-[#F0F0F0]' : 'hover:bg-gray-50'
+      }`}
     >
       <div
-        className={`flex items-center gap-2 ${isActive ? 'text-TWO font-medium' : 'text-ONE font-normal'
-          }`}
+        className={`flex items-center gap-2 ${
+          isActive ? 'text-TWO font-medium' : 'text-ONE font-normal'
+        }`}
       >
         {/* Icon automatically inherits text color */}
         <span className="flex items-center">{logo}</span>

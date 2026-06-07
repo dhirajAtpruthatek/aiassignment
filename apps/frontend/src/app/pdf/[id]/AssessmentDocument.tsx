@@ -129,9 +129,7 @@ export default function AssessmentDocument({ assessment }: Props) {
       <Page size="A4" style={styles.page}>
         {/* Header */}
 
-        <Text style={styles.schoolName}>
-          Delhi Public School, Sector-4, Bokaro
-        </Text>
+        <Text style={styles.schoolName}>Delhi Public School, Sector-4, Bokaro</Text>
 
         <Text style={styles.subject}>Subject: {assignment.subject}</Text>
 
@@ -188,8 +186,7 @@ export default function AssessmentDocument({ assessment }: Props) {
 
             {section.questions.map((question, index) => (
               <Text key={index} style={styles.question}>
-                {index + 1}. [{question.difficulty}] {question.question} [
-                {question.marks} Marks]
+                {index + 1}. [{question.difficulty}] {question.question} [{question.marks} Marks]
               </Text>
             ))}
           </View>

@@ -5,8 +5,7 @@ export class AssessmentRecoveryService {
   constructor(private readonly assignmentRepository: AssignmentRepository) {}
 
   async recover() {
-    const assignments =
-      await this.assignmentRepository.findRecoverableAssignments();
+    const assignments = await this.assignmentRepository.findRecoverableAssignments();
 
     for (const assignment of assignments) {
       const job = await generationQueue.getJob(assignment._id.toString());
@@ -14,7 +13,7 @@ export class AssessmentRecoveryService {
       if (job) {
         continue;
       }
-      
+
       console.log(`[Recovery] Requeueing assignment ${assignment._id}`);
 
       await generationQueue.add(

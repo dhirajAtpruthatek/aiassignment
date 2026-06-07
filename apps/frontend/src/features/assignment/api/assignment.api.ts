@@ -12,10 +12,7 @@ import {
 } from './assignment.types';
 
 export async function createDraft(payload: CreateDraftDTO) {
-  const { data } = await api.post<ApiResponse<Assignment>>(
-    '/assignment/draft',
-    payload,
-  );
+  const { data } = await api.post<ApiResponse<Assignment>>('/assignment/draft', payload);
 
   return data;
 }
@@ -36,19 +33,13 @@ export async function getAssignment(id: string) {
   return data.data;
 }
 
-export async function updateBasicDetails(
-  id: string,
-  payload: UpdateBasicDetailsDTO,
-) {
+export async function updateBasicDetails(id: string, payload: UpdateBasicDetailsDTO) {
   const { data } = await api.patch(`/assignment/${id}/basic-details`, payload);
 
   return data.data;
 }
 
-export async function updateConfiguration(
-  id: string,
-  payload: UpdateConfigurationDTO,
-) {
+export async function updateConfiguration(id: string, payload: UpdateConfigurationDTO) {
   const { data } = await api.patch<ApiResponse<Assignment>>(
     `/assignment/${id}/configuration`,
     payload,
@@ -76,9 +67,7 @@ export async function uploadPdf(id: string, file: File) {
 }
 
 export async function submitAssignment(id: string) {
-  const { data } = await api.post<ApiResponse<Assignment>>(
-    `/assignment/${id}/submit`,
-  );
+  const { data } = await api.post<ApiResponse<Assignment>>(`/assignment/${id}/submit`);
 
   return data;
 }

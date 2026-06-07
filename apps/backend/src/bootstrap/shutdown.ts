@@ -43,11 +43,7 @@ export default class ShutdownManager {
   /**
    * Register a cleanup task
    */
-  register(
-    name: string,
-    handler: ShutdownTask['handler'],
-    priority: number = 0,
-  ): void {
+  register(name: string, handler: ShutdownTask['handler'], priority: number = 0): void {
     this.tasks.push({ name, handler, priority });
   }
 
@@ -58,9 +54,7 @@ export default class ShutdownManager {
     this.logger.info('Executing shutdown tasks...');
 
     // sort by priority (higher runs first)
-    const sortedTasks = [...this.tasks].sort(
-      (a, b) => (b.priority ?? 0) - (a.priority ?? 0),
-    );
+    const sortedTasks = [...this.tasks].sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
 
     const results = await Promise.allSettled(
       sortedTasks.map(async (task) => {
@@ -72,10 +66,7 @@ export default class ShutdownManager {
 
     results.forEach((result, index) => {
       if (result.status === 'rejected') {
-        this.logger.error(
-          `Error closing ${sortedTasks[index].name}`,
-          result.reason,
-        );
+        this.logger.error(`Error closing ${sortedTasks[index].name}`, result.reason);
       }
     });
   }

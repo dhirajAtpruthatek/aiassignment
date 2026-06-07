@@ -25,8 +25,7 @@ type BaseProps = {
 
 type InputProps = BaseProps & React.InputHTMLAttributes<HTMLInputElement>;
 
-type TextareaProps = BaseProps &
-  React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+type TextareaProps = BaseProps & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 function InputField({ label, error, ...props }: InputProps) {
   return (
@@ -121,12 +120,7 @@ interface StepperFieldProps {
   max?: number;
 }
 
-export function StepperField({
-  value,
-  onChange,
-  min = 1,
-  max = 100,
-}: StepperFieldProps) {
+export function StepperField({ value, onChange, min = 1, max = 100 }: StepperFieldProps) {
   return (
     <div
       className="
@@ -196,11 +190,7 @@ interface QuestionRequirementRowProps {
   remove: () => void;
 }
 
-export function QuestionRequirementRow({
-  index,
-  control,
-  remove,
-}: QuestionRequirementRowProps) {
+export function QuestionRequirementRow({ index, control, remove }: QuestionRequirementRowProps) {
   const options = Object.keys(QUESTION_TYPE_LABELS) as string[];
 
   return (
@@ -229,9 +219,7 @@ export function QuestionRequirementRow({
         <Controller
           control={control}
           name={`questionRequirements.${index}.count`}
-          render={({ field }) => (
-            <StepperField value={field.value} onChange={field.onChange} />
-          )}
+          render={({ field }) => <StepperField value={field.value} onChange={field.onChange} />}
         />
 
         {/* Marks */}
@@ -239,13 +227,9 @@ export function QuestionRequirementRow({
         <Controller
           control={control}
           name={`questionRequirements.${index}.marksPerQuestion`}
-          render={({ field }) => (
-            <StepperField value={field.value} onChange={field.onChange} />
-          )}
+          render={({ field }) => <StepperField value={field.value} onChange={field.onChange} />}
         />
       </div>
-
-            
     </div>
   );
 }

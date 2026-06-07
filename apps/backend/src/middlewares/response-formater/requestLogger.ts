@@ -11,11 +11,7 @@ import { logger } from '../../infra/logger/index.js';
  * - status code
  * - response time
  */
-export function requestLogger(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): void {
+export function requestLogger(req: Request, res: Response, next: NextFunction): void {
   const start = Date.now();
 
   res.on('finish', () => {

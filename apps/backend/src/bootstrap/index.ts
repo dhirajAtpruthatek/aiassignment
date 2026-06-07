@@ -26,6 +26,6 @@ export async function bootstrapApp() {
   await JobBootstrap();
   const recoveryService = new AssessmentRecoveryService(new AssignmentRepository(AssignmentModel));
   startRecoveryWorker(recoveryService);
-  
+
   logger.info('All dependencies initialized');
 }

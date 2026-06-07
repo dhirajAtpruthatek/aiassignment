@@ -11,17 +11,14 @@ import {
 
 import { Datepicker } from '@/components/ui/elements/Datepicker';
 import { FileUploadBox } from '@/components/ui/elements/FileUploadBox';
-import {
-  submitAssignment,
-  updateConfiguration,
-} from '@/features/assignment/api/assignment.api';
+import { submitAssignment } from '@/features/assignment/api/assignment.api';
+import { useUpdateConfiguration } from '@/features/assignment/api/assignment.query';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
-import { useUpdateConfiguration } from '@/features/assignment/api/assignment.query';
-import { useState } from 'react';
 
 export default function ConfigurationPage() {
   const router = useRouter();
@@ -61,14 +58,11 @@ export default function ConfigurationPage() {
     control,
     name: 'questionRequirements',
   });
-  const totalQuestions =
-    questionRequirements?.reduce((acc, q) => acc + (q.count || 0), 0) || 0;
+  const totalQuestions = questionRequirements?.reduce((acc, q) => acc + (q.count || 0), 0) || 0;
 
   const totalMarks =
-    questionRequirements?.reduce(
-      (acc, q) => acc + (q.count || 0) * (q.marksPerQuestion || 0),
-      0,
-    ) || 0;
+    questionRequirements?.reduce((acc, q) => acc + (q.count || 0) * (q.marksPerQuestion || 0), 0) ||
+    0;
 
   async function onSubmit(data: AssignmentConfigurationForm) {
     try {
@@ -113,19 +107,14 @@ export default function ConfigurationPage() {
   return (
     <>
       <div className="  w-full rounded-[32px] bg-[#FFFFFF80] border px-4  md:px-8 py-8 flex flex-col gap-8 border-white">
-
         <div>
-          <h2 className=" text-[20px] font-bold text-TWO">
-            Assignment Details
-          </h2>
-          <p className=" text-[14px]  text-[#5E5E5ECC]">
-            Basic information about your assignment
-          </p>
+          <h2 className=" text-[20px] font-bold text-TWO">Assignment Details</h2>
+          <p className=" text-[14px]  text-[#5E5E5ECC]">Basic information about your assignment</p>
         </div>
 
         <FileUploadBox
           id={String(id)}
-          onUpload={async (file) => { }}
+          onUpload={async (file) => {}}
           onSuccess={(data: any) => {
             setHasUploadedPdf(true);
             toast.success('File uploaded successfully');
@@ -145,10 +134,7 @@ export default function ConfigurationPage() {
                 control={control}
                 name="assignmentDate"
                 render={({ field }) => (
-                  <Datepicker
-                    value={field.value}
-                    onChange={(date) => field.onChange(date)}
-                  />
+                  <Datepicker value={field.value} onChange={(date) => field.onChange(date)} />
                 )}
               />
             </div>
@@ -161,10 +147,7 @@ export default function ConfigurationPage() {
                 control={control}
                 name="dueDate"
                 render={({ field }) => (
-                  <Datepicker
-                    value={field.value}
-                    onChange={(date) => field.onChange(date)}
-                  />
+                  <Datepicker value={field.value} onChange={(date) => field.onChange(date)} />
                 )}
               />
             </div>
@@ -172,7 +155,6 @@ export default function ConfigurationPage() {
 
           {/* Question Requirements */}
           <div className="space-y-2">
-
             <div className="flex flex-row justify-between">
               <CreateAssignmentField.Heading title="Question Types" />
               <div className="hidden md:flex flex-row gap-8 pr-7">
@@ -180,7 +162,6 @@ export default function ConfigurationPage() {
                 <CreateAssignmentField.Heading title="Marks" />
               </div>
             </div>
-
 
             <div className="space-y-4 w-full">
               {fields.map((field, index) => (
@@ -255,8 +236,7 @@ export default function ConfigurationPage() {
           disabled={isSubmitting}
           className=" px-4 text-[16px]  font-medium h-11 rounded-full   flex justify-center items-center gap-2"
         >
-          {isSubmitting ? 'Saving...' : 'Save & Continue'}{' '}
-          <ArrowRight className=" size-5  " />
+          {isSubmitting ? 'Saving...' : 'Save & Continue'} <ArrowRight className=" size-5  " />
         </Button>
       </div>
     </>

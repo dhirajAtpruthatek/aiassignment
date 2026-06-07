@@ -129,7 +129,7 @@ export class AssignmentService {
     assignment.generationAttempts = 0;
     assignment.progress = 0;
     assignment.currentStep = '';
-    
+
     await assignment.save();
     // await this.repo.updateGenerationStatus(id, 'PENDING');
 

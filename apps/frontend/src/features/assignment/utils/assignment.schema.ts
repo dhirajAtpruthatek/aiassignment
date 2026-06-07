@@ -7,17 +7,9 @@ export const BasicDetailsAssignmentSchema = z.object({
     .min(3, 'Title must be at least 3 characters')
     .max(100, 'Title cannot exceed 100 characters'),
 
-  className: z
-    .string()
-    .trim()
-    .min(1, 'Class is required')
-    .max(50, 'Class name is too long'),
+  className: z.string().trim().min(1, 'Class is required').max(50, 'Class name is too long'),
 
-  subject: z
-    .string()
-    .trim()
-    .min(1, 'Subject is required')
-    .max(50, 'Subject name is too long'),
+  subject: z.string().trim().min(1, 'Subject is required').max(50, 'Subject name is too long'),
 
   timeAllowedMinutes: z
     .number({
@@ -28,9 +20,7 @@ export const BasicDetailsAssignmentSchema = z.object({
     .max(600, 'Time cannot exceed 10 hours'),
 });
 
-export type BasicDetailsAssignmentForm = z.infer<
-  typeof BasicDetailsAssignmentSchema
->;
+export type BasicDetailsAssignmentForm = z.infer<typeof BasicDetailsAssignmentSchema>;
 
 // -----------------------------------
 
@@ -54,6 +44,4 @@ export const AssignmentConfigurationSchema = z.object({
   questionRequirements: z.array(QuestionRequirementSchema),
 });
 
-export type AssignmentConfigurationForm = z.infer<
-  typeof AssignmentConfigurationSchema
->;
+export type AssignmentConfigurationForm = z.infer<typeof AssignmentConfigurationSchema>;

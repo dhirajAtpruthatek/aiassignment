@@ -3,11 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Field } from '@/components/ui/field';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import { Calendar1 } from 'lucide-react';
 
@@ -31,12 +27,7 @@ export function Datepicker({ value, onChange }: Props) {
         </PopoverTrigger>
 
         <PopoverContent className="w-auto p-0" align="start">
-          <Calendar
-            mode="single"
-            selected={value}
-            onSelect={onChange}
-            defaultMonth={value}
-          />
+          <Calendar mode="single" selected={value} onSelect={onChange} defaultMonth={value} />
         </PopoverContent>
       </Popover>
     </Field>

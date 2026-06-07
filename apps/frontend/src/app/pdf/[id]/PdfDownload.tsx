@@ -11,11 +11,7 @@ interface Props {
 }
 
 export default function PdfDownload({ assignmentId }: Props) {
-  const {
-    data: assessment,
-    isLoading,
-    error,
-  } = useAssessmentByAssignment(assignmentId);
+  const { data: assessment, isLoading, error } = useAssessmentByAssignment(assignmentId);
 
   if (isLoading) {
     return <div>Loading assessment...</div>;

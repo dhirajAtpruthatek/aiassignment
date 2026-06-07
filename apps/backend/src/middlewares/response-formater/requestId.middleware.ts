@@ -14,11 +14,7 @@ import { requestContext } from '../../infra/request-context/index.js';
  *
  * Ensures traceability across logs and services
  */
-export function requestIdMiddleware(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): void {
+export function requestIdMiddleware(req: Request, res: Response, next: NextFunction): void {
   const incomingId = req.header(APP_SETTING.REQUEST_ID_HEADER);
 
   const isValidId = typeof incomingId === 'string' && incomingId.length < 100;

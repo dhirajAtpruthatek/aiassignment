@@ -5,7 +5,7 @@ import AssignmentCard from '@/features/assignment/ui/assignment-card/AssignmentC
 
 export default function AssignmentList({ data }: { data: Assignment[] }) {
   return (
-    <div className="grid  grid-cols-1 md:grid-cols-2 gap-3  md:gap-2.5 mt-3">
+    <div className="grid  grid-cols-1 md:grid-cols-2 gap-4  md:gap-2.5  mt-4 md:mt-3">
       {data &&
         data.map((assignment: any) => (
           <AssignmentCard key={assignment._id} assignment={assignment} />

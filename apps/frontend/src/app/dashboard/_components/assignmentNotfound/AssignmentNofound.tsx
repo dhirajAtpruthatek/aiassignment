@@ -16,7 +16,7 @@ export default function AssignmentNofound({ }: Props) {
       <p className=" font-bold text-[20px] pt-8 text-center leading-[140%]  text-TWO">
         No Assignment yet
       </p>
-      <p className=" pt-2 font-normal w-1/3  text-center tracking-[-4%] leading-[140%] text-[#5E5E5ECC]">
+      <p className=" pt-2 font-normal  w-[85%] md:w-1/3  text-center tracking-[-4%] leading-[140%] text-[#5E5E5ECC]">
         Create your first assignment to start collecting and grading student
         submissions. You can set up rubrics, define marking criteria, and let AI
         assist with grading.

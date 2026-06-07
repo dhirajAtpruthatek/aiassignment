@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { cn } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { useDeleteAssignment } from '../../api/assignment.query';
 import type { Assignment } from '../../api/assignment.types';
@@ -29,7 +29,7 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
   const { mutate, isPending } = useDeleteAssignment();
 
   return (
-    <div className=" h-38 md:h-40 w-full rounded-[24px] bg-white p-6 flex justify-between">
+    <div className=" h-38 md:h-40 w-full rounded-[24px]  bg-[#FFFFFFBF] md:bg-white p-6 flex justify-between">
       <div className="flex flex-col flex-1 justify-between">
         <h4 className=" text-[20px] md:text-2xl font-extrabold leading-[120%] tracking-[-4%] text-TWO">
           {assignment.title}
@@ -43,15 +43,14 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
           >
             {statusConfig.label}
           </div>
-          <p className="space-x-2">
-            <span className="text-[16px] font-extrabold text-TWO">
+          <p className=" space-x-1 md:space-x-2">
+            <span className=" text-[14px] md:text-[16px] font-extrabold text-TWO">
               Assigned On
             </span>
 
-            <span className="text-[16px]">
-              :{' '}
-              {assignment.assignmentDate
-                ? new Date(assignment.assignmentDate).toLocaleDateString()
+            <span className=" text-[14px] md:text-[16px]">
+              :              {assignment.assignmentDate
+                ? formatDate(assignment.assignmentDate)
                 : '-'}
             </span>
           </p>
@@ -103,13 +102,13 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <p className="space-x-2">
-          <span className="text-[16px] font-extrabold text-TWO">Due</span>
+        <p className=" space-x-1 md:space-x-2">
+          <span className=" text-[14px] md:text-[16px] font-extrabold text-TWO">Due</span>
 
           <span className="text-[16px]">
             :{' '}
             {assignment.dueDate
-              ? new Date(assignment.dueDate).toLocaleDateString()
+              ? formatDate(assignment.dueDate)
               : '-'}
           </span>
         </p>

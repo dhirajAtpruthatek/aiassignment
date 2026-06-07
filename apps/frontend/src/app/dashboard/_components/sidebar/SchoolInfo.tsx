@@ -22,7 +22,7 @@ export default function SchoolInfo({}: Props) {
 
 export function AiToolKitButton() {
   return (
-    <button className=" w-full py-3 flex flex-row gap-2 items-center justify-center  text-white border bg-[#272727] rounded-full   aiToolkitButton">
+    <button className=" w-full mb-12 py-3 flex flex-row gap-2 items-center justify-center  text-white border bg-[#272727] rounded-full   aiToolkitButton">
       <svg
         width="19"
         height="18"

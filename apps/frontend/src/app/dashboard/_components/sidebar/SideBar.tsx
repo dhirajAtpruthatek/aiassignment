@@ -2,21 +2,34 @@ import Logo from '@/components/layout/public/Logo';
 
 import LinksSection from './LinksSection';
 import SchoolInfo, { AiToolKitButton } from './SchoolInfo';
+import ProfileSection from '../titlebar/ProfileSection';
 
 type Props = {};
 
-export default function SideBar({}: Props) {
+export default function SideBar({ }: Props) {
   return (
-    <div className=" md:relative absolute z-50 w-75 p-3 h-full">
-      <div className=" w-full flex h-full flex-col justify-between rounded-[16px] bg-[rgba(255,255,255,1)] p-6 sidebarShadow">
-        <div className=" space-y-12">
+    <div className=" relative  z-999 w-full  md:w-75 p-3  h-fit md:h-full">
+      <div className=" w-full flex h-full  flex-row md:flex-col justify-between rounded-[24px] md:rounded-[16px] bg-[rgba(255,255,255,1)]   px-4 md:px-6  py-4 md:py-6 sidebarShadow">
+        <div className="  md:space-y-12">
           <Logo />
-          <AiToolKitButton />
-          <LinksSection />
+          
+          {/* Links and ToolKit button -> Only Desktop */}
+          <div className="  hidden md:block">
+            <AiToolKitButton />
+            <LinksSection />
+          </div>
         </div>
 
         <div>
-          <SchoolInfo />
+          {/* Profile Section -> Only Mobile */}
+          <div className=" md:hidden">
+            <ProfileSection />
+          </div>
+          {/* SchoolInfo -> Only Desktop */}
+          <div className="  hidden md:block">
+            <SchoolInfo />
+          </div>
+
         </div>
       </div>
     </div>

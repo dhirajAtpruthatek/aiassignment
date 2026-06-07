@@ -3,6 +3,7 @@ import { Funnel, Plus, Search } from 'lucide-react';
 import Link from 'next/link';
 import AssignmentList from './AssignmentList';
 import { CreateAssignmentField } from '@/components/common/create-assignment-form/FormField';
+import PageHeadingSection from './PageHeadingSection';
 type Props = {
   data: Assignment[];
 };
@@ -10,28 +11,22 @@ type Props = {
 export default function AssignmentRender({ data }: Props) {
   return (
     <div>
-      <div className=" mt-2   md:pr-3 h-full  w-full  relative">
+      <div className=" mt-2   md:pr-3 pb-16 h-full  w-full  relative">
 
-        {/* assignments heading */}
-        <div className=" flex items-center pl-1 pt-4 gap-4 translate-x-2">
-          <div className=" size-3 rounded-full outline-4 outline-[#4BC26D66] bg-[#4BC26D]"></div>
-          <div className="flex flex-col gap-0">
-            <h2 className=" text-[20px] font-bold text-TWO">Assignments</h2>
-            <p className=" text-[14px] font-normal text-[#5E5E5E8C]">
-              Manage and create assignments for your classes.
-            </p>
-          </div>
+        {/* assignments heading - hide on mobile*/}
+        <div className='   hidden md:block'>
+          <PageHeadingSection   />
         </div>
 
         {/* Filter Bar */}
         <div className="  rounded-[24px] mt-3  h-16 flex items-center  px-4 flex-row justify-between bg-white">
           <div className=" flex flex-row gap-2 text-[14px]  font-semibold text-[#A9A9A9] items-center">
             <Funnel className="size-5" />
-            <span>Filter By</span>
+            <span>Filter <span className=" hidden md:inline">by</span></span>
           </div>
-          <div className=" relative  border-2 rounded-3xl border-[#dfdfdf] w-96 flex flex-row  justify-end">
-            <Search  className=" absolute left-3 text-[#848484] size-5 top-1/2 -translate-y-1/2"/>
-            <CreateAssignmentField.Input  className=' w-[calc(384px-50px)] h-11  bg-white rounded-3xl border-none outline-none focus-visible:ring-0    text-[14px]  font-medium text-[#A9A9A9]' placeholder='Search Assignment'/>
+          <div className=" relative  border-2 rounded-3xl border-[#dfdfdf]  w-56 md:w-96 flex flex-row  justify-end">
+            <Search className=" absolute left-3 text-[#848484] size-5 top-1/2 -translate-y-1/2" />
+            <CreateAssignmentField.Input className='  w-[calc(14rem-2.5rem)] md:w-[calc(384px-50px)] h-11   rounded-3xl border-none outline-none focus-visible:ring-0   bg-transparent  text-[14px]  font-medium text-TWO placeholder:text-[#A9A9A9]' placeholder='Search Assignment' />
           </div>
         </div>
 

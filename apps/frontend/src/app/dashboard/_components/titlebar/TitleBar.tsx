@@ -1,35 +1,39 @@
-import { ArrowLeft, Bell, ChevronDown } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import ProfileSection from "./ProfileSection";
+import PageHeadingSection from "../PageHeadingSection";
 
 type Props = {};
 
 export default function TitleBar({ }: Props) {
   return (
-    <div className="w-full  relative z-999  md:pt-3 md:pr-3">
-      <div className="w-full flex  border border-white  flex-row items-center justify-between rounded-[16px] bg-[#FFFFFFBF] px-6 py-2 sidebarShadow  ">
+    <div className="w-full  relative z-800  md:pt-3 md:pr-3">
+      <div className="w-full flex   md:border border-white  flex-row items-center justify-between rounded-[16px]   bg-transparent md:bg-[#FFFFFFBF]  px-3 md:px-6 py-2   md:sidebarShadow  ">
 
         {/* Left */}
-        <div>
+        <div className=" flex   w-full  md:w-auto relative flex-row gap-2 items-center">
           {/* Back button */}
           <div className=" p-2 bg-white rounded-full text-TWO w-fit">
             <ArrowLeft />
           </div>
+
+          {/* Title Bar Heading - Only Desktop*/}
+          <div className=" md:inline hidden">
+            Assignments
+          </div>
+
+          {/* Page Heading - Only Mobile*/}
+          <div className='  md:hidden absolute  top-3 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+            <PageHeadingSection  />
+          </div>
+
         </div>
-        
+
         {/* Right */}
-        <div className=" flex flex-row gap-8 items-center">
-          {/* Notification */}
-          <div className=" p-2 bg-[#f3f3f3] rounded-full text-TWO w-fit">
-            <Bell />
-          </div>
-          
-          {/* Profile */}
-          <div className=" flex sidebarShadow p-2 rounded-2xl flex-row text-TWO gap-2 items-center">
-            <div className=" size-7 rounded-full  bg-[#4BC26D]">
-            </div>
-            <span>John Doe</span>
-            <ChevronDown />
-          </div>
+        <div className="  hidden md:flex  flex-row gap-4 items-center">
+          <ProfileSection />
         </div>
+
+       
       </div>
     </div>
   );

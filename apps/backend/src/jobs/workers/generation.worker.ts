@@ -36,9 +36,7 @@ worker.on('completed', (job) => {
 worker.on('failed', (job, err) => {
   console.error(`Job ${job?.id} failed:`, err);
 });
-worker.on('progress', (job, progress: any) => {
-  new SocketService().emitProgress(job.data.assignmentId, progress);
-});
+ 
 worker.on('error', (err) => {
   console.error('Worker error:', err);
 });

@@ -80,6 +80,32 @@ const AssignmentSchema = new mongoose.Schema(
     },
 
     errorMessage: String,
+    generationAttempts: {
+      type: Number,
+      default: 0,
+    },
+
+    lastGenerationStartedAt: {
+      type: Date,
+    },
+    maxAttempts: {
+      type: Number,
+      default: 3,
+    },
+
+    retrying: {
+      type: Boolean,
+      default: false,
+    },
+    progress: {
+      type: Number,
+      default: 0,
+    },
+    
+    currentStep: {
+      type: String,
+      default: '',
+    },
   },
   {
     timestamps: true,

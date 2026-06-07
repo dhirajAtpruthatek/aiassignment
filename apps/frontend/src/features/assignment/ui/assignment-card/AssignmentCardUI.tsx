@@ -13,7 +13,7 @@ import {
 
 import { cn, formatDate } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
-import { useDeleteAssignment } from '../../api/assignment.query';
+import { useDeleteAssignment, useRetryGeneration } from '../../api/assignment.query';
 import type { Assignment } from '../../api/assignment.types';
 
 interface Props {
@@ -27,6 +27,14 @@ interface Props {
 function AssignmentCardUI({ assignment, statusConfig }: Props) {
   const router = useRouter();
   const { mutate, isPending } = useDeleteAssignment();
+  const { mutate: retryGenerationMutation, isPending: isRetrying } = useRetryGeneration();
+  const canRetry =
+    assignment.generationStatus === 'FAILED' &&
+    (assignment.currentAttempt ?? 0) <
+    (assignment.maxAttempts ?? 3);
+  const maxAttemptsReached =
+    assignment.generationStatus === 'FAILED' &&
+    (assignment.currentAttempt ?? 0) >= (assignment.maxAttempts ?? 3);
 
   return (
     <div className=" h-38 md:h-40 w-full rounded-[24px]  bg-[#FFFFFFBF] md:bg-white p-6 flex justify-between">
@@ -70,7 +78,7 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
 
           <DropdownMenuContent
             align="end"
-            className="sidebarShadow p-2 w-40"
+            className="sidebarShadow p-2 w-52"
             onClick={(e) => e.stopPropagation()}
           >
             <DropdownMenuItem
@@ -89,7 +97,27 @@ function AssignmentCardUI({ assignment, statusConfig }: Props) {
                 ? ' View Assignment'
                 : 'Edit Assignment'}
             </DropdownMenuItem>
+            {canRetry && (
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
 
+                  retryGenerationMutation(
+                    assignment._id,
+                  );
+                }}
+              >
+                {isRetrying
+                  ? 'Retrying...'
+                  : 'Retry Generation'}
+              </DropdownMenuItem>
+            )}
+            {
+              maxAttemptsReached && (
+                <DropdownMenuItem disabled>
+                  Max Retry Limit Reached
+                </DropdownMenuItem>
+              )}
             <DropdownMenuItem
               onClick={(e) => {
                 e.stopPropagation();

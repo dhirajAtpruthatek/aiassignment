@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { AppError } from '../../../core/errors/AppError.js';
 import { generationQueue } from '../../../jobs/queues/generation.queue.js';
 import type { AssessmentRepository } from '../../assessment/repository/assessment.repository.js';
@@ -15,10 +16,7 @@ export class AssignmentService {
   private repo: AssignmentRepository;
   private assesmentRepo: AssessmentRepository;
 
-  constructor({
-    assignmentRepository,
-    assesmentRepository,
-  }: AssignmentServiceDeps) {
+  constructor({ assignmentRepository, assesmentRepository }: AssignmentServiceDeps) {
     this.repo = assignmentRepository;
     this.assesmentRepo = assesmentRepository;
   }
@@ -46,8 +44,8 @@ export class AssignmentService {
     return assignment;
   }
 
-  async getAllAssignments() {
-    return this.repo.findAll();
+  async getAllAssignments(page: number, limit: number) {
+    return this.repo.findAll(page, limit);
   }
 
   async getAssignmentById(id: string) {
@@ -82,20 +80,79 @@ export class AssignmentService {
     if (!assignment) {
       throw new AppError('Assignment not found', 404);
     }
-    
+    if (!assignment.questionRequirements?.length) {
+      throw new AppError('Question requirements missing', 400);
+    }
     assignment.generationStatus = 'PENDING';
-
     assignment.errorMessage = undefined;
+    assignment.maxAttempts = 3;
+    assignment.retrying = false;
+    assignment.generationAttempts = 0;
+    assignment.progress = 0;
 
     await assignment.save();
 
-    await generationQueue.add('assessment-generation', {
-      assignmentId: assignment._id.toString(),
-    });
+    await generationQueue.add(
+      'assessment-generation',
+      {
+        assignmentId: String(assignment._id),
+      },
+      {
+        jobId: randomUUID(),
+        attempts: 3,
+        backoff: {
+          type: 'exponential',
+          delay: 5000,
+        },
+        removeOnComplete: 100,
+        removeOnFail: 50,
+      },
+    );
 
     return assignment;
   }
 
+  async submitAssignment(id: string) {
+    const assignment = await this.repo.findById(id);
+
+    if (!assignment) {
+      throw new AppError('Assignment not found', 404);
+    }
+
+    if (!assignment.questionRequirements?.length) {
+      throw new AppError('Question requirements missing', 400);
+    }
+    assignment.generationStatus = 'PENDING';
+    assignment.errorMessage = undefined;
+    assignment.maxAttempts = 3;
+    assignment.retrying = false;
+    assignment.generationAttempts = 0;
+    assignment.progress = 0;
+    assignment.currentStep = '';
+    
+    await assignment.save();
+    // await this.repo.updateGenerationStatus(id, 'PENDING');
+
+    await generationQueue.add(
+      'assessment-generation',
+      { assignmentId: id },
+      {
+        jobId: randomUUID(),
+        attempts: 3,
+        backoff: {
+          type: 'exponential',
+          delay: 5000,
+        },
+        removeOnComplete: 100,
+        removeOnFail: 50,
+      },
+    );
+
+    return {
+      message: 'Assessment generation started',
+      assignment,
+    };
+  }
   async generateAssessment(id: string) {
     const assignment = await this.repo.findById(id);
 
@@ -169,10 +226,7 @@ export class AssignmentService {
       questionRequirements: payload.questionRequirements,
     };
 
-    if (
-      payload.sourceContent !== undefined &&
-      payload.sourceContent.trim() !== ''
-    ) {
+    if (payload.sourceContent !== undefined && payload.sourceContent.trim() !== '') {
       updateData.sourceContent = payload.sourceContent;
     }
 
@@ -206,10 +260,7 @@ export class AssignmentService {
 
     if (typeof extracted.extractedText.text === 'string') {
       sourceContent = extracted.extractedText.text;
-    } else if (
-      extracted.extractedText &&
-      Array.isArray(extracted.extractedText.pages)
-    ) {
+    } else if (extracted.extractedText && Array.isArray(extracted.extractedText.pages)) {
       sourceContent = extracted.extractedText.pages
         .map((page) => page.text?.trim())
         .filter(Boolean)
@@ -228,44 +279,8 @@ export class AssignmentService {
         fileSize: extracted.fileSize,
       },
       sourceContent: sourceContent,
-    }); 
+    });
     return data;
-  }
-
-  async submitAssignment(id: string) {
-    const assignment = await this.repo.findById(id);
-    console.log(assignment);
-    if (!assignment) {
-      throw new AppError('Assignment not found', 404);
-    }
-
-    if (!assignment.questionRequirements?.length) {
-      throw new AppError('Question requirements missing', 400);
-    }
-
-    await this.repo.updateGenerationStatus(id, 'PENDING');
-
-    await generationQueue.add(
-      'assessment-generation',
-      {
-        assignmentId: id,
-      },
-      {
-        attempts: 3,
-
-        backoff: {
-          type: 'exponential',
-          delay: 5000,
-        },
-
-        removeOnComplete: 100,
-        removeOnFail: 50,
-      },
-    );
-
-    return {
-      message: 'Assessment generation started',
-    };
   }
 
   async deleteAssignMentnAssesment(id: string) {

@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
   createDraft,
@@ -22,6 +22,7 @@ import type {
   UpdateBasicDetailsDTO,
   UpdateConfigurationDTO,
 } from '../api/assignment.types';
+import { useAssignmentStore } from '../store/assignment-form.store';
 
 export const assignmentKeys = {
   all: ['assignments'] as const,
@@ -34,12 +35,39 @@ export const assignmentKeys = {
 /* -------------------------------- */
 /* Queries */
 /* -------------------------------- */
+import { toast } from 'sonner';
 
+export function useRetryGeneration() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: retryGeneration,
+
+    onSuccess: () => {
+      toast.success('Generation restarted');
+      
+      queryClient.invalidateQueries({
+        queryKey: ['assignments'],
+      });
+    },
+
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message ?? 'Failed to retry generation');
+    },
+  });
+}
 export function useAssignments() {
-  return useQuery({
-    queryKey: assignmentKeys.all,
+  const { setTotal } = useAssignmentStore();
+  return useInfiniteQuery({
+    queryKey: ['assignments'],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam }) => {
+      let data = await getAssignments(pageParam);
+      setTotal(data.total);
 
-    queryFn: getAssignments,
+      return data;
+    },
+    getNextPageParam: (lastPage) => (lastPage.hasMore ? lastPage.page + 1 : undefined),
   });
 }
 
@@ -196,7 +224,7 @@ export function useSubmitAssignment() {
   });
 }
 
-export function useRetryGeneration() {
+/* export function useRetryGeneration() {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -217,3 +245,4 @@ export function useRetryGeneration() {
     },
   });
 }
+ */

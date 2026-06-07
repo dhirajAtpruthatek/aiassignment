@@ -11,7 +11,7 @@ interface QuestionRequirement {
   difficulty: 'easy' | 'medium' | 'hard' | 'mixed';
 }
 
-interface GenerateAssessmentInput {
+export interface GenerateAssessmentInput {
   title: string;
   className: string;
   subject: string;

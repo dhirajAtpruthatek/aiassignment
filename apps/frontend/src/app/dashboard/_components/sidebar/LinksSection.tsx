@@ -1,12 +1,13 @@
 'use client';
 
+import { useAssignmentStore } from '@/features/assignment/store/assignment-form.store';
 import { Book, ChartPie, FileText, LayoutGrid, UsersRound } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function LinksSection() {
   const pathname = usePathname();
-
+  const { totalAssignments } = useAssignmentStore();
   const links: { title: string, pattern: RegExp, href: string, icon: React.JSX.Element, endIcon?: React.JSX.Element }[] = [
     {
       title: 'Home',
@@ -27,7 +28,7 @@ export default function LinksSection() {
       icon: <FileText />,
       endIcon: (
         <div className="bg-[#FF5623] text-sm px-2 rounded-lg flex items-center font-semibold h-5 text-white">
-          20
+          {totalAssignments}
         </div>
       ),
     },

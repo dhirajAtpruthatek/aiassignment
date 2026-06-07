@@ -7,6 +7,9 @@ interface Progress {
 }
 
 export function getDisplayStatus(assignment: Assignment, progress?: Progress) {
+  const maxAttemptsReached =
+    assignment.generationStatus === 'FAILED' &&
+    (assignment.currentAttempt ?? 0) >= (assignment.maxAttempts ?? 3);
   switch (assignment.generationStatus) {
     case 'DRAFT':
       return {
@@ -21,7 +24,7 @@ export function getDisplayStatus(assignment: Assignment, progress?: Progress) {
 
     case 'PROCESSING':
       return {
-        label: `Generating ${progress?.percent ?? 0}%`,
+        label: assignment.currentStep || `Generating ${progress?.percent ?? 0}%`,
         color: 'bg-blue-100 text-blue-700 animate-pulse',
       };
 
@@ -33,10 +36,9 @@ export function getDisplayStatus(assignment: Assignment, progress?: Progress) {
 
     case 'FAILED':
       return {
-        label: 'Failed',
+        label: maxAttemptsReached ? 'Failed - Max Attempts Reached' : 'Failed',
         color: 'bg-red-100 text-red-700',
       };
-
     default:
       return {
         label: 'Unknown',

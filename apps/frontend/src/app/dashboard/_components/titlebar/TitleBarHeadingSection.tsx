@@ -1,7 +1,7 @@
 "use client";
 
 import { LayoutGrid } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { BsStars } from "react-icons/bs";
 import Link from "next/link";
@@ -15,33 +15,34 @@ const PAGE_CONFIG: {
      title: string;
      component: React.JSX.Element;
      description: string;
+
 }[] = [
           {
                pattern: /^\/dashboard$/,
                title: "Assignments",
                description: "Manage and create assignments for your classes.",
-               component: <div className=" text-[#A9A9A9] flex items-center gap-2">
+               component: <Link href="/dashboard"  className=" text-[#A9A9A9] flex items-center gap-2">
                     <LayoutGrid className="size-5" />
                     <span className=" text-[16px]">Assignment</span>
-               </div>,
+               </Link>,
           },
           {
                pattern: /^\/dashboard\/assignment\/create$/,
                title: "Create Assignment",
                description: "Set up a new assignment for your students.",
-               component: <div className=" text-[#A9A9A9] flex items-center gap-2">
+               component: <Link href="/dashboard" className=" text-[#A9A9A9] flex items-center gap-2">
                     <LayoutGrid className="size-5" />
                     <span className=" text-[16px]">Assignment</span>
-               </div>,
+               </Link>,
           },
           {
                pattern: /^\/dashboard\/assignment\/create\/configuration(\/[^/]+)?$/,
                title: "Assignment Configuration",
                description: "Configure assignment settings and question generation.",
-               component: <div className=" text-[#A9A9A9] flex items-center gap-2">
+               component: <Link href="/dashboard"  className=" text-[#A9A9A9] flex items-center gap-2">
                     <LayoutGrid className="size-5" />
                     <span className=" text-[16px]">Assignment</span>
-               </div>,
+               </Link>,
           },
           {
                pattern: /^\/dashboard\/assignment(\/[^/]+)?$/,
@@ -60,7 +61,7 @@ export default function TitleBarHeadingSection({
      description,
 }: Props) {
      const pathname = usePathname();
-
+     const router = useRouter();
      const pageConfig = PAGE_CONFIG.find((route) =>
           route.pattern.test(pathname)
      );
@@ -70,7 +71,7 @@ export default function TitleBarHeadingSection({
      }
 
      return (
-          <div className="  ">
+          <div className="  cursor-pointer">
                {pageConfig?.component}
           </div>
      );

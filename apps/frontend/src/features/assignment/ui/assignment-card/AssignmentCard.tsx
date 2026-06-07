@@ -22,16 +22,25 @@ export default function AssignmentCard({ assignment }: AssignmentCardProps) {
 
   const { data: progress } = useAssignmentProgress(assignment._id);
 
+  const canNavigate =
+    assignment.generationStatus === 'COMPLETED' ||
+    assignment.generationStatus === 'FAILED' ||
+    assignment.generationStatus === 'DRAFT';
+
   const href =
     assignment.generationStatus === 'COMPLETED'
       ? `/dashboard/assignment/${assignment._id}`
       : `/dashboard/assignment/create/configuration/${assignment._id}`;
 
   const openAssignment = useCallback(() => {
+    if (!canNavigate) {
+      return;
+    }
+
     startTransition(() => {
       router.push(href);
     });
-  }, [router, href]);
+  }, [canNavigate, href, router]);
 
   const statusConfig = getDisplayStatus(assignment, progress);
   return (

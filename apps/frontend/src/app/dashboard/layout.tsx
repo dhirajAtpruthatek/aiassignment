@@ -22,3 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </SocketProvider>
   );
 }
+
+/**
+ * edit, delete, retry button in card
+ */

@@ -6,6 +6,7 @@ import {
   ApiResponse,
   Assignment,
   CreateDraftDTO,
+  PaginatedAssignments,
   UpdateBasicDetailsDTO,
   UpdateConfigurationDTO,
 } from './assignment.types';
@@ -19,10 +20,10 @@ export async function createDraft(payload: CreateDraftDTO) {
   return data;
 }
 
-export async function getAssignments() {
+export async function getAssignments(page: number) {
   const { data } = await api.get<{
-    data: Assignment[];
-  }>('/assignment');
+    data: PaginatedAssignments;
+  }>(`/assignment?page=${page}&limit=6`);
 
   return data.data;
 }

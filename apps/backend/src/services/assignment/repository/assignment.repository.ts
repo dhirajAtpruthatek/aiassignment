@@ -15,8 +15,21 @@ export class AssignmentRepository {
     return this.model.findById(id);
   }
 
-  async findAll() {
-    return this.model.find();
+  async findAll(page: number, limit: number) {
+    const skip = (page - 1) * limit;
+
+    const [items, total] = await Promise.all([
+      this.model.find().sort({ createdAt: -1 }).skip(skip).limit(limit),
+      this.model.countDocuments(),
+    ]);
+
+    return {
+      items,
+      total,
+      page,
+      limit,
+      hasMore: skip + items.length < total,
+    };
   }
 
   async updateStatus(
@@ -41,15 +54,72 @@ export class AssignmentRepository {
   }
 
   async update(id: string, payload: any) {
+    return this.model.findByIdAndUpdate(id, payload, {
+      new: true,
+    });
+  }
+  async updateGenerationProgress(
+    id: string,
+    progress: number,
+    currentStep: string,
+  ) {
     return this.model.findByIdAndUpdate(
       id,
-      payload,
+      {
+        progress,
+        currentStep,
+      },
       {
         new: true,
       },
     );
   }
 
+  async findRecoverableAssignments() {
+    return this.model.find({
+      $or: [
+        {
+          generationStatus: 'PENDING',
+        },
+        {
+          generationStatus: 'PROCESSING',
+
+          updatedAt: {
+            $lt: new Date(Date.now() - 10 * 60 * 1000),
+          },
+        },
+      ],
+
+      generationAttempts: {
+        $lt: 5,
+      },
+    });
+  }
+
+  async updateGenerationMeta(
+    id: string,
+    payload: {
+      currentAttempt?: number;
+      retrying?: boolean;
+      currentStep?: string;
+    },
+  ) {
+    return this.model.findByIdAndUpdate(id, payload, { new: true });
+  }
+
+  async incrementGenerationAttempts(id: string) {
+    return this.model.findByIdAndUpdate(
+      id,
+      {
+        $inc: {
+          generationAttempts: 1,
+        },
+      },
+      {
+        new: true,
+      },
+    );
+  }
   async updateGenerationStatus(
     id: string,
     status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED',

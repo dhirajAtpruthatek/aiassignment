@@ -6,7 +6,13 @@ export type ApiResponse<T> = {
   message: string;
   timestamp: string;
 };
-
+export interface PaginatedAssignments {
+  items: Assignment[];
+  total: number;
+  page: number;
+  limit: number;
+  hasMore: boolean;
+}
 export type Difficulty = 'easy' | 'medium' | 'hard' | 'mixed';
 
 export interface QuestionRequirement {
@@ -55,7 +61,12 @@ export interface Assignment {
   errorMessage?: string;
 
   createdAt: string;
-
+  generationAttempts?: number;
+  maxAttempts?: number;
+  currentAttempt?: number;
+  retrying?: boolean;
+  progress?: number;
+  currentStep?: string;
   updatedAt: string;
 }
 
